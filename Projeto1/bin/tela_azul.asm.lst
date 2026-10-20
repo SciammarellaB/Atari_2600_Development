@@ -1,0 +1,78 @@
+------- FILE tela_azul.asm LEVEL 1 PASS 1
+      1  0000 ????						; Atari 2600 - tela azul, NTSC (262 linhas por quadro).
+      2  0000 ????						; Abra este arquivo no Atari Dev Studio e use o comando
+      3  0000 ????						; "ads: Compile source code and run in emulator".
+      4  0000 ????						; Nao requer arquivos include.
+      5  0000 ????
+      6  0000 ????				      processor	6502
+      7  0000 ????
+      8  0000 ????	       00 00	   VSYNC      =	$00
+      9  0000 ????	       00 01	   VBLANK     =	$01
+     10  0000 ????	       00 02	   WSYNC      =	$02
+     11  0000 ????	       00 09	   COLUBK     =	$09
+     12  0000 ????
+     13  f000					      org	$F000
+     14  f000
+     15  f000				   Reset
+     16  f000		       78		      sei
+     17  f001		       d8		      cld
+     18  f002		       a2 ff		      ldx	#$FF
+     19  f004		       9a		      txs
+     20  f005		       a9 00		      lda	#0
+     21  f007
+     22  f007							; Limpa RAM e registradores do TIA.
+     23  f007				   Clear
+     24  f007		       95 00		      sta	$00,x
+     25  f009		       ca		      dex
+     26  f00a		       d0 fb		      bne	Clear
+     27  f00c		       85 00		      sta	$00
+     28  f00e
+     29  f00e		       a9 80		      lda	#$80
+     30  f010		       85 09		      sta	COLUBK
+     31  f012		       a9 02		      lda	#2
+     32  f014		       85 01		      sta	VBLANK
+     33  f016		       85 02		      sta	WSYNC
+     34  f018
+     35  f018				   Frame
+     36  f018							; 3 linhas de sincronismo vertical.
+     37  f018		       a9 02		      lda	#2
+     38  f01a		       85 00		      sta	VSYNC
+     39  f01c		       85 02		      sta	WSYNC
+     40  f01e		       85 02		      sta	WSYNC
+     41  f020		       85 02		      sta	WSYNC
+     42  f022		       a9 00		      lda	#0
+     43  f024		       85 00		      sta	VSYNC
+     44  f026
+     45  f026							; 37 linhas de blanking vertical.
+     46  f026		       a2 25		      ldx	#37
+     47  f028				   VerticalBlank
+     48  f028		       85 02		      sta	WSYNC
+     49  f02a		       ca		      dex
+     50  f02b		       d0 fb		      bne	VerticalBlank
+     51  f02d
+     52  f02d							; 192 linhas visiveis com fundo azul (paleta NTSC).
+     53  f02d		       a9 00		      lda	#0
+     54  f02f		       85 01		      sta	VBLANK
+     55  f031		       a9 84		      lda	#$84
+     56  f033		       85 09		      sta	COLUBK
+     57  f035		       a2 c0		      ldx	#192
+     58  f037				   Visible
+     59  f037		       85 02		      sta	WSYNC
+     60  f039		       ca		      dex
+     61  f03a		       d0 fb		      bne	Visible
+     62  f03c
+     63  f03c							; 30 linhas de overscan.
+     64  f03c		       a9 02		      lda	#2
+     65  f03e		       85 01		      sta	VBLANK
+     66  f040		       a2 1e		      ldx	#30
+     67  f042				   Overscan
+     68  f042		       85 02		      sta	WSYNC
+     69  f044		       ca		      dex
+     70  f045		       d0 fb		      bne	Overscan
+     71  f047		       4c 18 f0 	      jmp	Frame
+     72  f04a
+     73  f04a							; ROM de 4 KiB e vetores de inicializacao.
+     74  fffa					      org	$FFFA
+     75  fffa		       00 f0		      word.w	Reset
+     76  fffc		       00 f0		      word.w	Reset
+     77  fffe		       00 f0		      word.w	Reset
