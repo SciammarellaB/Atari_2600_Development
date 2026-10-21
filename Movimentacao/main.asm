@@ -2,22 +2,132 @@
 ; Arquivo unico: nao usa headers, macros ou tabelas de imagem.
 ; NTSC: 262 linhas por quadro, aproximadamente 60 quadros por segundo.
 
-        processor 6502
+        processor 6502  ; o console usa o 6507, com o mesmo conjunto de instrucoes
 
 ; ============================================================
 ; 1. HARDWARE - nomes para enderecos fixos, nao variaveis na RAM
 ; ============================================================
-VSYNC   = $00           ; inicia/termina o sincronismo vertical
+; --- Quem faz o que ---
+; CPU 6507: executa as instrucoes da ROM; usa A, X e Y para trabalhar
+; com bytes (8 bits, valores de 0 a 255). No NTSC, opera a cerca de 1,19 MHz.
+; TIA: gera video e dois canais de audio; tambem recebe botoes e paddles.
+; RIOT 6532: contem 128 bytes de RAM, portas de entrada/saida e timer.
+; Cartucho: contem a ROM do jogo; neste exemplo sao 4 KiB (4096 bytes).
+;
+; --- Endereco nao e a mesma coisa que memoria RAM ---
+; A CPU acessa RAM, ROM e perifericos por enderecos: E/S mapeada em memoria.
+; O circuito seleciona o componente que responde a cada acesso.
+; COLUBK = $09 apenas da um nome a esse endereco para o montador.
+; Essa definicao nao executa nada, nao reserva RAM e nao escreve no TIA.
+; Ja STA COLUBK executa uma escrita no TIA e muda a cor do fundo.
+; O simbolo $ indica hexadecimal; # indica um valor imediato:
+;   LDA #$84    -> coloca o numero hexadecimal 84 em A.
+;   STA COLUBK  -> envia A ao registrador de cor no endereco $09.
+;   LDA XPos    -> le em A o byte da RAM no endereco $80.
+;
+; --- Memorias usadas aqui (mapa resumido, sem todos os espelhos) ---
+; $0080..$00FF: 128 bytes de RAM no RIOT; XPos e YPos usam dois deles.
+; $0180..$01FF: espelho da mesma RAM, usado pela pilha da CPU.
+;              JSR/RTS usam essa pilha; ela compartilha espaco com variaveis.
+; $F000..$FFFF: ROM de 4 KiB, com instrucoes e vetores no fim do arquivo.
+;              ORG escolhe o endereco de montagem; nao cria RAM.
+; O 6507 expoe 13 bits de endereco: $F000..$FFFF chega ao barramento
+; como $1000..$1FFF. Sao dois nomes para o mesmo acesso ao cartucho.
+; A ROM permanece sem energia; o conteudo da RAM nao e persistente.
+; A, X e Y ficam dentro da CPU e nao fazem parte dos 128 bytes de RAM.
+;
+; --- TIA: escritas usadas para a saida de video ---
+; Nao existe um framebuffer com a imagem inteira: o programa prepara
+; os objetos enquanto o TIA gera as linhas. Aqui sao 192 linhas visiveis.
+; Player 0 e um objeto grafico do TIA, nao uma referencia ao joystick.
+; GRP0 fornece 8 pixels horizontais; repetir o padrao por 16 linhas
+; produz a figura. YPos e uma variavel do programa: nao ha escrita
+; de coordenada vertical neste hardware.
+; Cores e padroes ficam retidos ate nova escrita. Ja os registradores
+; de disparo (strobe) agem na escrita e ignoram o valor enviado.
+; Ler um endereco do TIA nao devolve necessariamente o que foi escrito:
+; leitura e escrita podem selecionar registradores diferentes.
+;
+; --- Players 0 e 1: recursos fixos do TIA, validos para qualquer jogo ---
+; O chip possui dois objetos do tipo Player. Cada um tem os controles
+; abaixo: as funcoes e os enderecos sao fixos; os valores sao configuraveis.
+;
+; Funcao                                Player 0       Player 1
+; Desenho de 8 bits                     GRP0   $1B     GRP1   $1C
+; Cor e brilho                          COLUP0 $06     COLUP1 $07
+; Posicao horizontal por tempo          RESP0  $10     RESP1  $11
+; Ajuste fino horizontal                HMP0   $20     HMP1   $21
+; Espelhamento horizontal               REFP0  $0B     REFP1  $0C
+; Largura e copias                      NUSIZ0 $04     NUSIZ1 $05
+; Selecao do desenho atrasado           VDELP0 $25     VDELP1 $26
+;
+; NUSIZ oferece modos predefinidos: um Player com largura normal (8 pixels),
+; dupla (16) ou quadrupla (32); ou duas/tres copias de largura normal,
+; com espacamentos determinados pelo hardware. Nao sao novos Players
+; independentes: as copias repetem o desenho do mesmo objeto.
+; REFP espelha o padrao: permite, por exemplo, virar uma nave para o outro lado.
+; VDELP seleciona um padrao grafico atrasado para sincronizar o desenho;
+; nao recebe uma coordenada Y. Nao ha registrador de altura ou posicao Y:
+; o programa decide em quais linhas fornece pixels para cada Player.
+;
+; Comandos compartilhados: HMOVE ($2A) aplica os ajustes horizontais de
+; todos os objetos; HMCLR ($2B) zera os ajustes, sem zerar suas posicoes.
+; Player 0 e Missile 0 compartilham COLUP0; Player 1 e Missile 1, COLUP1.
+; Os misseis sao outros dois objetos graficos, separados dos Players.
+;
+; --- Enderecos nomeados neste arquivo ---
+VSYNC   = $00           ; bit 1: 1 inicia, 0 termina o sincronismo vertical
 VBLANK  = $01           ; bit 1: 1 esconde a imagem, 0 permite desenhar
-WSYNC   = $02           ; escrever aqui espera a proxima linha de video
-COLUP0  = $06           ; cor do objeto grafico player 0
+WSYNC   = $02           ; disparo: pausa a CPU ate o inicio da proxima linha
 COLUBK  = $09           ; cor do fundo
-RESP0   = $10           ; fixa a posicao horizontal aproximada do player 0
+HMOVE   = $2A           ; disparo: aplica os ajustes horizontais dos objetos
+;
+; --- PLAYER 0: desenho, posicao e ajuste horizontal ---
+COLUP0  = $06           ; cor do objeto grafico player 0
+RESP0   = $10           ; disparo: instante da escrita posiciona o player 0
 GRP0    = $1B           ; os 8 bits que desenham uma linha do player 0
-HMP0    = $20           ; ajuste fino da posicao horizontal do player 0
-HMOVE   = $2A           ; aplica o ajuste fino preparado em HMP0
-SWCHA   = $0280         ; direcoes dos dois joysticks
-SWACNT  = $0281         ; configura os bits de SWCHA como entrada ou saida
+HMP0    = $20           ; bits 7..4: ajuste horizontal de -8 a +7 color clocks
+;
+; --- Entradas: divididas entre RIOT e TIA ---
+; SWCHA tambem e uma entrada: os registradores INPT nao sao as unicas
+; entradas do Atari. Cada chip recebe sinais diferentes dos controles.
+;
+; Entrada                         Registrador       Chip
+; Direcoes dos dois joysticks      SWCHA  $0280      RIOT
+; Botao de tiro do joystick 1      INPT4  $0C        TIA
+; Botao de tiro do joystick 2      INPT5  $0D        TIA
+; Posicao dos paddles              INPT0..3 $08..$0B TIA
+; Chaves do console                SWCHB  $0282      RIOT
+;
+; O mesmo joystick envia as direcoes ao RIOT e o botao de tiro ao TIA.
+; Neste projeto, ReadJoystick consulta SWCHA para mover o quadrado;
+; para reconhecer o tiro do joystick 1, seria preciso consultar INPT4.
+; SWACNT configura os pinos de SWCHA; nao informa quais botoes estao apertados.
+;
+; --- RIOT: entrada de direcoes e configuracao da porta A ---
+; Joystick 1: bits 7=direita, 6=esquerda, 5=baixo, 4=cima.
+; Joystick 2: bits 3=direita, 2=esquerda, 1=baixo, 0=cima.
+; Em SWCHA, 0 significa direcao pressionada; 1 significa solta.
+; Em SWACNT, cada bit escolhe 0=entrada ou 1=saida para o pino da porta.
+; A inicializacao escreve zero em SWACNT para receber os dois joysticks.
+SWCHA   = $0280         ; le os niveis dos pinos configurados como entrada
+SWACNT  = $0281         ; configuracao de direcao dos pinos, nao movimento
+;
+; --- Outros recursos existentes, nao usados na logica deste exemplo ---
+; Botao de tiro: TIA INPT4 ($0C), joystick 1; INPT5 ($0D), joystick 2.
+;               O bit 7 indica 0=pressionado, 1=solto; nao fica em SWCHA.
+; Paddles: TIA INPT0..INPT3 ($08..$0B), leitura por tempo de carga.
+; Chaves do console: RIOT SWCHB ($0282), incluindo Select e Game Reset.
+;               Game Reset e lido pelo jogo; nao reinicia a CPU sozinho.
+; Timer: RIOT INTIM ($0284) para leitura; TIM64T ($0296) inicia uma
+;        contagem com intervalo de 64 ciclos da CPU por decremento.
+; Som: TIA AUDC0/1 ($15/$16), AUDF0/1 ($17/$18), AUDV0/1 ($19/$1A)
+;      controlam tipo de som, divisao de frequencia e volume dos canais.
+; No console original, video e audio seguem ao circuito de modulacao RF
+; e saem pelo cabo para a entrada de antena da TV.
+; Referencias: Stella Programmer's Guide (Steve Wright, Atari, 1979)
+; https://www.atariage.com/2600/programming/2600_101/docs/stella.html
+; Atari VCS Field Service Manual, secao 1 (diagrama e descricao dos chips).
 
 ; ============================================================
 ; 2. CONSTANTES E VARIAVEIS
