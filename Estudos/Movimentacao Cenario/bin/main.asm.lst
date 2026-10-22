@@ -1,0 +1,224 @@
+------- FILE main.asm LEVEL 1 PASS 2
+      1  fffe					      processor	6502
+      2  10000 ????
+      3  10000 ????		00 00	    VSYNC      =	$00
+      4  10000 ????		00 01	    VBLANK     =	$01
+      5  10000 ????		00 02	    WSYNC      =	$02
+      6  10000 ????		00 09	    COLUBK     =	$09
+      7  10000 ????		00 2a	    HMOVE      =	$2A
+      8  10000 ????
+      9  10000 ????						; CENARIO - PLAYFIELD DO TIA
+     10  10000 ????		00 08	    COLUPF     =	$08	; cor das paredes
+     11  10000 ????		00 0a	    CTRLPF     =	$0A	; controla o espelhamento do playfield
+     12  10000 ????		00 0d	    PF0        =	$0D	; primeiros 4 blocos da metade esquerda
+     13  10000 ????		00 0e	    PF1        =	$0E	; proximos 8 blocos
+     14  10000 ????		00 0f	    PF2        =	$0F	; ultimos 8 blocos
+     15  10000 ????
+     16  10000 ????						; JOGADOR 0
+     17  10000 ????		00 06	    COLUP0     =	$06
+     18  10000 ????		00 10	    RESP0      =	$10
+     19  10000 ????		00 1b	    GRP0       =	$1B
+     20  10000 ????		00 20	    HMP0       =	$20
+     21  10000 ????
+     22  10000 ????						; COMANDOS CONTROLE
+     23  10000 ????		02 80	    SWCHA      =	$0280
+     24  10000 ????		02 81	    SWACNT     =	$0281
+     25  10000 ????
+     26  10000 ????						; CONSTANTES
+     27  10000 ????		00 10	    SquareHeight =	16
+     28  10000 ????		00 08	    MinX       =	8
+     29  10000 ????		00 90	    MaxX       =	160 - 16
+     30  10000 ????		00 10	    MinY       =	16
+     31  10000 ????		00 a0	    MaxY       =	192 - SquareHeight - 16
+     32  10000 ????
+     33  10000 ????						; VARIAVEIS - MEMORIA RAM $80 - $FF
+     34  10000 ????		00 80	    XPos       =	$80
+     35  10000 ????		00 81	    YPos       =	$81
+     36  10000 ????
+     37  10000 ????						; PROGRAMA
+     38  f000					      org	$F000
+     39  f000				   Reset
+     40  f000		       78		      sei
+     41  f001		       d8		      cld
+     42  f002		       a2 ff		      ldx	#$FF
+     43  f004		       9a		      txs
+     44  f005		       a9 00		      lda	#0
+     45  f007				   ClearMemory
+     46  f007		       95 00		      sta	$00,x
+     47  f009		       ca		      dex
+     48  f00a		       d0 fb		      bne	ClearMemory
+     49  f00c		       85 00		      sta	$00
+     50  f00e		       8d 81 02 	      sta	SWACNT
+     51  f011		       a9 00		      lda	#0
+     52  f013		       85 09		      sta	COLUBK
+     53  f015		       a9 0e		      lda	#$0E
+     54  f017		       85 06		      sta	COLUP0
+     55  f019		       a9 84		      lda	#$84
+     56  f01b		       85 08		      sta	COLUPF	; paredes azuis sobre o fundo preto
+     57  f01d		       a9 01		      lda	#%00000001
+     58  f01f		       85 0a		      sta	CTRLPF	; metade direita reflete a metade esquerda
+     59  f021		       ad 00 f1 	      lda	ScenePF0
+     60  f024		       85 0d		      sta	PF0
+     61  f026		       ad 18 f1 	      lda	ScenePF1
+     62  f029		       85 0e		      sta	PF1
+     63  f02b		       ad 30 f1 	      lda	ScenePF2
+     64  f02e		       85 0f		      sta	PF2	; prepara o desenho da primeira faixa
+     65  f030		       a9 02		      lda	#2
+     66  f032		       85 01		      sta	VBLANK
+     67  f034		       85 02		      sta	WSYNC
+     68  f036				   Clear
+     69  f036		       a9 50		      lda	#$50
+     70  f038		       85 80		      sta	XPos
+     71  f03a		       85 81		      sta	YPos
+     72  f03c							; LOOP PRINCIPAL
+     73  f03c				   Frame
+     74  f03c							; 3 linhas de sincronismo vertical do tubo
+     75  f03c		       a9 02		      lda	#2
+     76  f03e		       85 00		      sta	VSYNC
+     77  f040		       85 02		      sta	WSYNC
+     78  f042		       85 02		      sta	WSYNC
+     79  f044		       85 02		      sta	WSYNC
+     80  f046		       a9 00		      lda	#0
+     81  f048		       85 00		      sta	VSYNC
+     82  f04a							; 37 linhas antes da imagem visivel
+     83  f04a							; A conta feita em cima de 37 menos a quantidade de chamadas wsync dentro das subrotinas
+     84  f04a		       20 96 f0 	      jsr	ReadJoystick	; 3 linhas da preparacao para ler o controle
+     85  f04d		       20 df f0 	      jsr	PositionPlayer	; mais 2 linhas: 37 - 3 - 2 = 32
+     86  f050		       a2 00		      ldx	#0
+     87  f052		       a0 20		      ldy	#32
+     88  f054				   WaitVerticalBlank
+     89  f054		       85 02		      sta	WSYNC
+     90  f056		       88		      dey
+     91  f057		       d0 fb		      bne	WaitVerticalBlank
+     92  f059		       84 01		      sty	VBLANK
+     93  f05b				   DrawLine
+     94  f05b							; Cada faixa do cenario ocupa 8 linhas: Y = X / 8, de 0 ate 23.
+     95  f05b							; X continua sendo o contador das 192 linhas visiveis.
+     96  f05b		       8a		      txa
+     97  f05c		       4a		      lsr
+     98  f05d		       4a		      lsr
+     99  f05e		       4a		      lsr
+    100  f05f		       a8		      tay
+    101  f060
+    102  f060		       8a		      txa
+    103  f061		       38		      sec
+    104  f062		       e5 81		      sbc	YPos
+    105  f064		       c9 10		      cmp	#SquareHeight
+    106  f066		       a9 00		      lda	#0
+    107  f068		       b0 02		      bcs	StorePixels
+    108  f06a		       a9 ff		      lda	#%11111111
+    109  f06c				   StorePixels
+    110  f06c		       85 02		      sta	WSYNC
+    111  f06e		       85 1b		      sta	GRP0
+    112  f070							; Atualiza o playfield a tempo de cada trecho da linha ser desenhado.
+    113  f070		       b9 00 f1 	      lda	ScenePF0,y
+    114  f073		       85 0d		      sta	PF0
+    115  f075		       b9 18 f1 	      lda	ScenePF1,y
+    116  f078		       85 0e		      sta	PF1
+    117  f07a		       b9 30 f1 	      lda	ScenePF2,y
+    118  f07d		       85 0f		      sta	PF2
+    119  f07f		       e8		      inx
+    120  f080		       e0 c0		      cpx	#192
+    121  f082		       d0 d7		      bne	DrawLine
+    122  f084							; Overscan
+    123  f084		       a9 02		      lda	#2
+    124  f086		       85 01		      sta	VBLANK
+    125  f088		       a9 00		      lda	#0
+    126  f08a		       85 1b		      sta	GRP0
+    127  f08c		       a2 1e		      ldx	#30
+    128  f08e				   WaitOverscan
+    129  f08e		       85 02		      sta	WSYNC
+    130  f090		       ca		      dex
+    131  f091		       d0 fb		      bne	WaitOverscan
+    132  f093		       4c 3c f0 	      jmp	Frame
+    133  f096							; FIM LOOP PRINCIPAL
+    134  f096							; INPUT
+    135  f096				   ReadJoystick
+    136  f096		       85 02		      sta	WSYNC
+    137  f098				   CheckLeft
+    138  f098		       a6 80		      ldx	XPos
+    139  f09a		       a9 40		      lda	#%01000000
+    140  f09c		       2c 80 02 	      bit	SWCHA
+    141  f09f		       d0 07		      bne	CheckRight
+    142  f0a1		       e0 08		      cpx	#MinX
+    143  f0a3		       f0 03		      beq	CheckRight
+    144  f0a5		       ca		      dex
+    145  f0a6		       86 80		      stx	XPos
+    146  f0a8				   CheckRight
+    147  f0a8		       a6 80		      ldx	XPos
+    148  f0aa		       a9 80		      lda	#%10000000
+    149  f0ac		       2c 80 02 	      bit	SWCHA
+    150  f0af		       d0 07		      bne	HorizontalDone
+    151  f0b1		       e0 90		      cpx	#MaxX
+    152  f0b3		       f0 03		      beq	HorizontalDone
+    153  f0b5		       e8		      inx
+    154  f0b6		       86 80		      stx	XPos
+    155  f0b8				   HorizontalDone
+    156  f0b8		       85 02		      sta	WSYNC
+    157  f0ba				   CheckUp
+    158  f0ba		       a6 81		      ldx	YPos
+    159  f0bc		       a9 10		      lda	#%00010000
+    160  f0be		       2c 80 02 	      bit	SWCHA
+    161  f0c1		       d0 08		      bne	CheckDown
+    162  f0c3		       e0 10		      cpx	#MinY
+    163  f0c5		       f0 04		      beq	CheckDown
+    164  f0c7		       ca		      dex
+    165  f0c8		       ca		      dex
+    166  f0c9		       86 81		      stx	YPos
+    167  f0cb				   CheckDown
+    168  f0cb		       a6 81		      ldx	YPos
+    169  f0cd		       a9 20		      lda	#%00100000
+    170  f0cf		       2c 80 02 	      bit	SWCHA
+    171  f0d2		       d0 08		      bne	VerticalDone
+    172  f0d4		       e0 a0		      cpx	#MaxY
+    173  f0d6		       f0 04		      beq	VerticalDone
+    174  f0d8		       e8		      inx
+    175  f0d9		       e8		      inx
+    176  f0da		       86 81		      stx	YPos
+    177  f0dc				   VerticalDone
+    178  f0dc		       85 02		      sta	WSYNC
+    179  f0de		       60		      rts
+    180  f0df				   PositionPlayer
+    181  f0df		       a5 80		      lda	XPos
+    182  f0e1		       85 02		      sta	WSYNC
+    183  f0e3		       ea		      nop
+    184  f0e4		       ea		      nop
+    185  f0e5		       38		      sec
+    186  f0e6				   DivideBy15
+    187  f0e6		       e9 0f		      sbc	#15
+    188  f0e8		       b0 fc		      bcs	DivideBy15
+    189  f0ea		       49 07		      eor	#7
+    190  f0ec		       0a		      asl
+    191  f0ed		       0a		      asl
+    192  f0ee		       0a		      asl
+    193  f0ef		       0a		      asl
+    194  f0f0		       85 10		      sta	RESP0
+    195  f0f2		       85 20		      sta	HMP0
+    196  f0f4		       85 02		      sta	WSYNC
+    197  f0f6		       85 2a		      sta	HMOVE
+    198  f0f8		       60		      rts
+    199  f0f9
+    200  f0f9							; CENARIO - 24 faixas de 8 linhas = 192 linhas.
+    201  f0f9							; Cada bit ligado desenha uma parede com largura de 4 pixels do TIA.
+    202  f0f9							; Ordem da esquerda para a direita: PF0 bits 4..7, PF1 bits 7..0,
+    203  f0f9							; PF2 bits 0..7. CTRLPF espelha esses 20 blocos na metade direita.
+    204  f0f9							; As tabelas ficam na ROM; nao ocupam os 128 bytes de RAM.
+    205  f0f9							; Este desenho e visual: a colisao com as paredes ainda nao e tratada.
+    206  f100		       00 00 00 00*	      align	256	; evita ciclos extras nas leituras com indice Y
+    207  f100				   ScenePF0
+    208  f100		       f0 10 10 10*	      byte.b	$F0, $10, $10, $10, $10, $10, $10, $10
+    209  f108		       10 10 00 00*	      byte.b	$10, $10, $00, $00, $00, $00, $10, $10
+    210  f110		       10 10 10 10*	      byte.b	$10, $10, $10, $10, $10, $10, $10, $F0
+    211  f118				   ScenePF1
+    212  f118		       ff 00 00 00*	      byte.b	$FF, $00, $00, $00, $04, $04, $04, $04
+    213  f120		       07 00 00 00*	      byte.b	$07, $00, $00, $00, $00, $00, $00, $07
+    214  f128		       04 04 04 04*	      byte.b	$04, $04, $04, $04, $00, $00, $00, $FF
+    215  f130				   ScenePF2
+    216  f130		       3f 00 00 00*	      byte.b	$3F, $00, $00, $00, $00, $00, $00, $00
+    217  f138		       07 00 08 08*	      byte.b	$07, $00, $08, $08, $08, $08, $00, $07
+    218  f140		       00 00 00 00*	      byte.b	$00, $00, $00, $00, $00, $00, $00, $3F
+    219  f148
+    220  fffa					      org	$FFFA
+    221  fffa		       00 f0		      word.w	Reset
+    222  fffc		       00 f0		      word.w	Reset
+    223  fffe		       00 f0		      word.w	Reset
