@@ -1,0 +1,577 @@
+------- FILE main.asm LEVEL 1 PASS 3
+      1  10000 ????						; Space Invaders basico: ROM de 4 KiB, CPU 6507, sintaxe DASM, video NTSC.
+      2  10000 ????						; Invasores = players 0/1 no alto; nave = player 0 na base; tiro = missile 0.
+      3  10000 ????						; Nao ha framebuffer: o programa acompanha a geracao de cada linha do TIA.
+      4  10000 ????				       processor	6502
+      5  10000 ????
+      6  10000 ????				       include	"hardware.h"
+      7  10000 ????
+      8  10000 ????						; --- Coordenadas e limites ---
+      9  10000 ????						; X usa pixels de 0..159. Y usa PARES de linhas de 0..95: um passo Y vale
+     10  10000 ????						; duas linhas fisicas. Os sprites de oito bytes ficam com 16 linhas de altura.
+     11  10000 ????						; Duas colunas, separadas por 48 pixels, e duas fileiras, separadas por 12 pares.
+     12  10000 ????		00 58	    ShipY      =	88
+     13  10000 ????		00 10	    MinShipX   =	16
+     14  10000 ????		00 90	    MaxShipX   =	144
+     15  10000 ????		00 10	    MinFleetX  =	16
+     16  10000 ????		00 60	    MaxFleetX  =	96	; ultima coluna termina em 96 + 48 + 7 = 151
+     17  10000 ????		00 80	    Offscreen  =	128	; Y fora de 0..95: missile desativado
+     18  10000 ????		00 00	    Playing    =	0
+     19  10000 ????		00 01	    Won        =	1
+     20  10000 ????		00 02	    Lost       =	2
+     21  10000 ????
+     22  10000 ????						; --- RAM do RIOT, a partir de $80 ---
+     23  10000 ????						; A pilha usa o espelho $0180..$01FF da mesma RAM. Estas variaveis terminam
+     24  10000 ????						; em $BF, deixando espaco para JSR/RTS crescerem a partir do topo $FF.
+     25  10000 ????		00 80	    ShipX      =	$80
+     26  10000 ????		00 81	    ShotX      =	$81
+     27  10000 ????		00 82	    ShotY      =	$82
+     28  10000 ????		00 83	    FleetX     =	$83
+     29  10000 ????		00 84	    FleetY     =	$84
+     30  10000 ????		00 85	    Direction  =	$85	; 1 = direita; $FF = esquerda
+     31  10000 ????		00 86	    MoveClock  =	$86
+     32  10000 ????		00 87	    Remaining  =	$87	; quatro invasores no inicio; zero significa vitoria
+     33  10000 ????		00 88	    State      =	$88	; 0 = jogando; 1 = venceu; 2 = perdeu
+     34  10000 ????		00 8a	    DisplayX   =	$8A
+     35  10000 ????		00 8b	    FireReady  =	$8B	; exige soltar o botao antes de reiniciar uma partida
+     36  10000 ????		00 8c	    SoundClock =	$8C
+     37  10000 ????		00 8d	    NextLeft   =	$8D	; pixels da coluna esquerda preparados antecipadamente
+     38  10000 ????		00 8e	    NextShot   =	$8E
+     39  10000 ????		00 8f	    NextRight  =	$8F
+     40  10000 ????		00 90	    Alive      =	$90	; quatro bytes: superior [0..1], inferior [2..3]
+     41  10000 ????		00 96	    HitX       =	$96	; limites temporarios para a colisao por retangulos
+     42  10000 ????		00 97	    HitY       =	$97
+     43  10000 ????		00 98	    LeftPixels =	$98	; 20 bytes: sprite de 8, intervalo de 4, sprite de 8
+     44  10000 ????		00 ac	    RightPixels =	$AC	; outros 20 bytes: coluna direita, sem alternar quadros
+     45  10000 ????
+     46  10000 ????						; --- Inicializacao do console ---
+     47  10000 ????						; SEI/CLD preparam a CPU. A limpeza escreve somente TIA ($00..$7F) e RAM
+     48  10000 ????						; ($80..$FF), sem tocar na ROM. O RIOT recebe SWACNT=0 para ler o joystick.
+     49  f000					      org	$F000
+     50  f000				   Reset
+     51  f000		       78		      sei
+     52  f001		       d8		      cld
+     53  f002		       a2 ff		      ldx	#$FF
+     54  f004		       9a		      txs
+     55  f005		       a9 00		      lda	#0
+     56  f007				   ClearMemory
+     57  f007		       95 00		      sta	$00,x
+     58  f009		       ca		      dex
+     59  f00a		       d0 fb		      bne	ClearMemory
+     60  f00c		       85 00		      sta	$00
+     61  f00e		       8d 00 00 	      sta	SWACNT
+     62  f011		       a9 10		      lda	#$10	; missile de dois pixels, nave em tamanho normal
+     63  f013		       8d 00 00 	      sta	NUSIZ0
+     64  f016		       a9 0e		      lda	#$0E	; nave e tiro brancos
+     65  f018		       8d 00 00 	      sta	COLUP0
+     66  f01b		       a9 c8		      lda	#$C8	; invasores verdes na paleta NTSC
+     67  f01d		       8d 00 00 	      sta	COLUP1
+     68  f020		       20 a5 f1 	      jsr	NewGame
+     69  f023		       a9 02		      lda	#2
+     70  f025		       8d 00 00 	      sta	VBLANK
+     71  f028		       8d 00 00 	      sta	WSYNC
+     72  f02b
+     73  f02b							; --- Quadro NTSC: 3 + 37 + 192 + 30 = 262 linhas ---
+     74  f02b							; VSYNC dura tres linhas. TIM64T=44 chega a zero em (44-1)*64+1 ciclos:
+     75  f02b							; o primeiro decremento do RIOT ocorre apos um ciclo, os demais apos 64.
+     76  f02b							; A expiracao ocorre na 37a linha; WSYNC alinha o inicio da regiao visivel.
+     77  f02b				   Frame
+     78  f02b		       a9 02		      lda	#2
+     79  f02d		       8d 00 00 	      sta	VSYNC
+     80  f030		       8d 00 00 	      sta	WSYNC
+     81  f033		       8d 00 00 	      sta	WSYNC
+     82  f036		       8d 00 00 	      sta	WSYNC
+     83  f039		       a9 00		      lda	#0
+     84  f03b		       8d 00 00 	      sta	VSYNC
+     85  f03e		       a9 2c		      lda	#44
+     86  f040		       8d 00 00 	      sta	TIM64T
+     87  f043		       20 d7 f1 	      jsr	UpdateGame
+     88  f046		       20 11 f3 	      jsr	PrepareSprites
+     89  f049
+     90  f049							; --- Posicionamento dos tres objetos durante a imagem oculta ---
+     91  f049							; X escolhe o registrador: 0=P0, 1=P1, 2=M0. O missile precisa receber
+     92  f049							; coordenada +1 pela diferenca entre o reset de players e de misseis do TIA.
+     93  f049							; HMOVE so e escrito imediatamente depois de WSYNC, no inicio da linha.
+     94  f049		       a5 83		      lda	FleetX
+     95  f04b		       a2 00		      ldx	#0
+     96  f04d		       20 00 f4 	      jsr	PositionObject
+     97  f050		       a5 8a		      lda	DisplayX
+     98  f052		       a2 01		      ldx	#1
+     99  f054		       20 00 f4 	      jsr	PositionObject
+    100  f057		       a5 81		      lda	ShotX
+    101  f059		       18		      clc
+    102  f05a		       69 01		      adc	#1
+    103  f05c		       a2 02		      ldx	#2
+    104  f05e		       20 00 f4 	      jsr	PositionObject
+    105  f061		       8d 00 00 	      sta	WSYNC
+    106  f064		       8d 00 00 	      sta	HMOVE
+    107  f067		       a9 00		      lda	#0
+    108  f069		       8d 00 00 	      sta	GRP0
+    109  f06c		       8d 00 00 	      sta	GRP1
+    110  f06f		       8d 00 00 	      sta	ENAM0
+    111  f072		       85 8d		      sta	NextLeft
+    112  f074		       85 8f		      sta	NextRight
+    113  f076		       85 8e		      sta	NextShot
+    114  f078		       a9 c8		      lda	#$C8
+    115  f07a		       8d 00 00 	      sta	COLUP0
+    116  f07d		       8d 00 00 	      sta	COLUP1
+    117  f080		       a2 00		      ldx	#0
+    118  f082				   WaitBlank
+    119  f082		       ad 00 00 	      lda	INTIM
+    120  f085		       d0 fb		      bne	WaitBlank
+    121  f087		       8d 00 00 	      sta	WSYNC
+    122  f08a		       8d 00 00 	      sta	VBLANK	; A=0 permite a imagem; X=0 inicia o primeiro par
+    123  f08d		       4c 00 f1 	      jmp	DrawPair	; pula o preenchimento inserido por ALIGN
+    124  f090
+    125  f090							; --- Kernel superior: 84 pares = 168 linhas, quatro invasores sem flicker ---
+    126  f090							; Cada player desenha uma coluna nos MESMOS quadros. Entre as duas fileiras,
+    127  f090							; o buffer contem zeros. Escrevemos os desenhos antes do pixel X=16 aparecer.
+    128  f090							; A linha A prepara os pixels do proximo par; B prepara seu tiro. ALIGN evita
+    129  f090							; penalidades de pagina nos desvios. Nenhuma linha ultrapassa 76 ciclos.
+    130  f100		       00 00 00 00*	      align	256
+    131  f100				   DrawPair
+    132  f100		       a5 8d		      lda	NextLeft
+    133  f102		       8d 00 00 	      sta	GRP0
+    134  f105		       a5 8f		      lda	NextRight
+    135  f107		       8d 00 00 	      sta	GRP1
+    136  f10a		       a5 8e		      lda	NextShot
+    137  f10c		       8d 00 00 	      sta	ENAM0
+    138  f10f
+    139  f10f							; --- Prepara as duas colunas do proximo par ---
+    140  f10f							; Delta negativo vira byte alto e tambem e excluido por CMP #20. O mesmo
+    141  f10f							; indice Y seleciona as duas imagens; cada buffer ja considera os mortos.
+    142  f10f		       e8		      inx
+    143  f110		       8a		      txa
+    144  f111		       38		      sec
+    145  f112		       e5 84		      sbc	FleetY
+    146  f114		       c9 14		      cmp	#20
+    147  f116		       b0 0c		      bcs	AliensBlank
+    148  f118		       a8		      tay
+    149  f119		       b9 98 00 	      lda	LeftPixels,y
+    150  f11c		       85 8d		      sta	NextLeft
+    151  f11e		       b9 ac 00 	      lda	RightPixels,y
+    152  f121		       4c 28 f1 	      jmp	SaveRight
+    153  f124				   AliensBlank
+    154  f124		       a9 00		      lda	#0
+    155  f126		       85 8d		      sta	NextLeft
+    156  f128				   SaveRight
+    157  f128		       85 8f		      sta	NextRight
+    158  f12a		       8d 00 00 	      sta	WSYNC	; termina A, comeca B; os pixels permanecem no TIA
+    159  f12d
+    160  f12d							; --- Tiro do proximo par, quatro linhas fisicas de altura ---
+    161  f12d							; ENAM0 recebe 2 dentro do retangulo ou 0 fora. Y=128 desativa o tiro.
+    162  f12d		       8a		      txa
+    163  f12e		       38		      sec
+    164  f12f		       e5 82		      sbc	ShotY
+    165  f131		       c9 02		      cmp	#2
+    166  f133		       a9 00		      lda	#0
+    167  f135		       b0 02		      bcs	SaveShot
+    168  f137		       a9 02		      lda	#2
+    169  f139				   SaveShot
+    170  f139		       85 8e		      sta	NextShot
+    171  f13b		       8d 00 00 	      sta	WSYNC	; termina B
+    172  f13e		       e0 54		      cpx	#84
+    173  f140		       d0 be		      bne	DrawPair
+    174  f142
+    175  f142							; --- Faixa de troca: oito linhas reservadas, de 168 ate 175 ---
+    176  f142							; O player 0 deixa a coluna esquerda e passa a nave. Ocultamos somente esta
+    177  f142							; faixa para reposicionar sem desenhar residuos. O tiro tambem fica oculto
+    178  f142							; ao atravessa-la. HMCLR zera ajustes antigos: HMOVE deve mover apenas P0.
+    179  f142							; TIM64T=10 chega a zero em 577 ciclos, na oitava linha desta faixa.
+    180  f142							; O WSYNC seguinte inicia a nave na linha 176 da regiao visivel.
+    181  f142		       a9 02		      lda	#2
+    182  f144		       8d 00 00 	      sta	VBLANK
+    183  f147		       a9 0a		      lda	#10
+    184  f149		       8d 00 00 	      sta	TIM64T
+    185  f14c		       a9 00		      lda	#0
+    186  f14e		       8d 00 00 	      sta	GRP0
+    187  f151		       8d 00 00 	      sta	GRP1
+    188  f154		       8d 00 00 	      sta	ENAM0
+    189  f157		       8d 00 00 	      sta	HMCLR
+    190  f15a		       a5 80		      lda	ShipX
+    191  f15c		       a2 00		      ldx	#0
+    192  f15e		       20 00 f4 	      jsr	PositionObject
+    193  f161		       8d 00 00 	      sta	WSYNC
+    194  f164		       8d 00 00 	      sta	HMOVE
+    195  f167		       a9 0e		      lda	#$0E
+    196  f169		       8d 00 00 	      sta	COLUP0	; nave branca; o tiro compartilha esta cor no rodape
+    197  f16c		       a2 00		      ldx	#0
+    198  f16e				   WaitShip
+    199  f16e		       ad 00 00 	      lda	INTIM
+    200  f171		       d0 fb		      bne	WaitShip
+    201  f173		       8d 00 00 	      sta	WSYNC
+    202  f176		       8d 00 00 	      sta	VBLANK	; A=0, permite as ultimas 16 linhas da regiao visivel
+    203  f179
+    204  f179							; --- Nave: oito pares = 16 linhas, de 176 ate 191 ---
+    205  f179							; O bitmap fornece oito pixels por linha. O tiro pode nascer acima da nave;
+    206  f179							; nesta regiao ele ja esta desativado, pois seu Y inicial e ShipY-2.
+    207  f179				   DrawShip
+    208  f179		       bd 00 f5 	      lda	ShipBitmap,x
+    209  f17c		       8d 00 00 	      sta	GRP0
+    210  f17f		       8d 00 00 	      sta	WSYNC
+    211  f182		       8d 00 00 	      sta	WSYNC
+    212  f185		       e8		      inx
+    213  f186		       e0 08		      cpx	#8
+    214  f188		       d0 ef		      bne	DrawShip
+    215  f18a
+    216  f18a							; --- Overscan: 30 linhas com a imagem oculta ---
+    217  f18a							; Apagar GRP0/GRP1/ENAM0 impede residuos no proximo quadro. Toda a logica
+    218  f18a							; fica em VBLANK; aqui o contador garante exatamente 30 linhas adicionais.
+    219  f18a		       a9 02		      lda	#2
+    220  f18c		       8d 00 00 	      sta	VBLANK
+    221  f18f		       a9 00		      lda	#0
+    222  f191		       8d 00 00 	      sta	GRP0
+    223  f194		       8d 00 00 	      sta	GRP1
+    224  f197		       8d 00 00 	      sta	ENAM0
+    225  f19a		       a2 1e		      ldx	#30
+    226  f19c				   Overscan
+    227  f19c		       8d 00 00 	      sta	WSYNC
+    228  f19f		       ca		      dex
+    229  f1a0		       d0 fa		      bne	Overscan
+    230  f1a2		       4c 2b f0 	      jmp	Frame
+    231  f1a5
+    232  f1a5							; --- Nova partida: quatro vivos, nave centralizada, nenhum tiro ---
+    233  f1a5							; Esta rotina tambem atende Game Reset e o reinicio depois do fim da partida.
+    234  f1a5							; FireReady=0 evita que o tiro que encerrou a partida reinicie automaticamente.
+    235  f1a5				   NewGame
+    236  f1a5		       a9 4c		      lda	#76
+    237  f1a7		       85 80		      sta	ShipX
+    238  f1a9		       85 81		      sta	ShotX
+    239  f1ab		       a9 80		      lda	#Offscreen
+    240  f1ad		       85 82		      sta	ShotY
+    241  f1af		       a9 20		      lda	#32
+    242  f1b1		       85 83		      sta	FleetX
+    243  f1b3		       a9 0c		      lda	#12
+    244  f1b5		       85 84		      sta	FleetY
+    245  f1b7		       a9 01		      lda	#1
+    246  f1b9		       85 85		      sta	Direction
+    247  f1bb		       a2 03		      ldx	#3
+    248  f1bd				   Revive
+    249  f1bd		       95 90		      sta	Alive,x
+    250  f1bf		       ca		      dex
+    251  f1c0		       10 fb		      bpl	Revive
+    252  f1c2		       a9 04		      lda	#4
+    253  f1c4		       85 87		      sta	Remaining
+    254  f1c6		       a9 00		      lda	#0
+    255  f1c8		       85 88		      sta	State
+    256  f1ca		       85 86		      sta	MoveClock
+    257  f1cc		       85 8b		      sta	FireReady
+    258  f1ce		       85 8c		      sta	SoundClock
+    259  f1d0		       8d 00 00 	      sta	AUDV0
+    260  f1d3		       8d 00 00 	      sta	COLUBK
+    261  f1d6		       60		      rts
+    262  f1d7
+    263  f1d7							; --- Entrada e estados: Game Reset funciona a qualquer momento ---
+    264  f1d7							; O bit 0 de SWCHB e ativo em zero. Nos estados finais, soltar e apertar
+    265  f1d7							; tiro reinicia; durante a partida, segurar tiro permite disparos sucessivos.
+    266  f1d7				   UpdateGame
+    267  f1d7		       ad 00 00 	      lda	SWCHB
+    268  f1da		       29 01		      and	#1
+    269  f1dc		       d0 03		      bne	CheckState
+    270  f1de		       4c a5 f1 	      jmp	NewGame
+    271  f1e1				   CheckState
+    272  f1e1		       a5 88		      lda	State
+    273  f1e3		       f0 12		      beq	PlayingFrame
+    274  f1e5		       ad 00 00 	      lda	INPT4
+    275  f1e8		       10 05		      bpl	RestartPressed
+    276  f1ea		       a9 01		      lda	#1
+    277  f1ec		       85 8b		      sta	FireReady
+    278  f1ee		       60		      rts
+    279  f1ef				   RestartPressed
+    280  f1ef		       a5 8b		      lda	FireReady
+    281  f1f1		       f0 03		      beq	UpdateDone
+    282  f1f3		       4c a5 f1 	      jmp	NewGame
+    283  f1f6				   UpdateDone
+    284  f1f6		       60		      rts
+    285  f1f7
+    286  f1f7							; --- Som curto: o volume zera quando o contador termina ---
+    287  f1f7							; O mesmo canal toca o disparo ou o impacto mais recente. Nao ha musica.
+    288  f1f7				   PlayingFrame
+    289  f1f7		       a5 8c		      lda	SoundClock
+    290  f1f9		       f0 09		      beq	ReadMovement
+    291  f1fb		       c6 8c		      dec	SoundClock
+    292  f1fd		       d0 05		      bne	ReadMovement
+    293  f1ff		       a9 00		      lda	#0
+    294  f201		       8d 00 00 	      sta	AUDV0
+    295  f204
+    296  f204							; --- Movimento horizontal da nave, um pixel por quadro ---
+    297  f204							; BIT testa as mascaras de esquerda/direita sem alterar A. Limites 16..144
+    298  f204							; deixam margem para escrever os registradores antes dos objetos aparecerem.
+    299  f204				   ReadMovement
+    300  f204		       a6 80		      ldx	ShipX
+    301  f206		       a9 40		      lda	#$40
+    302  f208		       2c 00 00 	      bit	SWCHA
+    303  f20b		       d0 05		      bne	ReadRight
+    304  f20d		       e0 10		      cpx	#MinShipX
+    305  f20f		       f0 01		      beq	ReadRight
+    306  f211		       ca		      dex
+    307  f212				   ReadRight
+    308  f212		       a9 80		      lda	#$80
+    309  f214		       2c 00 00 	      bit	SWCHA
+    310  f217		       d0 05		      bne	SaveMovement
+    311  f219		       e0 90		      cpx	#MaxShipX
+    312  f21b		       f0 01		      beq	SaveMovement
+    313  f21d		       e8		      inx
+    314  f21e				   SaveMovement
+    315  f21e		       86 80		      stx	ShipX
+    316  f220
+    317  f220							; --- Atualizacao da formacao e do tiro ---
+    318  f220							; Primeiro move os invasores, depois o tiro e finalmente testa a colisao.
+    319  f220							; Uma derrota encerra o quadro logico sem permitir outro disparo.
+    320  f220		       20 bd f2 	      jsr	MoveFleet
+    321  f223		       a5 88		      lda	State
+    322  f225		       d0 cf		      bne	UpdateDone
+    323  f227		       a5 82		      lda	ShotY
+    324  f229		       c9 80		      cmp	#Offscreen
+    325  f22b		       f0 10		      beq	TryFire
+    326  f22d		       c9 02		      cmp	#2
+    327  f22f		       90 08		      bcc	RemoveShot
+    328  f231		       38		      sec
+    329  f232		       e9 02		      sbc	#2	; sobe quatro linhas fisicas por quadro
+    330  f234		       85 82		      sta	ShotY
+    331  f236		       4c 61 f2 	      jmp	CheckHits
+    332  f239				   RemoveShot
+    333  f239		       a9 80		      lda	#Offscreen
+    334  f23b		       85 82		      sta	ShotY
+    335  f23d				   TryFire
+    336  f23d		       ad 00 00 	      lda	INPT4
+    337  f240		       30 b4		      bmi	UpdateDone
+    338  f242		       a5 80		      lda	ShipX
+    339  f244		       18		      clc
+    340  f245		       69 03		      adc	#3	; tiro alinhado com o centro da nave de oito pixels
+    341  f247		       85 81		      sta	ShotX
+    342  f249		       a9 56		      lda	#ShipY-2
+    343  f24b		       85 82		      sta	ShotY
+    344  f24d		       a9 04		      lda	#4	; onda tonal para o disparo
+    345  f24f		       8d 00 00 	      sta	AUDC0
+    346  f252		       a9 0c		      lda	#12
+    347  f254		       8d 00 00 	      sta	AUDF0
+    348  f257		       a9 05		      lda	#5
+    349  f259		       8d 00 00 	      sta	AUDV0
+    350  f25c		       a9 05		      lda	#5
+    351  f25e		       85 8c		      sta	SoundClock
+    352  f260		       60		      rts
+    353  f261
+    354  f261							; --- Colisao com os quatro invasores, todos visiveis em cada quadro ---
+    355  f261							; Cada vivo tem retangulo 8 pixels x 8 pares; o tiro mede 2 pixels x 2 pares.
+    356  f261							; (tiro - inicio + 1) < 9 aceita deltas -1..7: inclui a largura/altura do tiro.
+    357  f261							; X percorre a fileira inferior primeiro. Uma colisao consome exatamente um tiro.
+    358  f261				   CheckHits
+    359  f261		       a2 03		      ldx	#3
+    360  f263				   HitLoop
+    361  f263		       b5 90		      lda	Alive,x
+    362  f265		       f0 52		      beq	NextTarget
+    363  f267		       a5 83		      lda	FleetX
+    364  f269		       18		      clc
+    365  f26a		       7d 10 f5 	      adc	ColumnOffsets,x
+    366  f26d		       85 96		      sta	HitX
+    367  f26f		       a5 84		      lda	FleetY
+    368  f271		       18		      clc
+    369  f272		       7d 14 f5 	      adc	RowOffsets,x
+    370  f275		       85 97		      sta	HitY
+    371  f277		       a5 81		      lda	ShotX
+    372  f279		       38		      sec
+    373  f27a		       e5 96		      sbc	HitX
+    374  f27c		       18		      clc
+    375  f27d		       69 01		      adc	#1
+    376  f27f		       c9 09		      cmp	#9
+    377  f281		       b0 36		      bcs	NextTarget
+    378  f283		       a5 82		      lda	ShotY
+    379  f285		       38		      sec
+    380  f286		       e5 97		      sbc	HitY
+    381  f288		       18		      clc
+    382  f289		       69 01		      adc	#1
+    383  f28b		       c9 09		      cmp	#9
+    384  f28d		       b0 2a		      bcs	NextTarget
+    385  f28f
+    386  f28f							; --- Impacto: apaga um invasor, encerra o tiro e toca ruido ---
+    387  f28f							; Remaining e o numero de vivos. Ao chegar a zero, o fundo verde indica
+    388  f28f							; vitoria e a logica congela ate um novo clique de tiro ou Game Reset.
+    389  f28f		       a9 00		      lda	#0
+    390  f291		       95 90		      sta	Alive,x
+    391  f293		       a9 80		      lda	#Offscreen
+    392  f295		       85 82		      sta	ShotY
+    393  f297		       a9 08		      lda	#8
+    394  f299		       8d 00 00 	      sta	AUDC0
+    395  f29c		       85 8c		      sta	SoundClock
+    396  f29e		       a9 06		      lda	#6
+    397  f2a0		       8d 00 00 	      sta	AUDF0
+    398  f2a3		       8d 00 00 	      sta	AUDV0
+    399  f2a6		       c6 87		      dec	Remaining
+    400  f2a8		       d0 0e		      bne	HitDone
+    401  f2aa		       a9 01		      lda	#Won
+    402  f2ac		       85 88		      sta	State
+    403  f2ae		       a9 c2		      lda	#$C2
+    404  f2b0		       8d 00 00 	      sta	COLUBK
+    405  f2b3		       a9 00		      lda	#0
+    406  f2b5		       8d 00 00 	      sta	AUDV0
+    407  f2b8				   HitDone
+    408  f2b8		       60		      rts
+    409  f2b9				   NextTarget
+    410  f2b9		       ca		      dex
+    411  f2ba		       10 a7		      bpl	HitLoop
+    412  f2bc		       60		      rts
+    413  f2bd
+    414  f2bd							; --- Marcha dos invasores: um pixel a cada quatro quadros ---
+    415  f2bd							; Com dois ou menos vivos, o intervalo cai para dois quadros. Nos extremos,
+    416  f2bd							; inverte a direcao e desce quatro pares (oito linhas), sem ultrapassar X.
+    417  f2bd				   MoveFleet
+    418  f2bd		       e6 86		      inc	MoveClock
+    419  f2bf		       a0 04		      ldy	#4
+    420  f2c1		       a5 87		      lda	Remaining
+    421  f2c3		       c9 03		      cmp	#3
+    422  f2c5		       b0 02		      bcs	TestClock
+    423  f2c7		       a0 02		      ldy	#2
+    424  f2c9				   TestClock
+    425  f2c9		       84 96		      sty	HitX	; temporario reutilizado antes da fase de colisao
+    426  f2cb		       a5 86		      lda	MoveClock
+    427  f2cd		       c5 96		      cmp	HitX
+    428  f2cf		       90 3f		      bcc	FleetDone
+    429  f2d1		       a9 00		      lda	#0
+    430  f2d3		       85 86		      sta	MoveClock
+    431  f2d5		       a5 85		      lda	Direction
+    432  f2d7		       30 09		      bmi	FleetLeft
+    433  f2d9		       a5 83		      lda	FleetX
+    434  f2db		       c9 60		      cmp	#MaxFleetX
+    435  f2dd		       f0 0c		      beq	TurnLeft
+    436  f2df		       e6 83		      inc	FleetX
+    437  f2e1		       60		      rts
+    438  f2e2				   FleetLeft
+    439  f2e2		       a5 83		      lda	FleetX
+    440  f2e4		       c9 10		      cmp	#MinFleetX
+    441  f2e6		       f0 07		      beq	TurnRight
+    442  f2e8		       c6 83		      dec	FleetX
+    443  f2ea		       60		      rts
+    444  f2eb				   TurnLeft
+    445  f2eb		       a9 ff		      lda	#$FF
+    446  f2ed		       d0 02		      bne	Descend
+    447  f2ef				   TurnRight
+    448  f2ef		       a9 01		      lda	#1
+    449  f2f1				   Descend
+    450  f2f1		       85 85		      sta	Direction
+    451  f2f3		       a5 84		      lda	FleetY
+    452  f2f5		       18		      clc
+    453  f2f6		       69 04		      adc	#4
+    454  f2f8		       85 84		      sta	FleetY
+    455  f2fa
+    456  f2fa							; --- Derrota ao atingir a faixa de troca acima da nave ---
+    457  f2fa							; Em FleetY=64 a fileira inferior termina no par 83, antes da faixa de troca.
+    458  f2fa							; O limite considera a fileira inferior mesmo se ela ja foi destruida:
+    459  f2fa							; a formacao conserva seu retangulo original, simplificando este primeiro jogo.
+    460  f2fa		       c9 40		      cmp	#ShipY-24
+    461  f2fc		       90 12		      bcc	FleetDone
+    462  f2fe		       a9 02		      lda	#Lost
+    463  f300		       85 88		      sta	State
+    464  f302		       a9 80		      lda	#Offscreen
+    465  f304		       85 82		      sta	ShotY
+    466  f306		       a9 42		      lda	#$42	; vermelho escuro indica derrota
+    467  f308		       8d 00 00 	      sta	COLUBK
+    468  f30b		       a9 00		      lda	#0
+    469  f30d		       8d 00 00 	      sta	AUDV0
+    470  f310				   FleetDone
+    471  f310		       60		      rts
+    472  f311
+    473  f311							; --- Prepara as duas colunas em buffers independentes, uma vez por quadro ---
+    474  f311							; Os dois players desenham os inimigos juntos. A reutilizacao de P0 acontece
+    475  f311							; verticalmente, na faixa de troca, sem alternar inimigos entre quadros.
+    476  f311				   PrepareSprites
+    477  f311		       a5 83		      lda	FleetX
+    478  f313		       18		      clc
+    479  f314		       69 30		      adc	#48
+    480  f316		       85 8a		      sta	DisplayX
+    481  f318		       a0 07		      ldy	#7
+    482  f31a				   CopyRows
+    483  f31a		       a5 90		      lda	Alive
+    484  f31c		       f0 03		      beq	StoreLeftTop
+    485  f31e		       b9 08 f5 	      lda	AlienBitmap,y
+    486  f321				   StoreLeftTop
+    487  f321		       99 98 00 	      sta	LeftPixels,y
+    488  f324		       a5 91		      lda	Alive+1
+    489  f326		       f0 03		      beq	StoreRightTop
+    490  f328		       b9 08 f5 	      lda	AlienBitmap,y
+    491  f32b				   StoreRightTop
+    492  f32b		       99 ac 00 	      sta	RightPixels,y
+    493  f32e		       a5 92		      lda	Alive+2
+    494  f330		       f0 03		      beq	StoreLeftBottom
+    495  f332		       b9 08 f5 	      lda	AlienBitmap,y
+    496  f335				   StoreLeftBottom
+    497  f335		       99 a4 00 	      sta	LeftPixels+12,y
+    498  f338		       a5 93		      lda	Alive+3
+    499  f33a		       f0 03		      beq	StoreRightBottom
+    500  f33c		       b9 08 f5 	      lda	AlienBitmap,y
+    501  f33f				   StoreRightBottom
+    502  f33f		       99 b8 00 	      sta	RightPixels+12,y
+    503  f342		       88		      dey
+    504  f343		       10 d5		      bpl	CopyRows
+    505  f345
+    506  f345							; --- Quatro pares vazios entre fileiras ---
+    507  f345							; A mesma altura e usada nas tabelas de colisao. Os bytes sao renovados para
+    508  f345							; tornar a preparacao explicita, embora zero inicial tambem fosse suficiente.
+    509  f345		       a9 00		      lda	#0
+    510  f347		       a0 03		      ldy	#3
+    511  f349				   ClearGap
+    512  f349		       99 a0 00 	      sta	LeftPixels+8,y
+    513  f34c		       99 b4 00 	      sta	RightPixels+8,y
+    514  f34f		       88		      dey
+    515  f350		       10 f7		      bpl	ClearGap
+    516  f352		       60		      rts
+    517  f353
+    518  f353							; --- Posicao horizontal por tempo: A=coordenada, X=indice do objeto ---
+    519  f353							; Cada SBC/BCS tomado custa cinco ciclos = 15 pixels. O resto negativo
+    520  f353							; passa por EOR/ASL para formar o ajuste fino de -8..+7 do TIA.
+    521  f353							; STA.wx forca enderecamento absoluto,X (5 ciclos), necessario nesta formula;
+    522  f353							; trocar por STA comum reduz um ciclo e desloca o objeto tres pixels.
+    523  f353							; Com A <= 148, a rotina retorna antes de acabar a linha de 76 ciclos.
+    524  f400		       00 00 00 00*	      align	256
+    525  f400				   PositionObject
+    526  f400		       38		      sec
+    527  f401		       8d 00 00 	      sta	WSYNC
+    528  f404				   Divide15
+    529  f404		       e9 0f		      sbc	#15
+    530  f406		       b0 fc		      bcs	Divide15
+    531  f408		       49 07		      eor	#7
+    532  f40a		       0a		      asl
+    533  f40b		       0a		      asl
+    534  f40c		       0a		      asl
+    535  f40d		       0a		      asl
+    536  f40e		       9d 00 00 	      sta.wx	HMP0,x
+    537  f411		       9d 00 00 	      sta	RESP0,x
+    538  f414		       60		      rts
+    539  f415
+    540  f415							; --- Dados graficos originais deste estudo ---
+    541  f415							; Cada bit 1 acende um pixel; o bit 7 fica a esquerda. O kernel repete cada
+    542  f415							; linha duas vezes. ALIGN evita que LDA tabela,Y custe um ciclo adicional.
+    543  f500		       00 00 00 00*	      align	256
+    544  f500				   ShipBitmap
+    545  f500		       18		      byte.b	%00011000
+    546  f501		       18		      byte.b	%00011000
+    547  f502		       3c		      byte.b	%00111100
+    548  f503		       7e		      byte.b	%01111110
+    549  f504		       ff		      byte.b	%11111111
+    550  f505		       ff		      byte.b	%11111111
+    551  f506		       ff		      byte.b	%11111111
+    552  f507		       ff		      byte.b	%11111111
+    553  f508				   AlienBitmap
+    554  f508		       24		      byte.b	%00100100
+    555  f509		       18		      byte.b	%00011000
+    556  f50a		       3c		      byte.b	%00111100
+    557  f50b		       7e		      byte.b	%01111110
+    558  f50c		       db		      byte.b	%11011011
+    559  f50d		       ff		      byte.b	%11111111
+    560  f50e		       24		      byte.b	%00100100
+    561  f50f		       42		      byte.b	%01000010
+    562  f510
+    563  f510							; --- Formacao em ordem de indices 0..3 ---
+    564  f510							; Os offsets permitem usar a mesma geometria tanto no desenho quanto no teste
+    565  f510							; de colisao. Mudar espacamentos exige rever limites e altura da formacao.
+    566  f510				   ColumnOffsets
+    567  f510		       00 30 00 30	      byte.b	0,48,0,48
+    568  f514				   RowOffsets
+    569  f514		       00 00 0c 0c	      byte.b	0,0,12,12
+    570  f518
+    571  f518							; --- Vetores no fim da ROM: todos apontam para Reset ---
+    572  f518							; ORG preenche o espaco ate $FFFA; $F000..$FFFF totalizam 4096 bytes sem bankswitch.
+    573  fffa					      org	$FFFA
+    574  fffa		       00 f0		      word.w	Reset
+    575  fffc		       00 f0		      word.w	Reset
+    576  fffe		       00 f0		      word.w	Reset
