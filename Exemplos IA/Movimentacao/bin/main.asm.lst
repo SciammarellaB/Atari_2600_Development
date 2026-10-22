@@ -48,229 +48,276 @@
      47  10000 ????						; de disparo (strobe) agem na escrita e ignoram o valor enviado.
      48  10000 ????						; Ler um endereco do TIA nao devolve necessariamente o que foi escrito:
      49  10000 ????						; leitura e escrita podem selecionar registradores diferentes.
-     50  10000 ????		00 00	    VSYNC      =	$00	; bit 1: 1 inicia, 0 termina o sincronismo vertical
-     51  10000 ????		00 01	    VBLANK     =	$01	; bit 1: 1 esconde a imagem, 0 permite desenhar
-     52  10000 ????		00 02	    WSYNC      =	$02	; disparo: pausa a CPU ate o inicio da proxima linha
-     53  10000 ????		00 06	    COLUP0     =	$06	; cor do objeto grafico player 0
-     54  10000 ????		00 09	    COLUBK     =	$09	; cor do fundo
-     55  10000 ????		00 10	    RESP0      =	$10	; disparo: instante da escrita posiciona o player 0
-     56  10000 ????		00 1b	    GRP0       =	$1B	; os 8 bits que desenham uma linha do player 0
-     57  10000 ????		00 20	    HMP0       =	$20	; bits 7..4: ajuste horizontal de -8 a +7 color clocks
-     58  10000 ????		00 2a	    HMOVE      =	$2A	; disparo: aplica os ajustes horizontais dos objetos
-     59  10000 ????						;
-     60  10000 ????						; --- RIOT: entrada de direcoes e configuracao da porta A ---
-     61  10000 ????						; Joystick 1: bits 7=direita, 6=esquerda, 5=baixo, 4=cima.
-     62  10000 ????						; Joystick 2: bits 3=direita, 2=esquerda, 1=baixo, 0=cima.
-     63  10000 ????						; Em SWCHA, 0 significa direcao pressionada; 1 significa solta.
-     64  10000 ????						; Em SWACNT, cada bit escolhe 0=entrada ou 1=saida para o pino da porta.
-     65  10000 ????						; A inicializacao escreve zero em SWACNT para receber os dois joysticks.
-     66  10000 ????		02 80	    SWCHA      =	$0280	; le os niveis dos pinos configurados como entrada
-     67  10000 ????		02 81	    SWACNT     =	$0281	; configuracao de direcao dos pinos, nao movimento
-     68  10000 ????						;
-     69  10000 ????						; --- Outros recursos existentes, nao usados na logica deste exemplo ---
-     70  10000 ????						; Botao de tiro: TIA INPT4 ($0C), joystick 1; INPT5 ($0D), joystick 2.
-     71  10000 ????						;		 O bit 7 indica 0=pressionado, 1=solto; nao fica em SWCHA.
-     72  10000 ????						; Paddles: TIA INPT0..INPT3 ($08..$0B), leitura por tempo de carga.
-     73  10000 ????						; Chaves do console: RIOT SWCHB ($0282), incluindo Select e Game Reset.
-     74  10000 ????						;		 Game Reset e lido pelo jogo; nao reinicia a CPU sozinho.
-     75  10000 ????						; Timer: RIOT INTIM ($0284) para leitura; TIM64T ($0296) inicia uma
-     76  10000 ????						;	  contagem com intervalo de 64 ciclos da CPU por decremento.
-     77  10000 ????						; Som: TIA AUDC0/1 ($15/$16), AUDF0/1 ($17/$18), AUDV0/1 ($19/$1A)
-     78  10000 ????						;	controlam tipo de som, divisao de frequencia e volume dos canais.
-     79  10000 ????						; No console original, video e audio seguem ao circuito de modulacao RF
-     80  10000 ????						; e saem pelo cabo para a entrada de antena da TV.
-     81  10000 ????						; Referencias: Stella Programmer's Guide (Steve Wright, Atari, 1979)
-     82  10000 ????						; https://www.atariage.com/2600/programming/2600_101/docs/stella.html
-     83  10000 ????						; Atari VCS Field Service Manual, secao 1 (diagrama e descricao dos chips).
-     84  10000 ????
-     85  10000 ????						; ============================================================
-     86  10000 ????						; 2. CONSTANTES E VARIAVEIS
-     87  10000 ????						; X cresce para a direita; Y cresce para baixo.
-     88  10000 ????						; XPos/YPos ficam na RAM. A, X e Y sao registradores da CPU.
-     89  10000 ????						; ============================================================
-     90  10000 ????		00 10	    SquareHeight =	16	; 8 pixels de largura x 16 linhas: quadrado na exibicao NTSC
-     91  10000 ????		00 10	    MinX       =	16	; margem esquerda para terminar os calculos de cada linha
-     92  10000 ????		00 90	    MaxX       =	144	; margem direita para posicionar o objeto na mesma linha
-     93  10000 ????		00 b0	    MaxY       =	192 - SquareHeight
-     94  10000 ????		00 80	    XPos       =	$80	; posicao horizontal, em pixels
-     95  10000 ????		00 81	    YPos       =	$81	; linha em que comeca o quadrado
-     96  10000 ????
-     97  10000 ????						; ============================================================
-     98  10000 ????						; 3. INICIALIZACAO - executada uma vez ao ligar o programa
-     99  10000 ????						; ============================================================
-    100  f000					      org	$F000
-    101  f000				   Reset
-    102  f000		       78		      sei		; desabilita interrupcoes
-    103  f001		       d8		      cld		; usa aritmetica binaria
-    104  f002		       a2 ff		      ldx	#$FF
-    105  f004		       9a		      txs		; inicializa a pilha
-    106  f005		       a9 00		      lda	#0
-    107  f007				   ClearMemory
-    108  f007		       95 00		      sta	$00,x	; limpa RAM e registradores do TIA
-    109  f009		       ca		      dex
-    110  f00a		       d0 fb		      bne	ClearMemory
-    111  f00c		       85 00		      sta	$00
-    112  f00e		       8d 81 02 	      sta	SWACNT	; todos os bits da porta dos joysticks sao entradas
-    113  f011
-    114  f011		       a9 84		      lda	#$84	; azul na paleta NTSC
-    115  f013		       85 09		      sta	COLUBK
-    116  f015		       a9 0e		      lda	#$0E	; branco na paleta NTSC
-    117  f017		       85 06		      sta	COLUP0
-    118  f019		       a9 50		      lda	#80
-    119  f01b		       85 80		      sta	XPos
-    120  f01d		       a9 58		      lda	#88
-    121  f01f		       85 81		      sta	YPos
-    122  f021		       a9 02		      lda	#2
-    123  f023		       85 01		      sta	VBLANK	; esconde a imagem durante a preparacao
-    124  f025		       85 02		      sta	WSYNC
-    125  f027
-    126  f027							; ============================================================
-    127  f027							; 4. LOOP PRINCIPAL - repetido em todos os quadros
-    128  f027							; ============================================================
-    129  f027				   Frame
-    130  f027							; --- 3 linhas de sincronismo vertical ---
-    131  f027		       a9 02		      lda	#2
-    132  f029		       85 00		      sta	VSYNC
-    133  f02b							; sta WSYNC
-    134  f02b							; sta WSYNC
-    135  f02b		       85 02		      sta	WSYNC
-    136  f02d		       a9 00		      lda	#0
-    137  f02f		       85 00		      sta	VSYNC
-    138  f031
-    139  f031							; --- 37 linhas antes da imagem visivel ---
-    140  f031							; Input e posicionamento usam 4 linhas, controladas por WSYNC.
-    141  f031							; Depois esperamos mais 33: 4 + 33 = 37 linhas.
-    142  f031		       20 69 f0 	      jsr	ReadJoystick
-    143  f034		       20 a6 f0 	      jsr	PositionPlayer
-    144  f037		       a2 00		      ldx	#0	; prepara o contador das linhas visiveis
-    145  f039		       a0 21		      ldy	#33
-    146  f03b				   WaitVerticalBlank
-    147  f03b		       85 02		      sta	WSYNC
-    148  f03d		       88		      dey
-    149  f03e		       d0 fb		      bne	WaitVerticalBlank
-    150  f040
-    151  f040							; --- 192 linhas visiveis ---
-    152  f040		       84 01		      sty	VBLANK	; Y terminou em 0: libera a imagem
-    153  f042							; X conta as linhas da tela, de 0 ate 191.
-    154  f042				   DrawLine
-    155  f042							; Dentro do quadrado quando: 0 <= linha - YPos < SquareHeight.
-    156  f042							; SEC prepara a subtracao. Se linha < YPos, o resultado de 8 bits
-    157  f042							; fica alto (por exemplo, 0 - 88 vira 168) e tambem cai fora do quadrado.
-    158  f042		       8a		      txa
-    159  f043		       38		      sec
-    160  f044		       e5 81		      sbc	YPos
-    161  f046		       c9 10		      cmp	#SquareHeight
-    162  f048		       a9 00		      lda	#0	; fora: todos os pixels desligados
-    163  f04a		       b0 02		      bcs	StorePixels	; LDA nao altera o carry produzido por CMP
-    164  f04c		       a9 ff		      lda	#%11111111	; dentro: oito pixels ligados formam uma linha cheia
-    165  f04e				   StorePixels
-    166  f04e		       85 1b		      sta	GRP0
-    167  f050		       85 02		      sta	WSYNC	; termina esta linha e espera a proxima
-    168  f052		       e8		      inx
-    169  f053		       e0 c0		      cpx	#192
-    170  f055		       d0 eb		      bne	DrawLine
-    171  f057
-    172  f057							; --- 30 linhas depois da imagem visivel (overscan) ---
-    173  f057		       a9 02		      lda	#2
-    174  f059		       85 01		      sta	VBLANK	; esconde a imagem antes do proximo quadro
-    175  f05b		       a9 00		      lda	#0
-    176  f05d		       85 1b		      sta	GRP0	; apaga os pixels do objeto
-    177  f05f		       a2 1e		      ldx	#30
-    178  f061				   WaitOverscan
-    179  f061		       85 02		      sta	WSYNC
-    180  f063		       ca		      dex
-    181  f064		       d0 fb		      bne	WaitOverscan
-    182  f066		       4c 27 f0 	      jmp	Frame
-    183  f069
-    184  f069							; ============================================================
-    185  f069							; 5. INPUT - consulta o joystick e altera as coordenadas na RAM
-    186  f069							;
-    187  f069							; SWCHA: bit 7 = direita, 6 = esquerda, 5 = baixo, 4 = cima.
-    188  f069							; Os bits 3..0 pertencem ao segundo joystick e sao ignorados.
-    189  f069							; ATENCAO: 0 = pressionado; 1 = solto.
-    190  f069							;
-    191  f069							; LDA #mascara seleciona uma direcao.
-    192  f069							; BIT testa A AND SWCHA, sem alterar A ou SWCHA.
-    193  f069							; BNE pula o movimento se o resultado nao for zero (direcao solta).
-    194  f069							; As comparacoes seguintes impedem que o quadrado saia da tela.
-    195  f069							; Cada direcao pode mover 1 pixel por quadro. Diagonais sao permitidas.
-    196  f069							; ============================================================
-    197  f069				   ReadJoystick
-    198  f069		       85 02		      sta	WSYNC	; linha 1 da preparacao: le esquerda e direita
-    199  f06b		       a6 80		      ldx	XPos	; copia a coordenada para o registrador temporario X
-    200  f06d							; --- Esquerda: diminui XPos ---
-    201  f06d		       a9 40		      lda	#%01000000
-    202  f06f		       2c 80 02 	      bit	SWCHA
-    203  f072		       d0 05		      bne	CheckRight
-    204  f074		       e0 10		      cpx	#MinX
-    205  f076		       f0 01		      beq	CheckRight
-    206  f078		       ca		      dex
-    207  f079				   CheckRight
-    208  f079							; --- Direita: aumenta XPos ---
-    209  f079		       a9 80		      lda	#%10000000
-    210  f07b		       2c 80 02 	      bit	SWCHA
-    211  f07e		       d0 05		      bne	SaveX
-    212  f080		       e0 90		      cpx	#MaxX
-    213  f082		       f0 01		      beq	SaveX
-    214  f084		       e8		      inx
-    215  f085				   SaveX
-    216  f085		       86 80		      stx	XPos	; grava a nova coordenada horizontal na RAM
-    217  f087		       85 02		      sta	WSYNC	; linha 2 da preparacao: le cima e baixo
-    218  f089		       a6 81		      ldx	YPos
-    219  f08b							; --- Cima: diminui YPos ---
-    220  f08b		       a9 10		      lda	#%00010000
-    221  f08d		       2c 80 02 	      bit	SWCHA
-    222  f090		       d0 05		      bne	CheckDown
-    223  f092		       e0 00		      cpx	#0
-    224  f094		       f0 01		      beq	CheckDown
-    225  f096		       ca		      dex
-    226  f097				   CheckDown
-    227  f097							; --- Baixo: aumenta YPos ---
-    228  f097		       a9 20		      lda	#%00100000
-    229  f099		       2c 80 02 	      bit	SWCHA
-    230  f09c		       d0 05		      bne	SaveY
-    231  f09e		       e0 b0		      cpx	#MaxY
-    232  f0a0		       f0 01		      beq	SaveY
-    233  f0a2		       e8		      inx
-    234  f0a3				   SaveY
-    235  f0a3		       86 81		      stx	YPos	; grava a nova coordenada vertical na RAM
-    236  f0a5		       60		      rts
-    237  f0a6
-    238  f0a6							; ============================================================
-    239  f0a6							; 6. POSICAO HORIZONTAL - converte XPos para o formato do TIA
-    240  f0a6							;
-    241  f0a6							; O TIA nao recebe uma coordenada X diretamente em RESP0.
-    242  f0a6							; Escrever em RESP0 fixa a posicao de acordo com o instante da escrita.
-    243  f0a6							; Cada volta abaixo gasta 5 ciclos de CPU = 15 pixels horizontais
-    244  f0a6							; (a ultima volta tem um ciclo a menos porque o salto nao e tomado).
-    245  f0a6							; O tempo escolhe a posicao aproximada; o resto calcula o ajuste fino.
-    246  f0a6							; HMP0 guarda esse ajuste e HMOVE o aplica no inicio da linha seguinte.
-    247  f0a6							; ============================================================
-    248  f0a6				   PositionPlayer
-    249  f0a6		       a5 80		      lda	XPos
-    250  f0a8		       85 02		      sta	WSYNC	; linha 3 da preparacao: posicionamento horizontal
-    251  f0aa		       ea		      nop		; estes 4 ciclos alinham XPos com a origem da area visivel
-    252  f0ab		       ea		      nop		; cada NOP espera 2 ciclos (nao altera os registradores)
-    253  f0ac		       38		      sec
-    254  f0ad				   DivideBy15
-    255  f0ad		       e9 0f		      sbc	#15
-    256  f0af		       b0 fc		      bcs	DivideBy15
-    257  f0b1		       49 07		      eor	#7
-    258  f0b3		       0a		      asl
-    259  f0b4		       0a		      asl
-    260  f0b5		       0a		      asl
-    261  f0b6		       0a		      asl
-    262  f0b7		       85 10		      sta	RESP0
-    263  f0b9		       85 20		      sta	HMP0
-    264  f0bb		       85 02		      sta	WSYNC	; linha 4 da preparacao: aplica o ajuste fino
-    265  f0bd		       85 2a		      sta	HMOVE	; aplica o ajuste horizontal no inicio de uma linha
-    266  f0bf		       60		      rts
-    267  f0c0
-    268  f0c0							; ============================================================
-    269  f0c0							; 7. VETORES - informam ao processador onde comecar
-    270  f0c0							; ROM de 4 KiB: $F000 ate $FFFF.
-    271  f0c0							; ============================================================
-    272  fffa					      org	$FFFA
-    273  fffa		       00 f0		      word.w	Reset	; NMI
-    274  fffc		       00 f0		      word.w	Reset	; RESET
-    275  fffe		       00 f0		      word.w	Reset	; IRQ/BRK
+     50  10000 ????						;
+     51  10000 ????						; --- Players 0 e 1: recursos fixos do TIA, validos para qualquer jogo ---
+     52  10000 ????						; O chip possui dois objetos do tipo Player. Cada um tem os controles
+     53  10000 ????						; abaixo: as funcoes e os enderecos sao fixos; os valores sao configuraveis.
+     54  10000 ????						;
+     55  10000 ????						; Funcao				 Player 0	Player 1
+     56  10000 ????						; Desenho de 8 bits			 GRP0	$1B	GRP1   $1C
+     57  10000 ????						; Cor e brilho 			 COLUP0 $06	COLUP1 $07
+     58  10000 ????						; Posicao horizontal por tempo 	 RESP0	$10	RESP1  $11
+     59  10000 ????						; Ajuste fino horizontal		 HMP0	$20	HMP1   $21
+     60  10000 ????						; Espelhamento horizontal		 REFP0	$0B	REFP1  $0C
+     61  10000 ????						; Largura e copias			 NUSIZ0 $04	NUSIZ1 $05
+     62  10000 ????						; Selecao do desenho atrasado		 VDELP0 $25	VDELP1 $26
+     63  10000 ????						;
+     64  10000 ????						; NUSIZ oferece modos predefinidos: um Player com largura normal (8 pixels),
+     65  10000 ????						; dupla (16) ou quadrupla (32); ou duas/tres copias de largura normal,
+     66  10000 ????						; com espacamentos determinados pelo hardware. Nao sao novos Players
+     67  10000 ????						; independentes: as copias repetem o desenho do mesmo objeto.
+     68  10000 ????						; REFP espelha o padrao: permite, por exemplo, virar uma nave para o outro lado.
+     69  10000 ????						; VDELP seleciona um padrao grafico atrasado para sincronizar o desenho;
+     70  10000 ????						; nao recebe uma coordenada Y. Nao ha registrador de altura ou posicao Y:
+     71  10000 ????						; o programa decide em quais linhas fornece pixels para cada Player.
+     72  10000 ????						;
+     73  10000 ????						; Comandos compartilhados: HMOVE ($2A) aplica os ajustes horizontais de
+     74  10000 ????						; todos os objetos; HMCLR ($2B) zera os ajustes, sem zerar suas posicoes.
+     75  10000 ????						; Player 0 e Missile 0 compartilham COLUP0; Player 1 e Missile 1, COLUP1.
+     76  10000 ????						; Os misseis sao outros dois objetos graficos, separados dos Players.
+     77  10000 ????						;
+     78  10000 ????						; --- Enderecos nomeados neste arquivo ---
+     79  10000 ????		00 00	    VSYNC      =	$00	; bit 1: 1 inicia, 0 termina o sincronismo vertical
+     80  10000 ????		00 01	    VBLANK     =	$01	; bit 1: 1 esconde a imagem, 0 permite desenhar
+     81  10000 ????		00 02	    WSYNC      =	$02	; disparo: pausa a CPU ate o inicio da proxima linha
+     82  10000 ????		00 09	    COLUBK     =	$09	; cor do fundo
+     83  10000 ????		00 2a	    HMOVE      =	$2A	; disparo: aplica os ajustes horizontais dos objetos
+     84  10000 ????						;
+     85  10000 ????						; --- PLAYER 0: desenho, posicao e ajuste horizontal ---
+     86  10000 ????		00 06	    COLUP0     =	$06	; cor do objeto grafico player 0
+     87  10000 ????		00 10	    RESP0      =	$10	; disparo: instante da escrita posiciona o player 0
+     88  10000 ????		00 1b	    GRP0       =	$1B	; os 8 bits que desenham uma linha do player 0
+     89  10000 ????		00 20	    HMP0       =	$20	; bits 7..4: ajuste horizontal de -8 a +7 color clocks
+     90  10000 ????						;
+     91  10000 ????						; --- Entradas: divididas entre RIOT e TIA ---
+     92  10000 ????						; SWCHA tambem e uma entrada: os registradores INPT nao sao as unicas
+     93  10000 ????						; entradas do Atari. Cada chip recebe sinais diferentes dos controles.
+     94  10000 ????						;
+     95  10000 ????						; Entrada			   Registrador	     Chip
+     96  10000 ????						; Direcoes dos dois joysticks	    SWCHA  $0280      RIOT
+     97  10000 ????						; Botao de tiro do joystick 1	    INPT4  $0C	      TIA
+     98  10000 ????						; Botao de tiro do joystick 2	    INPT5  $0D	      TIA
+     99  10000 ????						; Posicao dos paddles		    INPT0..3 $08..$0B TIA
+    100  10000 ????						; Chaves do console		    SWCHB  $0282      RIOT
+    101  10000 ????						;
+    102  10000 ????						; O mesmo joystick envia as direcoes ao RIOT e o botao de tiro ao TIA.
+    103  10000 ????						; Neste projeto, ReadJoystick consulta SWCHA para mover o quadrado;
+    104  10000 ????						; para reconhecer o tiro do joystick 1, seria preciso consultar INPT4.
+    105  10000 ????						; SWACNT configura os pinos de SWCHA; nao informa quais botoes estao apertados.
+    106  10000 ????						;
+    107  10000 ????						; --- RIOT: entrada de direcoes e configuracao da porta A ---
+    108  10000 ????						; Joystick 1: bits 7=direita, 6=esquerda, 5=baixo, 4=cima.
+    109  10000 ????						; Joystick 2: bits 3=direita, 2=esquerda, 1=baixo, 0=cima.
+    110  10000 ????						; Em SWCHA, 0 significa direcao pressionada; 1 significa solta.
+    111  10000 ????						; Em SWACNT, cada bit escolhe 0=entrada ou 1=saida para o pino da porta.
+    112  10000 ????						; A inicializacao escreve zero em SWACNT para receber os dois joysticks.
+    113  10000 ????		02 80	    SWCHA      =	$0280	; le os niveis dos pinos configurados como entrada
+    114  10000 ????		02 81	    SWACNT     =	$0281	; configuracao de direcao dos pinos, nao movimento
+    115  10000 ????						;
+    116  10000 ????						; --- Outros recursos existentes, nao usados na logica deste exemplo ---
+    117  10000 ????						; Botao de tiro: TIA INPT4 ($0C), joystick 1; INPT5 ($0D), joystick 2.
+    118  10000 ????						;		 O bit 7 indica 0=pressionado, 1=solto; nao fica em SWCHA.
+    119  10000 ????						; Paddles: TIA INPT0..INPT3 ($08..$0B), leitura por tempo de carga.
+    120  10000 ????						; Chaves do console: RIOT SWCHB ($0282), incluindo Select e Game Reset.
+    121  10000 ????						;		 Game Reset e lido pelo jogo; nao reinicia a CPU sozinho.
+    122  10000 ????						; Timer: RIOT INTIM ($0284) para leitura; TIM64T ($0296) inicia uma
+    123  10000 ????						;	  contagem com intervalo de 64 ciclos da CPU por decremento.
+    124  10000 ????						; Som: TIA AUDC0/1 ($15/$16), AUDF0/1 ($17/$18), AUDV0/1 ($19/$1A)
+    125  10000 ????						;	controlam tipo de som, divisao de frequencia e volume dos canais.
+    126  10000 ????						; No console original, video e audio seguem ao circuito de modulacao RF
+    127  10000 ????						; e saem pelo cabo para a entrada de antena da TV.
+    128  10000 ????						; Referencias: Stella Programmer's Guide (Steve Wright, Atari, 1979)
+    129  10000 ????						; https://www.atariage.com/2600/programming/2600_101/docs/stella.html
+    130  10000 ????						; Atari VCS Field Service Manual, secao 1 (diagrama e descricao dos chips).
+    131  10000 ????
+    132  10000 ????						; ============================================================
+    133  10000 ????						; 2. CONSTANTES E VARIAVEIS
+    134  10000 ????						; X cresce para a direita; Y cresce para baixo.
+    135  10000 ????						; XPos/YPos ficam na RAM. A, X e Y sao registradores da CPU.
+    136  10000 ????						; ============================================================
+    137  10000 ????		00 10	    SquareHeight =	16	; 8 pixels de largura x 16 linhas: quadrado na exibicao NTSC
+    138  10000 ????		00 10	    MinX       =	16	; margem esquerda para terminar os calculos de cada linha
+    139  10000 ????		00 90	    MaxX       =	144	; margem direita para posicionar o objeto na mesma linha
+    140  10000 ????		00 b0	    MaxY       =	192 - SquareHeight
+    141  10000 ????		00 80	    XPos       =	$80	; posicao horizontal, em pixels
+    142  10000 ????		00 81	    YPos       =	$81	; linha em que comeca o quadrado
+    143  10000 ????
+    144  10000 ????						; ============================================================
+    145  10000 ????						; 3. INICIALIZACAO - executada uma vez ao ligar o programa
+    146  10000 ????						; ============================================================
+    147  f000					      org	$F000
+    148  f000				   Reset
+    149  f000		       78		      sei		; desabilita interrupcoes
+    150  f001		       d8		      cld		; usa aritmetica binaria
+    151  f002		       a2 ff		      ldx	#$FF
+    152  f004		       9a		      txs		; inicializa a pilha
+    153  f005		       a9 00		      lda	#0
+    154  f007				   ClearMemory
+    155  f007		       95 00		      sta	$00,x	; limpa RAM e registradores do TIA
+    156  f009		       ca		      dex
+    157  f00a		       d0 fb		      bne	ClearMemory
+    158  f00c		       85 00		      sta	$00
+    159  f00e		       8d 81 02 	      sta	SWACNT	; todos os bits da porta dos joysticks sao entradas
+    160  f011
+    161  f011		       a9 84		      lda	#$84	; azul na paleta NTSC
+    162  f013		       85 09		      sta	COLUBK
+    163  f015		       a9 0e		      lda	#$0E	; branco na paleta NTSC
+    164  f017		       85 06		      sta	COLUP0
+    165  f019		       a9 50		      lda	#80
+    166  f01b		       85 80		      sta	XPos
+    167  f01d		       a9 58		      lda	#88
+    168  f01f		       85 81		      sta	YPos
+    169  f021		       a9 02		      lda	#2
+    170  f023		       85 01		      sta	VBLANK	; esconde a imagem durante a preparacao
+    171  f025		       85 02		      sta	WSYNC
+    172  f027
+    173  f027							; ============================================================
+    174  f027							; 4. LOOP PRINCIPAL - repetido em todos os quadros
+    175  f027							; ============================================================
+    176  f027				   Frame
+    177  f027							; --- 3 linhas de sincronismo vertical ---
+    178  f027		       a9 02		      lda	#2
+    179  f029		       85 00		      sta	VSYNC
+    180  f02b		       85 02		      sta	WSYNC
+    181  f02d		       85 02		      sta	WSYNC
+    182  f02f		       85 02		      sta	WSYNC
+    183  f031		       a9 00		      lda	#0
+    184  f033		       85 00		      sta	VSYNC
+    185  f035
+    186  f035							; --- 37 linhas antes da imagem visivel ---
+    187  f035							; Input e posicionamento usam 4 linhas, controladas por WSYNC.
+    188  f035							; Depois esperamos mais 33: 4 + 33 = 37 linhas.
+    189  f035		       20 6d f0 	      jsr	ReadJoystick
+    190  f038		       20 aa f0 	      jsr	PositionPlayer
+    191  f03b		       a2 00		      ldx	#0	; prepara o contador das linhas visiveis
+    192  f03d		       a0 21		      ldy	#33
+    193  f03f				   WaitVerticalBlank
+    194  f03f		       85 02		      sta	WSYNC
+    195  f041		       88		      dey
+    196  f042		       d0 fb		      bne	WaitVerticalBlank
+    197  f044
+    198  f044							; --- 192 linhas visiveis ---
+    199  f044		       84 01		      sty	VBLANK	; Y terminou em 0: libera a imagem
+    200  f046							; X conta as linhas da tela, de 0 ate 191.
+    201  f046				   DrawLine
+    202  f046							; Dentro do quadrado quando: 0 <= linha - YPos < SquareHeight.
+    203  f046							; SEC prepara a subtracao. Se linha < YPos, o resultado de 8 bits
+    204  f046							; fica alto (por exemplo, 0 - 88 vira 168) e tambem cai fora do quadrado.
+    205  f046		       8a		      txa
+    206  f047		       38		      sec
+    207  f048		       e5 81		      sbc	YPos
+    208  f04a		       c9 10		      cmp	#SquareHeight
+    209  f04c		       a9 00		      lda	#0	; fora: todos os pixels desligados
+    210  f04e		       b0 02		      bcs	StorePixels	; LDA nao altera o carry produzido por CMP
+    211  f050		       a9 ff		      lda	#%11111111	; dentro: oito pixels ligados formam uma linha cheia
+    212  f052				   StorePixels
+    213  f052		       85 1b		      sta	GRP0
+    214  f054		       85 02		      sta	WSYNC	; termina esta linha e espera a proxima
+    215  f056		       e8		      inx
+    216  f057		       e0 c0		      cpx	#192
+    217  f059		       d0 eb		      bne	DrawLine
+    218  f05b
+    219  f05b							; --- 30 linhas depois da imagem visivel (overscan) ---
+    220  f05b		       a9 02		      lda	#2
+    221  f05d		       85 01		      sta	VBLANK	; esconde a imagem antes do proximo quadro
+    222  f05f		       a9 00		      lda	#0
+    223  f061		       85 1b		      sta	GRP0	; apaga os pixels do objeto
+    224  f063		       a2 1e		      ldx	#30
+    225  f065				   WaitOverscan
+    226  f065		       85 02		      sta	WSYNC
+    227  f067		       ca		      dex
+    228  f068		       d0 fb		      bne	WaitOverscan
+    229  f06a		       4c 27 f0 	      jmp	Frame
+    230  f06d
+    231  f06d							; ============================================================
+    232  f06d							; 5. INPUT - consulta o joystick e altera as coordenadas na RAM
+    233  f06d							;
+    234  f06d							; SWCHA: bit 7 = direita, 6 = esquerda, 5 = baixo, 4 = cima.
+    235  f06d							; Os bits 3..0 pertencem ao segundo joystick e sao ignorados.
+    236  f06d							; ATENCAO: 0 = pressionado; 1 = solto.
+    237  f06d							;
+    238  f06d							; LDA #mascara seleciona uma direcao.
+    239  f06d							; BIT testa A AND SWCHA, sem alterar A ou SWCHA.
+    240  f06d							; BNE pula o movimento se o resultado nao for zero (direcao solta).
+    241  f06d							; As comparacoes seguintes impedem que o quadrado saia da tela.
+    242  f06d							; Cada direcao pode mover 1 pixel por quadro. Diagonais sao permitidas.
+    243  f06d							; ============================================================
+    244  f06d				   ReadJoystick
+    245  f06d		       85 02		      sta	WSYNC	; linha 1 da preparacao: le esquerda e direita
+    246  f06f		       a6 80		      ldx	XPos	; copia a coordenada para o registrador temporario X
+    247  f071							; --- Esquerda: diminui XPos ---
+    248  f071		       a9 40		      lda	#%01000000
+    249  f073		       2c 80 02 	      bit	SWCHA
+    250  f076		       d0 05		      bne	CheckRight
+    251  f078		       e0 10		      cpx	#MinX
+    252  f07a		       f0 01		      beq	CheckRight
+    253  f07c		       ca		      dex
+    254  f07d				   CheckRight
+    255  f07d							; --- Direita: aumenta XPos ---
+    256  f07d		       a9 80		      lda	#%10000000
+    257  f07f		       2c 80 02 	      bit	SWCHA
+    258  f082		       d0 05		      bne	SaveX
+    259  f084		       e0 90		      cpx	#MaxX
+    260  f086		       f0 01		      beq	SaveX
+    261  f088		       e8		      inx
+    262  f089				   SaveX
+    263  f089		       86 80		      stx	XPos	; grava a nova coordenada horizontal na RAM
+    264  f08b		       85 02		      sta	WSYNC	; linha 2 da preparacao: le cima e baixo
+    265  f08d		       a6 81		      ldx	YPos
+    266  f08f							; --- Cima: diminui YPos ---
+    267  f08f		       a9 10		      lda	#%00010000
+    268  f091		       2c 80 02 	      bit	SWCHA
+    269  f094		       d0 05		      bne	CheckDown
+    270  f096		       e0 00		      cpx	#0
+    271  f098		       f0 01		      beq	CheckDown
+    272  f09a		       ca		      dex
+    273  f09b				   CheckDown
+    274  f09b							; --- Baixo: aumenta YPos ---
+    275  f09b		       a9 20		      lda	#%00100000
+    276  f09d		       2c 80 02 	      bit	SWCHA
+    277  f0a0		       d0 05		      bne	SaveY
+    278  f0a2		       e0 b0		      cpx	#MaxY
+    279  f0a4		       f0 01		      beq	SaveY
+    280  f0a6		       e8		      inx
+    281  f0a7				   SaveY
+    282  f0a7		       86 81		      stx	YPos	; grava a nova coordenada vertical na RAM
+    283  f0a9		       60		      rts
+    284  f0aa
+    285  f0aa							; ============================================================
+    286  f0aa							; 6. POSICAO HORIZONTAL - converte XPos para o formato do TIA
+    287  f0aa							;
+    288  f0aa							; O TIA nao recebe uma coordenada X diretamente em RESP0.
+    289  f0aa							; Escrever em RESP0 fixa a posicao de acordo com o instante da escrita.
+    290  f0aa							; Cada volta abaixo gasta 5 ciclos de CPU = 15 pixels horizontais
+    291  f0aa							; (a ultima volta tem um ciclo a menos porque o salto nao e tomado).
+    292  f0aa							; O tempo escolhe a posicao aproximada; o resto calcula o ajuste fino.
+    293  f0aa							; HMP0 guarda esse ajuste e HMOVE o aplica no inicio da linha seguinte.
+    294  f0aa							; ============================================================
+    295  f0aa				   PositionPlayer
+    296  f0aa		       a5 80		      lda	XPos
+    297  f0ac		       85 02		      sta	WSYNC	; linha 3 da preparacao: posicionamento horizontal
+    298  f0ae		       ea		      nop		; estes 4 ciclos alinham XPos com a origem da area visivel
+    299  f0af		       ea		      nop		; cada NOP espera 2 ciclos (nao altera os registradores)
+    300  f0b0		       38		      sec
+    301  f0b1				   DivideBy15
+    302  f0b1		       e9 0f		      sbc	#15
+    303  f0b3		       b0 fc		      bcs	DivideBy15
+    304  f0b5		       49 07		      eor	#7
+    305  f0b7		       0a		      asl
+    306  f0b8		       0a		      asl
+    307  f0b9		       0a		      asl
+    308  f0ba		       0a		      asl
+    309  f0bb		       85 10		      sta	RESP0
+    310  f0bd		       85 20		      sta	HMP0
+    311  f0bf		       85 02		      sta	WSYNC	; linha 4 da preparacao: aplica o ajuste fino
+    312  f0c1		       85 2a		      sta	HMOVE	; aplica o ajuste horizontal no inicio de uma linha
+    313  f0c3		       60		      rts
+    314  f0c4
+    315  f0c4							; ============================================================
+    316  f0c4							; 7. VETORES - informam ao processador onde comecar
+    317  f0c4							; ROM de 4 KiB: $F000 ate $FFFF.
+    318  f0c4							; ============================================================
+    319  fffa					      org	$FFFA
+    320  fffa		       00 f0		      word.w	Reset	; NMI
+    321  fffc		       00 f0		      word.w	Reset	; RESET
+    322  fffe		       00 f0		      word.w	Reset	; IRQ/BRK
