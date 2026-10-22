@@ -1,0 +1,172 @@
+------- FILE main.asm LEVEL 1 PASS 2
+      1  fffe					      processor	6502
+      2  10000 ????
+      3  10000 ????		00 00	    VSYNC      =	$00
+      4  10000 ????		00 01	    VBLANK     =	$01
+      5  10000 ????		00 02	    WSYNC      =	$02
+      6  10000 ????		00 09	    COLUBK     =	$09
+      7  10000 ????		00 2a	    HMOVE      =	$2A
+      8  10000 ????
+      9  10000 ????						; JOGADOR 0
+     10  10000 ????		00 06	    COLUP0     =	$06
+     11  10000 ????		00 10	    RESP0      =	$10
+     12  10000 ????		00 1b	    GRP0       =	$1B
+     13  10000 ????		00 20	    HMP0       =	$20
+     14  10000 ????
+     15  10000 ????						; COMANDOS CONTROLE
+     16  10000 ????		02 80	    SWCHA      =	$0280
+     17  10000 ????		02 81	    SWACNT     =	$0281
+     18  10000 ????
+     19  10000 ????						; CONSTANTES
+     20  10000 ????		00 10	    SquareHeight =	16
+     21  10000 ????		00 08	    MinX       =	8
+     22  10000 ????		00 90	    MaxX       =	160 - 16
+     23  10000 ????		00 10	    MinY       =	16
+     24  10000 ????		00 a0	    MaxY       =	192 - SquareHeight - 16
+     25  10000 ????
+     26  10000 ????						; VARIAVEIS - MEMORIA RAM $80 - $FF
+     27  10000 ????		00 80	    XPos       =	$80
+     28  10000 ????		00 81	    YPos       =	$81
+     29  10000 ????
+     30  10000 ????						; PROGRAMA
+     31  f000					      org	$F000
+     32  f000				   Reset
+     33  f000		       78		      sei
+     34  f001		       d8		      cld
+     35  f002		       a2 ff		      ldx	#$FF
+     36  f004		       9a		      txs
+     37  f005		       a9 00		      lda	#0
+     38  f007				   ClearMemory
+     39  f007		       95 00		      sta	$00,x
+     40  f009		       ca		      dex
+     41  f00a		       d0 fb		      bne	ClearMemory
+     42  f00c		       85 00		      sta	$00
+     43  f00e		       8d 81 02 	      sta	SWACNT
+     44  f011		       a9 84		      lda	#$84
+     45  f013		       85 09		      sta	COLUBK
+     46  f015		       a9 0e		      lda	#$0E
+     47  f017		       85 06		      sta	COLUP0
+     48  f019		       a9 02		      lda	#2
+     49  f01b		       85 01		      sta	VBLANK
+     50  f01d		       85 02		      sta	WSYNC
+     51  f01f				   Clear
+     52  f01f		       a9 50		      lda	#$50
+     53  f021		       85 80		      sta	XPos
+     54  f023		       85 81		      sta	YPos
+     55  f025							; LOOP PRINCIPAL
+     56  f025				   Frame
+     57  f025							; 3 linhas de sincronismo vertical do tubo
+     58  f025		       a9 02		      lda	#2
+     59  f027		       85 00		      sta	VSYNC
+     60  f029		       85 02		      sta	WSYNC
+     61  f02b		       85 02		      sta	WSYNC
+     62  f02d		       85 02		      sta	WSYNC
+     63  f02f		       a9 00		      lda	#0
+     64  f031		       85 00		      sta	VSYNC
+     65  f033							; 37 linhas antes da imagem visivel
+     66  f033							; A conta feita em cima de 37 menos a quantidade de chamadas wsync dentro das subrotinas
+     67  f033		       20 6b f0 	      jsr	ReadJoystick	; 3 linhas de sincronismo vertical
+     68  f036		       20 b4 f0 	      jsr	PositionPlayer
+     69  f039		       a2 00		      ldx	#0
+     70  f03b		       a0 20		      ldy	#32
+     71  f03d				   WaitVerticalBlank
+     72  f03d		       85 02		      sta	WSYNC
+     73  f03f		       88		      dey
+     74  f040		       d0 fb		      bne	WaitVerticalBlank
+     75  f042		       84 01		      sty	VBLANK
+     76  f044				   DrawLine
+     77  f044		       8a		      txa
+     78  f045		       38		      sec
+     79  f046		       e5 81		      sbc	YPos
+     80  f048		       c9 10		      cmp	#SquareHeight
+     81  f04a		       a9 00		      lda	#0
+     82  f04c		       b0 02		      bcs	StorePixels
+     83  f04e		       a9 ff		      lda	#%11111111
+     84  f050				   StorePixels
+     85  f050		       85 02		      sta	WSYNC
+     86  f052		       85 1b		      sta	GRP0
+     87  f054		       e8		      inx
+     88  f055		       e0 c0		      cpx	#192
+     89  f057		       d0 eb		      bne	DrawLine
+     90  f059							; Overscan
+     91  f059		       a9 02		      lda	#2
+     92  f05b		       85 01		      sta	VBLANK
+     93  f05d		       a9 00		      lda	#0
+     94  f05f		       85 1b		      sta	GRP0
+     95  f061		       a2 1e		      ldx	#30
+     96  f063				   WaitOverscan
+     97  f063		       85 02		      sta	WSYNC
+     98  f065		       ca		      dex
+     99  f066		       d0 fb		      bne	WaitOverscan
+    100  f068		       4c 25 f0 	      jmp	Frame
+    101  f06b							; FIM LOOP PRINCIPAL
+    102  f06b							; INPUT
+    103  f06b				   ReadJoystick
+    104  f06b		       85 02		      sta	WSYNC
+    105  f06d				   CheckLeft
+    106  f06d		       a6 80		      ldx	XPos
+    107  f06f		       a9 40		      lda	#%01000000
+    108  f071		       2c 80 02 	      bit	SWCHA
+    109  f074		       d0 07		      bne	CheckRight
+    110  f076		       e0 08		      cpx	#MinX
+    111  f078		       f0 03		      beq	CheckRight
+    112  f07a		       ca		      dex
+    113  f07b		       86 80		      stx	XPos
+    114  f07d				   CheckRight
+    115  f07d		       a6 80		      ldx	XPos
+    116  f07f		       a9 80		      lda	#%10000000
+    117  f081		       2c 80 02 	      bit	SWCHA
+    118  f084		       d0 07		      bne	HorizontalDone
+    119  f086		       e0 90		      cpx	#MaxX
+    120  f088		       f0 03		      beq	HorizontalDone
+    121  f08a		       e8		      inx
+    122  f08b		       86 80		      stx	XPos
+    123  f08d				   HorizontalDone
+    124  f08d		       85 02		      sta	WSYNC
+    125  f08f				   CheckUp
+    126  f08f		       a6 81		      ldx	YPos
+    127  f091		       a9 10		      lda	#%00010000
+    128  f093		       2c 80 02 	      bit	SWCHA
+    129  f096		       d0 08		      bne	CheckDown
+    130  f098		       e0 10		      cpx	#MinY
+    131  f09a		       f0 04		      beq	CheckDown
+    132  f09c		       ca		      dex
+    133  f09d		       ca		      dex
+    134  f09e		       86 81		      stx	YPos
+    135  f0a0				   CheckDown
+    136  f0a0		       a6 81		      ldx	YPos
+    137  f0a2		       a9 20		      lda	#%00100000
+    138  f0a4		       2c 80 02 	      bit	SWCHA
+    139  f0a7		       d0 08		      bne	VerticalDone
+    140  f0a9		       e0 a0		      cpx	#MaxY
+    141  f0ab		       f0 04		      beq	VerticalDone
+    142  f0ad		       e8		      inx
+    143  f0ae		       e8		      inx
+    144  f0af		       86 81		      stx	YPos
+    145  f0b1				   VerticalDone
+    146  f0b1		       85 02		      sta	WSYNC
+    147  f0b3		       60		      rts
+    148  f0b4				   PositionPlayer
+    149  f0b4		       a5 80		      lda	XPos
+    150  f0b6		       85 02		      sta	WSYNC
+    151  f0b8		       ea		      nop
+    152  f0b9		       ea		      nop
+    153  f0ba		       38		      sec
+    154  f0bb				   DivideBy15
+    155  f0bb		       e9 0f		      sbc	#15
+    156  f0bd		       b0 fc		      bcs	DivideBy15
+    157  f0bf		       49 07		      eor	#7
+    158  f0c1		       0a		      asl
+    159  f0c2		       0a		      asl
+    160  f0c3		       0a		      asl
+    161  f0c4		       0a		      asl
+    162  f0c5		       85 10		      sta	RESP0
+    163  f0c7		       85 20		      sta	HMP0
+    164  f0c9		       85 02		      sta	WSYNC
+    165  f0cb		       85 2a		      sta	HMOVE
+    166  f0cd		       60		      rts
+    167  f0ce
+    168  fffa					      org	$FFFA
+    169  fffa		       00 f0		      word.w	Reset
+    170  fffc		       00 f0		      word.w	Reset
+    171  fffe		       00 f0		      word.w	Reset

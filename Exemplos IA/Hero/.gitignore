@@ -1,0 +1,4 @@
+# Saidas do montador, ferramentas locais e cache do Python sao regeneraveis.
+build/
+.tools/
+__pycache__/

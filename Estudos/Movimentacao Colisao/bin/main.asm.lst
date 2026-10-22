@@ -1,0 +1,285 @@
+------- FILE main.asm LEVEL 1 PASS 2
+      1  10000 ????						; Jogador branco (8 x 16) e obstaculo central (16 x 32), com colisao AABB.
+      2  10000 ????						; ROM de 4 KiB, sem bankswitching. NTSC: 3 + 37 + 192 + 30 = 262 linhas.
+      3  10000 ????				       processor	6502
+      4  10000 ????
+      5  10000 ????						; 1. HARDWARE: constantes nomeiam enderecos, sem reservar RAM.
+      6  10000 ????						; WSYNC pausa ate a proxima linha; cada linha NTSC tem 76 ciclos de CPU.
+      7  10000 ????		00 00	    VSYNC      =	$00
+      8  10000 ????		00 01	    VBLANK     =	$01
+      9  10000 ????		00 02	    WSYNC      =	$02
+     10  10000 ????		00 09	    COLUBK     =	$09
+     11  10000 ????		00 2a	    HMOVE      =	$2A
+     12  10000 ????
+     13  10000 ????						; Playfield: cada bit tem 4 pixels. CTRLPF bit 0 espelha a metade direita.
+     14  10000 ????						; PF0/PF1 ficam zerados no Reset; so PF2 desenha o obstaculo central.
+     15  10000 ????		00 08	    COLUPF     =	$08
+     16  10000 ????		00 0a	    CTRLPF     =	$0A
+     17  10000 ????		00 0f	    PF2        =	$0F
+     18  10000 ????
+     19  10000 ????						; Player 0: GRP0 fornece 8 pixels; RESP0 posiciona por tempo; HMP0 ajusta
+     20  10000 ????						; os pixels restantes. HMOVE aplica o ajuste durante a preparacao da tela.
+     21  10000 ????		00 06	    COLUP0     =	$06
+     22  10000 ????		00 10	    RESP0      =	$10
+     23  10000 ????		00 1b	    GRP0       =	$1B
+     24  10000 ????		00 20	    HMP0       =	$20
+     25  10000 ????
+     26  10000 ????						; Joystick 1: bits 4/5/6/7 = cima/baixo/esquerda/direita, ativos em 0.
+     27  10000 ????						; SWACNT = 0 configura as portas como entrada.
+     28  10000 ????		02 80	    SWCHA      =	$0280
+     29  10000 ????		02 81	    SWACNT     =	$0281
+     30  10000 ????
+     31  10000 ????						; 2. GEOMETRIA: X/Y sao o canto superior esquerdo; Y cresce para baixo.
+     32  10000 ????						; Preservamos as bordas e os passos anteriores: 1 pixel em X, 2 linhas em Y.
+     33  10000 ????		00 08	    PlayerWidth =	8
+     34  10000 ????		00 10	    SquareHeight =	16
+     35  10000 ????		00 08	    MinX       =	8
+     36  10000 ????		00 90	    MaxX       =	160 - 16
+     37  10000 ????		00 10	    MinY       =	16
+     38  10000 ????		00 a0	    MaxY       =	192 - SquareHeight - 16
+     39  10000 ????
+     40  10000 ????						; Retangulo [72, 88) por [80, 112): direita/base sao limites exclusivos.
+     41  10000 ????						; PF2 bits 6/7 desenham X = 72..79; o espelho desenha X = 80..87.
+     42  10000 ????						; Alterar a geometria horizontal exige ajustar tambem a mascara do desenho.
+     43  10000 ????		00 48	    BlockLeft  =	72
+     44  10000 ????		00 58	    BlockRight =	88
+     45  10000 ????		00 50	    BlockTop   =	80
+     46  10000 ????		00 70	    BlockBottom =	112
+     47  10000 ????		00 20	    BlockHeight =	BlockBottom - BlockTop
+     48  10000 ????		00 c0	    BlockPixels =	%11000000
+     49  10000 ????
+     50  10000 ????						; 3. RAM: coordenadas e um byte para desfazer a tentativa de cada eixo.
+     51  10000 ????						; A pilha usa o espelho dessa RAM; JSR/RTS nao devem atingir as variaveis.
+     52  10000 ????		00 80	    XPos       =	$80
+     53  10000 ????		00 81	    YPos       =	$81
+     54  10000 ????		00 82	    PreviousPos =	$82
+     55  10000 ????
+     56  10000 ????						; 4. RESET: desabilita interrupcoes, usa aritmetica binaria e limpa RAM/TIA.
+     57  10000 ????						; NUSIZ0 fica em 0: uma unica copia do player, com largura normal de 8 pixels.
+     58  f000					      org	$F000
+     59  f000				   Reset
+     60  f000		       78		      sei
+     61  f001		       d8		      cld
+     62  f002		       a2 ff		      ldx	#$FF
+     63  f004		       9a		      txs
+     64  f005		       a9 00		      lda	#0
+     65  f007				   ClearMemory
+     66  f007		       95 00		      sta	$00,x
+     67  f009		       ca		      dex
+     68  f00a		       d0 fb		      bne	ClearMemory
+     69  f00c		       85 00		      sta	$00
+     70  f00e		       8d 81 02 	      sta	SWACNT
+     71  f011
+     72  f011							; Fundo azul, jogador branco e bloco amarelo em NTSC. A imagem fica apagada
+     73  f011							; durante a preparacao; o jogador inicia a esquerda, fora do obstaculo.
+     74  f011		       a9 84		      lda	#$84
+     75  f013		       85 09		      sta	COLUBK
+     76  f015		       a9 0e		      lda	#$0E
+     77  f017		       85 06		      sta	COLUP0
+     78  f019		       a9 1e		      lda	#$1E
+     79  f01b		       85 08		      sta	COLUPF
+     80  f01d		       a9 01		      lda	#1
+     81  f01f		       85 0a		      sta	CTRLPF
+     82  f021		       a9 02		      lda	#2
+     83  f023		       85 01		      sta	VBLANK
+     84  f025		       85 02		      sta	WSYNC
+     85  f027		       a9 28		      lda	#40
+     86  f029		       85 80		      sta	XPos
+     87  f02b		       a9 50		      lda	#80
+     88  f02d		       85 81		      sta	YPos
+     89  f02f
+     90  f02f							; 5. QUADRO: VSYNC fica ligado por 3 linhas. A preparacao usa VBLANK = 2.
+     91  f02f				   Frame
+     92  f02f		       a9 02		      lda	#2
+     93  f031		       85 00		      sta	VSYNC
+     94  f033		       85 02		      sta	WSYNC
+     95  f035		       85 02		      sta	WSYNC
+     96  f037		       85 02		      sta	WSYNC
+     97  f039		       a9 00		      lda	#0
+     98  f03b		       85 00		      sta	VSYNC
+     99  f03d
+    100  f03d							; ReadJoystick usa 5 WSYNC; PositionPlayer usa 2; a espera usa 29.
+    101  f03d							; O primeiro WSYNC de DrawLine completa a 37a linha de preparacao.
+    102  f03d							; Todo caminho entre esperas deve terminar antes dos 76 ciclos da linha.
+    103  f03d		       20 8b f0 	      jsr	ReadJoystick
+    104  f040		       20 0a f1 	      jsr	PositionPlayer
+    105  f043		       a2 00		      ldx	#0
+    106  f045		       a0 1d		      ldy	#29
+    107  f047				   WaitVerticalBlank
+    108  f047		       85 02		      sta	WSYNC
+    109  f049		       88		      dey
+    110  f04a		       d0 fb		      bne	WaitVerticalBlank
+    111  f04c
+    112  f04c							; 6. KERNEL: X conta 0..191. (linha - topo) < altura seleciona cada retangulo.
+    113  f04c							; Acima do topo, a subtracao de 8 bits produz um valor alto, tambem rejeitado.
+    114  f04c							; Os pixels sao preparados ANTES de WSYNC: Y guarda o player e A guarda PF2.
+    115  f04c				   DrawLine
+    116  f04c		       8a		      txa
+    117  f04d		       38		      sec
+    118  f04e		       e5 81		      sbc	YPos
+    119  f050		       c9 10		      cmp	#SquareHeight
+    120  f052		       a9 00		      lda	#0
+    121  f054		       b0 02		      bcs	PlayerReady
+    122  f056		       a9 ff		      lda	#%11111111
+    123  f058				   PlayerReady
+    124  f058		       a8		      tay
+    125  f059		       8a		      txa
+    126  f05a		       38		      sec
+    127  f05b		       e9 50		      sbc	#BlockTop
+    128  f05d		       c9 20		      cmp	#BlockHeight
+    129  f05f		       a9 00		      lda	#0
+    130  f061		       b0 02		      bcs	BlockReady
+    131  f063		       a9 c0		      lda	#BlockPixels
+    132  f065				   BlockReady
+    133  f065		       85 02		      sta	WSYNC
+    134  f067		       85 0f		      sta	PF2
+    135  f069		       98		      tya
+    136  f06a		       85 1b		      sta	GRP0
+    137  f06c
+    138  f06c							; PF2 e escrito no ciclo 3; GRP0, no 8; VBLANK e liberado no 13, ainda no
+    139  f06c							; blank horizontal. Repetir VBLANK = 0 permite usar o mesmo fluxo na primeira
+    140  f06c							; linha e nas demais, sem caso especial. O caminho cabe em 76 ciclos.
+    141  f06c		       a9 00		      lda	#0
+    142  f06e		       85 01		      sta	VBLANK
+    143  f070		       e8		      inx
+    144  f071		       e0 c0		      cpx	#192
+    145  f073		       d0 d7		      bne	DrawLine
+    146  f075
+    147  f075							; 7. OVERSCAN: espera a ultima linha visivel terminar antes de apagar a tela.
+    148  f075							; Depois das 30 linhas de overscan, o proximo quadro volta a ligar VSYNC.
+    149  f075		       85 02		      sta	WSYNC
+    150  f077		       a9 02		      lda	#2
+    151  f079		       85 01		      sta	VBLANK
+    152  f07b		       a9 00		      lda	#0
+    153  f07d		       85 1b		      sta	GRP0
+    154  f07f		       85 0f		      sta	PF2
+    155  f081		       a2 1e		      ldx	#30
+    156  f083				   WaitOverscan
+    157  f083		       85 02		      sta	WSYNC
+    158  f085		       ca		      dex
+    159  f086		       d0 fb		      bne	WaitOverscan
+    160  f088		       4c 2f f0 	      jmp	Frame
+    161  f08b
+    162  f08b							; 8. HORIZONTAL: salva X, tenta esquerda/direita e respeita as bordas.
+    163  f08b							; A ordem e o passo de 1 pixel sao preservados. O teste AABB fica na linha
+    164  f08b							; seguinte para nao exceder o orcamento de ciclos ao ler os dois sentidos.
+    165  f08b				   ReadJoystick
+    166  f08b		       85 02		      sta	WSYNC
+    167  f08d		       a5 80		      lda	XPos
+    168  f08f		       85 82		      sta	PreviousPos
+    169  f091				   CheckLeft
+    170  f091		       a6 80		      ldx	XPos
+    171  f093		       a9 40		      lda	#%01000000
+    172  f095		       2c 80 02 	      bit	SWCHA
+    173  f098		       d0 07		      bne	CheckRight
+    174  f09a		       e0 08		      cpx	#MinX
+    175  f09c		       f0 03		      beq	CheckRight
+    176  f09e		       ca		      dex
+    177  f09f		       86 80		      stx	XPos
+    178  f0a1				   CheckRight
+    179  f0a1		       a6 80		      ldx	XPos
+    180  f0a3		       a9 80		      lda	#%10000000
+    181  f0a5		       2c 80 02 	      bit	SWCHA
+    182  f0a8		       d0 07		      bne	CheckHorizontalCollision
+    183  f0aa		       e0 90		      cpx	#MaxX
+    184  f0ac		       f0 03		      beq	CheckHorizontalCollision
+    185  f0ae		       e8		      inx
+    186  f0af		       86 80		      stx	XPos
+    187  f0b1				   CheckHorizontalCollision
+    188  f0b1		       85 02		      sta	WSYNC
+    189  f0b3		       20 f2 f0 	      jsr	CheckCollision
+    190  f0b6		       90 04		      bcc	HorizontalDone
+    191  f0b8		       a5 82		      lda	PreviousPos
+    192  f0ba		       85 80		      sta	XPos
+    193  f0bc				   HorizontalDone
+    194  f0bc
+    195  f0bc							; 9. VERTICAL: salva Y e usa o X ja aceito. Se colidir, desfaz apenas Y.
+    196  f0bc							; Na diagonal, o eixo livre permite deslizar pela parede. O passo continua 2.
+    197  f0bc		       85 02		      sta	WSYNC
+    198  f0be		       a5 81		      lda	YPos
+    199  f0c0		       85 82		      sta	PreviousPos
+    200  f0c2				   CheckUp
+    201  f0c2		       a6 81		      ldx	YPos
+    202  f0c4		       a9 10		      lda	#%00010000
+    203  f0c6		       2c 80 02 	      bit	SWCHA
+    204  f0c9		       d0 08		      bne	CheckDown
+    205  f0cb		       e0 10		      cpx	#MinY
+    206  f0cd		       f0 04		      beq	CheckDown
+    207  f0cf		       ca		      dex
+    208  f0d0		       ca		      dex
+    209  f0d1		       86 81		      stx	YPos
+    210  f0d3				   CheckDown
+    211  f0d3		       a6 81		      ldx	YPos
+    212  f0d5		       a9 20		      lda	#%00100000
+    213  f0d7		       2c 80 02 	      bit	SWCHA
+    214  f0da		       d0 08		      bne	CheckVerticalCollision
+    215  f0dc		       e0 a0		      cpx	#MaxY
+    216  f0de		       f0 04		      beq	CheckVerticalCollision
+    217  f0e0		       e8		      inx
+    218  f0e1		       e8		      inx
+    219  f0e2		       86 81		      stx	YPos
+    220  f0e4				   CheckVerticalCollision
+    221  f0e4		       85 02		      sta	WSYNC
+    222  f0e6		       20 f2 f0 	      jsr	CheckCollision
+    223  f0e9		       90 04		      bcc	VerticalDone
+    224  f0eb		       a5 82		      lda	PreviousPos
+    225  f0ed		       85 81		      sta	YPos
+    226  f0ef				   VerticalDone
+    227  f0ef		       85 02		      sta	WSYNC
+    228  f0f1		       60		      rts
+    229  f0f2
+    230  f0f2							; 10. AABB: exige X < direita, X + largura > esquerda, Y < base e
+    231  f0f2							; Y + altura > topo. As desigualdades sao estritas: encostar e permitido.
+    232  f0f2							; Reorganizamos as somas em limites constantes: X + 8 > 72 vira X >= 65;
+    233  f0f2							; Y + 16 > 80 vira Y >= 65. Nao precisamos somar em tempo de execucao.
+    234  f0f2							; CMP liga carry se A >= limite; BCC/BCS descartam os eixos separados.
+    235  f0f2							; Retorna carry = 1 se colidiu, 0 se livre; altera A/flags, preserva X/Y.
+    236  f0f2							; Este calculo usa apenas coordenadas, sem ler registradores de colisao do TIA.
+    237  f0f2				   CheckCollision
+    238  f0f2		       a5 80		      lda	XPos
+    239  f0f4		       c9 58		      cmp	#BlockRight
+    240  f0f6		       b0 10		      bcs	NoCollision
+    241  f0f8		       c9 41		      cmp	#(BlockLeft - PlayerWidth + 1)
+    242  f0fa		       90 0c		      bcc	NoCollision
+    243  f0fc		       a5 81		      lda	YPos
+    244  f0fe		       c9 70		      cmp	#BlockBottom
+    245  f100		       b0 06		      bcs	NoCollision
+    246  f102		       c9 41		      cmp	#(BlockTop - SquareHeight + 1)
+    247  f104		       90 02		      bcc	NoCollision
+    248  f106		       38		      sec
+    249  f107		       60		      rts
+    250  f108				   NoCollision
+    251  f108		       18		      clc
+    252  f109		       60		      rts
+    253  f10a
+    254  f10a							; 11. POSICAO HORIZONTAL: preserva a calibracao do exemplo anterior.
+    255  f10a							; Cada subtracao de 15 com desvio tomado custa 5 ciclos = 15 color clocks.
+    256  f10a							; RESP0 posiciona; quatro ASL levam o ajuste fino ao nibble alto de HMP0.
+    257  f10a							; Os dois NOP e a ordem das escritas fazem parte do timing, nao sao enfeites.
+    258  f10a							; Em X = 144, o segundo WSYNC ainda e atingido antes dos 76 ciclos.
+    259  f10a				   PositionPlayer
+    260  f10a		       a5 80		      lda	XPos
+    261  f10c		       85 02		      sta	WSYNC
+    262  f10e		       ea		      nop
+    263  f10f		       ea		      nop
+    264  f110		       38		      sec
+    265  f111				   DivideBy15
+    266  f111		       e9 0f		      sbc	#15
+    267  f113		       b0 fc		      bcs	DivideBy15
+    268  f115		       49 07		      eor	#7
+    269  f117		       0a		      asl
+    270  f118		       0a		      asl
+    271  f119		       0a		      asl
+    272  f11a		       0a		      asl
+    273  f11b		       85 10		      sta	RESP0
+    274  f11d		       85 20		      sta	HMP0
+    275  f11f		       85 02		      sta	WSYNC
+    276  f121		       85 2a		      sta	HMOVE
+    277  f123		       60		      rts
+    278  f124
+    279  f124							; 12. VETORES: completam a ROM ate $FFFF e apontam a Reset ($F000).
+    280  f124							; NMI/IRQ nao sao usados pelo 6507; RESET e o vetor de inicializacao.
+    281  fffa					      org	$FFFA
+    282  fffa		       00 f0		      word.w	Reset
+    283  fffc		       00 f0		      word.w	Reset
+    284  fffe		       00 f0		      word.w	Reset
