@@ -1,0 +1,716 @@
+{
+  "revision": "0.1",
+  "AP": [
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36
+  ],
+  "RP": [
+    47,
+    38,
+    37,
+    40,
+    41,
+    42,
+    43,
+    44
+  ],
+  "WP": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9
+  ],
+  "parts": {
+    "U1": {
+      "value": "ST TS27C256Q / DIP28",
+      "kind": "dip28",
+      "pins": {
+        "1": "VPP",
+        "2": "A12",
+        "3": "A7",
+        "4": "A6",
+        "5": "A5",
+        "6": "A4",
+        "7": "A3",
+        "8": "A2",
+        "9": "A1",
+        "10": "A0",
+        "11": "Q0",
+        "12": "Q1",
+        "13": "Q2",
+        "14": "GND",
+        "15": "Q3",
+        "16": "Q4",
+        "17": "Q5",
+        "18": "Q6",
+        "19": "Q7",
+        "20": "CE_N",
+        "21": "A10",
+        "22": "OE_N",
+        "23": "A11",
+        "24": "A9",
+        "25": "A8",
+        "26": "A13",
+        "27": "A14",
+        "28": "VCC_EP"
+      }
+    },
+    "U2": {
+      "value": "LM339N / DIP14",
+      "kind": "dip14",
+      "pins": {
+        "3": "V_AUX",
+        "12": "GND",
+        "5": "Q0",
+        "4": "VREF",
+        "2": "RD0",
+        "7": "Q1",
+        "6": "VREF",
+        "1": "RD1",
+        "9": "Q2",
+        "8": "VREF",
+        "14": "RD2",
+        "11": "Q3",
+        "10": "VREF",
+        "13": "RD3"
+      }
+    },
+    "U3": {
+      "value": "LM339N / DIP14",
+      "kind": "dip14",
+      "pins": {
+        "3": "V_AUX",
+        "12": "GND",
+        "5": "Q4",
+        "4": "VREF",
+        "2": "RD4",
+        "7": "Q5",
+        "6": "VREF",
+        "1": "RD5",
+        "9": "Q6",
+        "8": "VREF",
+        "14": "RD6",
+        "11": "Q7",
+        "10": "VREF",
+        "13": "RD7"
+      }
+    },
+    "J1": {
+      "value": "ENDERECOS - MEGA",
+      "kind": "header16",
+      "pins": {
+        "1": "A0",
+        "2": "A1",
+        "3": "A2",
+        "4": "A3",
+        "5": "A4",
+        "6": "A5",
+        "7": "A6",
+        "8": "A7",
+        "9": "A8",
+        "10": "A9",
+        "11": "A10",
+        "12": "A11",
+        "13": "A12",
+        "14": "A13",
+        "15": "A14",
+        "16": "GND"
+      }
+    },
+    "J2": {
+      "value": "LEITURA +5M - MEGA",
+      "kind": "header10",
+      "pins": {
+        "1": "RD0",
+        "2": "RD1",
+        "3": "RD2",
+        "4": "RD3",
+        "5": "RD4",
+        "6": "RD5",
+        "7": "RD6",
+        "8": "RD7",
+        "9": "+5M",
+        "10": "GND"
+      }
+    },
+    "J3": {
+      "value": "ESCRITA E CONTROLES - MEGA",
+      "kind": "header12",
+      "pins": {
+        "1": "WR0",
+        "2": "WR1",
+        "3": "WR2",
+        "4": "WR3",
+        "5": "WR4",
+        "6": "WR5",
+        "7": "WR6",
+        "8": "WR7",
+        "9": "CE_DRV",
+        "10": "OE_DRV",
+        "11": "GND",
+        "12": "NC"
+      }
+    },
+    "J4": {
+      "value": "FONTES EXTERNAS",
+      "kind": "terminal6",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "GND",
+        "3": "VPP",
+        "4": "GND",
+        "5": "V_AUX",
+        "6": "GND"
+      }
+    },
+    "Q1": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G0",
+        "3": "Q0"
+      }
+    },
+    "R1": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "WR0",
+        "2": "G0"
+      }
+    },
+    "R9": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G0",
+        "2": "GND"
+      }
+    },
+    "R17": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "Q0"
+      }
+    },
+    "R25": {
+      "value": "4k7",
+      "kind": "res",
+      "pins": {
+        "1": "+5M",
+        "2": "RD0"
+      }
+    },
+    "Q2": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G1",
+        "3": "Q1"
+      }
+    },
+    "R2": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "WR1",
+        "2": "G1"
+      }
+    },
+    "R10": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G1",
+        "2": "GND"
+      }
+    },
+    "R18": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "Q1"
+      }
+    },
+    "R26": {
+      "value": "4k7",
+      "kind": "res",
+      "pins": {
+        "1": "+5M",
+        "2": "RD1"
+      }
+    },
+    "Q3": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G2",
+        "3": "Q2"
+      }
+    },
+    "R3": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "WR2",
+        "2": "G2"
+      }
+    },
+    "R11": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G2",
+        "2": "GND"
+      }
+    },
+    "R19": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "Q2"
+      }
+    },
+    "R27": {
+      "value": "4k7",
+      "kind": "res",
+      "pins": {
+        "1": "+5M",
+        "2": "RD2"
+      }
+    },
+    "Q4": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G3",
+        "3": "Q3"
+      }
+    },
+    "R4": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "WR3",
+        "2": "G3"
+      }
+    },
+    "R12": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G3",
+        "2": "GND"
+      }
+    },
+    "R20": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "Q3"
+      }
+    },
+    "R28": {
+      "value": "4k7",
+      "kind": "res",
+      "pins": {
+        "1": "+5M",
+        "2": "RD3"
+      }
+    },
+    "Q5": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G4",
+        "3": "Q4"
+      }
+    },
+    "R5": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "WR4",
+        "2": "G4"
+      }
+    },
+    "R13": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G4",
+        "2": "GND"
+      }
+    },
+    "R21": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "Q4"
+      }
+    },
+    "R29": {
+      "value": "4k7",
+      "kind": "res",
+      "pins": {
+        "1": "+5M",
+        "2": "RD4"
+      }
+    },
+    "Q6": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G5",
+        "3": "Q5"
+      }
+    },
+    "R6": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "WR5",
+        "2": "G5"
+      }
+    },
+    "R14": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G5",
+        "2": "GND"
+      }
+    },
+    "R22": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "Q5"
+      }
+    },
+    "R30": {
+      "value": "4k7",
+      "kind": "res",
+      "pins": {
+        "1": "+5M",
+        "2": "RD5"
+      }
+    },
+    "Q7": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G6",
+        "3": "Q6"
+      }
+    },
+    "R7": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "WR6",
+        "2": "G6"
+      }
+    },
+    "R15": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G6",
+        "2": "GND"
+      }
+    },
+    "R23": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "Q6"
+      }
+    },
+    "R31": {
+      "value": "4k7",
+      "kind": "res",
+      "pins": {
+        "1": "+5M",
+        "2": "RD6"
+      }
+    },
+    "Q8": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G7",
+        "3": "Q7"
+      }
+    },
+    "R8": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "WR7",
+        "2": "G7"
+      }
+    },
+    "R16": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G7",
+        "2": "GND"
+      }
+    },
+    "R24": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "Q7"
+      }
+    },
+    "R32": {
+      "value": "4k7",
+      "kind": "res",
+      "pins": {
+        "1": "+5M",
+        "2": "RD7"
+      }
+    },
+    "Q9": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G9",
+        "3": "CE_N"
+      }
+    },
+    "R33": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "CE_DRV",
+        "2": "G9"
+      }
+    },
+    "R34": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G9",
+        "2": "GND"
+      }
+    },
+    "R35": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "CE_N"
+      }
+    },
+    "Q10": {
+      "value": "2N7000 Microchip TO92 S-G-D",
+      "kind": "mos",
+      "pins": {
+        "1": "GND",
+        "2": "G10",
+        "3": "OE_N"
+      }
+    },
+    "R36": {
+      "value": "220R",
+      "kind": "res",
+      "pins": {
+        "1": "OE_DRV",
+        "2": "G10"
+      }
+    },
+    "R37": {
+      "value": "100k",
+      "kind": "res",
+      "pins": {
+        "1": "G10",
+        "2": "GND"
+      }
+    },
+    "R38": {
+      "value": "10k",
+      "kind": "res",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "OE_N"
+      }
+    },
+    "R39": {
+      "value": "22k 1%",
+      "kind": "res",
+      "pins": {
+        "1": "+5M",
+        "2": "VREF"
+      }
+    },
+    "R40": {
+      "value": "10k 1%",
+      "kind": "res",
+      "pins": {
+        "1": "VREF",
+        "2": "GND"
+      }
+    },
+    "C1": {
+      "value": "100nF 25V",
+      "kind": "cap",
+      "pins": {
+        "1": "VCC_EP",
+        "2": "GND"
+      }
+    },
+    "C2": {
+      "value": "100nF 25V",
+      "kind": "cap",
+      "pins": {
+        "1": "VPP",
+        "2": "GND"
+      }
+    },
+    "C3": {
+      "value": "100nF 25V",
+      "kind": "cap",
+      "pins": {
+        "1": "V_AUX",
+        "2": "GND"
+      }
+    },
+    "C4": {
+      "value": "100nF 25V",
+      "kind": "cap",
+      "pins": {
+        "1": "V_AUX",
+        "2": "GND"
+      }
+    },
+    "C5": {
+      "value": "100nF 25V",
+      "kind": "cap",
+      "pins": {
+        "1": "VREF",
+        "2": "GND"
+      }
+    },
+    "TP1": {
+      "value": "GND",
+      "kind": "test",
+      "pins": {
+        "1": "GND"
+      }
+    },
+    "TP2": {
+      "value": "+5M",
+      "kind": "test",
+      "pins": {
+        "1": "+5M"
+      }
+    },
+    "TP3": {
+      "value": "VCC_EP",
+      "kind": "test",
+      "pins": {
+        "1": "VCC_EP"
+      }
+    },
+    "TP4": {
+      "value": "VPP",
+      "kind": "test",
+      "pins": {
+        "1": "VPP"
+      }
+    },
+    "TP5": {
+      "value": "V_AUX",
+      "kind": "test",
+      "pins": {
+        "1": "V_AUX"
+      }
+    },
+    "TP6": {
+      "value": "VREF",
+      "kind": "test",
+      "pins": {
+        "1": "VREF"
+      }
+    },
+    "TP7": {
+      "value": "CE_N",
+      "kind": "test",
+      "pins": {
+        "1": "CE_N"
+      }
+    },
+    "TP8": {
+      "value": "OE_N",
+      "kind": "test",
+      "pins": {
+        "1": "OE_N"
+      }
+    },
+    "H1": {
+      "value": "M3 NPTH",
+      "kind": "hole",
+      "pins": {}
+    },
+    "H2": {
+      "value": "M3 NPTH",
+      "kind": "hole",
+      "pins": {}
+    },
+    "H3": {
+      "value": "M3 NPTH",
+      "kind": "hole",
+      "pins": {}
+    },
+    "H4": {
+      "value": "M3 NPTH",
+      "kind": "hole",
+      "pins": {}
+    }
+  },
+  "board_mm": [
+    200,
+    140
+  ],
+  "mode": "PROGRAMMER_HARDWARE=1",
+  "manual_rails": true
+}

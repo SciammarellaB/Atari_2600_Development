@@ -1,0 +1,674 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 1680 1188">
+<rect width="1680" height="1188" fill="white"/>
+<style>text{font-family:DejaVu Sans,sans-serif;fill:#1a2d3d}.title{font-size:25px;font-weight:700}.subtitle{font-size:15px}.card{fill:#f8fafc;stroke:#becbd5;stroke-width:1}.wire{fill:none;stroke:#227054;stroke-width:1.8}.sym{fill:white;stroke:#1a2d3d;stroke-width:1.8}.small{font-size:12px}.value{font-size:12px;fill:#394e60}.ref{font-size:16px;font-weight:bold}.pin{font-size:12px;font-family:DejaVu Sans Mono,monospace}.hint{font-size:11px;fill:#61707c}.flow{fill:#edf5ef;stroke:#739880;stroke-width:1}</style>
+<text x="28.00" y="37.00" class="title" text-anchor="start">M27C256B • LIGAÇÕES PARA PLACA PERFURADA • Relés e comandos B</text>
+<text x="28.00" y="65.00" class="subtitle" text-anchor="start">Revisão 0.2 • protótipo sem ensaio físico • prancha 4/6 • todos os pinos e furos extraídos do contrato</text>
+<text x="28.00" y="88.00" class="small" text-anchor="start">G5V-2-H1: bobina 1/16; contato COM4, NC6, NO8. Segundo polo 13/11/9 fica NC. Não confundir vistas superior/inferior.</text>
+<path d="M25,100 L1655,100" class="sym"/>
+<path d="M25,1137 L1655,1137" class="sym"/>
+<text x="28.00" y="1158.00" class="small" text-anchor="start">MESMO NOME DE REDE = ligação elétrica entre todos os terminais, inclusive entre placas. NC = deixar sem ligação.</text>
+<text x="28.00" y="1178.00" class="small" text-anchor="start">(c,l) = coluna e linha do furo, vista superior. +5M = USB do Mega; +5B = buck externo: NÃO interligar esses positivos.</text>
+<rect x="28" y="116" width="526.6666666666666" height="60" rx="4" class="flow"/>
+<text x="38.00" y="138.00" class="ref" text-anchor="start">Mega → resistor de base</text>
+<text x="38.00" y="156.00" class="small" text-anchor="start">comando K1…K4</text>
+<text x="565.67" y="150.00" class="ref" text-anchor="middle">→</text>
+<rect x="576.6666666666666" y="116" width="526.6666666666666" height="60" rx="4" class="flow"/>
+<text x="586.67" y="138.00" class="ref" text-anchor="start">BC337 → bobina</text>
+<text x="586.67" y="156.00" class="small" text-anchor="start">diodo + zener limitam retorno</text>
+<text x="1114.33" y="150.00" class="ref" text-anchor="middle">→</text>
+<rect x="1125.3333333333333" y="116" width="526.6666666666666" height="60" rx="4" class="flow"/>
+<text x="1135.33" y="138.00" class="ref" text-anchor="start">Contato do relé</text>
+<text x="1135.33" y="156.00" class="small" text-anchor="start">K1…K3: segmentos; K4: VPP</text>
+<rect x="28.0" y="190" width="394.0" height="195" rx="4" class="card"/>
+<text x="38.00" y="210.00" class="ref" text-anchor="start">K1  •  placa B</text>
+<text x="38.00" y="226.00" class="value" text-anchor="start">Omron G5V-2-H1 DC5 (30mA)</text>
+<rect x="45.0" y="271" width="50" height="20" rx="4" class="sym"/>
+<text x="70.00" y="285.00" class="hint" text-anchor="middle">bobina</text>
+<path d="M45.0,281 L35.0,281" class="wire"/>
+<path d="M95.0,281 L105.0,281" class="wire"/>
+<path d="M45.0,325 L65.0,325" class="wire"/>
+<circle cx="65.0" cy="325" r="2" class="sym"/>
+<path d="M65.0,325 L88.0,310" class="sym"/>
+<circle cx="95.0" cy="308" r="2" class="sym"/>
+<circle cx="95.0" cy="329" r="2" class="sym"/>
+<text x="38.00" y="342.00" class="hint" text-anchor="start">COM4</text>
+<text x="90.00" y="300.00" class="hint" text-anchor="start">NC6</text>
+<text x="90.00" y="344.00" class="hint" text-anchor="start">NO8</text>
+<g data-ref="K1" data-pin="1" data-net="+5B" data-hole="11,5">
+<text x="118.00" y="238.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="414.00" y="238.00" class="hint" text-anchor="end">(11,5)</text>
+</g>
+<g data-ref="K1" data-pin="16" data-net="COIL1_LOW" data-hole="11,8">
+<text x="118.00" y="256.00" class="pin" text-anchor="start">16  COIL1_LOW</text>
+<text x="414.00" y="256.00" class="hint" text-anchor="end">(11,8)</text>
+</g>
+<g data-ref="K1" data-pin="4" data-net="ADJ_VCC" data-hole="8,5">
+<text x="118.00" y="274.00" class="pin" text-anchor="start"> 4  ADJ_VCC</text>
+<text x="414.00" y="274.00" class="hint" text-anchor="end">(8,5)</text>
+</g>
+<g data-ref="K1" data-pin="6" data-net="NC" data-hole="6,5">
+<text x="118.00" y="292.00" class="pin" text-anchor="start"> 6  NC</text>
+<text x="414.00" y="292.00" class="hint" text-anchor="end">(6,5)</text>
+</g>
+<g data-ref="K1" data-pin="8" data-net="VCC_T1" data-hole="4,5">
+<text x="118.00" y="310.00" class="pin" text-anchor="start"> 8  VCC_T1</text>
+<text x="414.00" y="310.00" class="hint" text-anchor="end">(4,5)</text>
+</g>
+<g data-ref="K1" data-pin="13" data-net="NC" data-hole="8,8">
+<text x="118.00" y="328.00" class="pin" text-anchor="start">13  NC</text>
+<text x="414.00" y="328.00" class="hint" text-anchor="end">(8,8)</text>
+</g>
+<g data-ref="K1" data-pin="11" data-net="NC" data-hole="6,8">
+<text x="118.00" y="346.00" class="pin" text-anchor="start">11  NC</text>
+<text x="414.00" y="346.00" class="hint" text-anchor="end">(6,8)</text>
+</g>
+<g data-ref="K1" data-pin="9" data-net="NC" data-hole="4,8">
+<text x="118.00" y="364.00" class="pin" text-anchor="start"> 9  NC</text>
+<text x="414.00" y="364.00" class="hint" text-anchor="end">(4,8)</text>
+</g>
+<rect x="438.0" y="190" width="394.0" height="195" rx="4" class="card"/>
+<text x="448.00" y="210.00" class="ref" text-anchor="start">K2  •  placa B</text>
+<text x="448.00" y="226.00" class="value" text-anchor="start">Omron G5V-2-H1 DC5 (30mA)</text>
+<rect x="455.0" y="271" width="50" height="20" rx="4" class="sym"/>
+<text x="480.00" y="285.00" class="hint" text-anchor="middle">bobina</text>
+<path d="M455.0,281 L445.0,281" class="wire"/>
+<path d="M505.0,281 L515.0,281" class="wire"/>
+<path d="M455.0,325 L475.0,325" class="wire"/>
+<circle cx="475.0" cy="325" r="2" class="sym"/>
+<path d="M475.0,325 L498.0,310" class="sym"/>
+<circle cx="505.0" cy="308" r="2" class="sym"/>
+<circle cx="505.0" cy="329" r="2" class="sym"/>
+<text x="448.00" y="342.00" class="hint" text-anchor="start">COM4</text>
+<text x="500.00" y="300.00" class="hint" text-anchor="start">NC6</text>
+<text x="500.00" y="344.00" class="hint" text-anchor="start">NO8</text>
+<g data-ref="K2" data-pin="1" data-net="+5B" data-hole="29,5">
+<text x="528.00" y="238.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="824.00" y="238.00" class="hint" text-anchor="end">(29,5)</text>
+</g>
+<g data-ref="K2" data-pin="16" data-net="COIL2_LOW" data-hole="29,8">
+<text x="528.00" y="256.00" class="pin" text-anchor="start">16  COIL2_LOW</text>
+<text x="824.00" y="256.00" class="hint" text-anchor="end">(29,8)</text>
+</g>
+<g data-ref="K2" data-pin="4" data-net="VCC_T1" data-hole="26,5">
+<text x="528.00" y="274.00" class="pin" text-anchor="start"> 4  VCC_T1</text>
+<text x="824.00" y="274.00" class="hint" text-anchor="end">(26,5)</text>
+</g>
+<g data-ref="K2" data-pin="6" data-net="NC" data-hole="24,5">
+<text x="528.00" y="292.00" class="pin" text-anchor="start"> 6  NC</text>
+<text x="824.00" y="292.00" class="hint" text-anchor="end">(24,5)</text>
+</g>
+<g data-ref="K2" data-pin="8" data-net="VCC_T2" data-hole="22,5">
+<text x="528.00" y="310.00" class="pin" text-anchor="start"> 8  VCC_T2</text>
+<text x="824.00" y="310.00" class="hint" text-anchor="end">(22,5)</text>
+</g>
+<g data-ref="K2" data-pin="13" data-net="NC" data-hole="26,8">
+<text x="528.00" y="328.00" class="pin" text-anchor="start">13  NC</text>
+<text x="824.00" y="328.00" class="hint" text-anchor="end">(26,8)</text>
+</g>
+<g data-ref="K2" data-pin="11" data-net="NC" data-hole="24,8">
+<text x="528.00" y="346.00" class="pin" text-anchor="start">11  NC</text>
+<text x="824.00" y="346.00" class="hint" text-anchor="end">(24,8)</text>
+</g>
+<g data-ref="K2" data-pin="9" data-net="NC" data-hole="22,8">
+<text x="528.00" y="364.00" class="pin" text-anchor="start"> 9  NC</text>
+<text x="824.00" y="364.00" class="hint" text-anchor="end">(22,8)</text>
+</g>
+<rect x="848.0" y="190" width="394.0" height="195" rx="4" class="card"/>
+<text x="858.00" y="210.00" class="ref" text-anchor="start">K3  •  placa B</text>
+<text x="858.00" y="226.00" class="value" text-anchor="start">Omron G5V-2-H1 DC5 (30mA)</text>
+<rect x="865.0" y="271" width="50" height="20" rx="4" class="sym"/>
+<text x="890.00" y="285.00" class="hint" text-anchor="middle">bobina</text>
+<path d="M865.0,281 L855.0,281" class="wire"/>
+<path d="M915.0,281 L925.0,281" class="wire"/>
+<path d="M865.0,325 L885.0,325" class="wire"/>
+<circle cx="885.0" cy="325" r="2" class="sym"/>
+<path d="M885.0,325 L908.0,310" class="sym"/>
+<circle cx="915.0" cy="308" r="2" class="sym"/>
+<circle cx="915.0" cy="329" r="2" class="sym"/>
+<text x="858.00" y="342.00" class="hint" text-anchor="start">COM4</text>
+<text x="910.00" y="300.00" class="hint" text-anchor="start">NC6</text>
+<text x="910.00" y="344.00" class="hint" text-anchor="start">NO8</text>
+<g data-ref="K3" data-pin="1" data-net="+5B" data-hole="47,5">
+<text x="938.00" y="238.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="1234.00" y="238.00" class="hint" text-anchor="end">(47,5)</text>
+</g>
+<g data-ref="K3" data-pin="16" data-net="COIL3_LOW" data-hole="47,8">
+<text x="938.00" y="256.00" class="pin" text-anchor="start">16  COIL3_LOW</text>
+<text x="1234.00" y="256.00" class="hint" text-anchor="end">(47,8)</text>
+</g>
+<g data-ref="K3" data-pin="4" data-net="VCC_T2" data-hole="44,5">
+<text x="938.00" y="274.00" class="pin" text-anchor="start"> 4  VCC_T2</text>
+<text x="1234.00" y="274.00" class="hint" text-anchor="end">(44,5)</text>
+</g>
+<g data-ref="K3" data-pin="6" data-net="NC" data-hole="42,5">
+<text x="938.00" y="292.00" class="pin" text-anchor="start"> 6  NC</text>
+<text x="1234.00" y="292.00" class="hint" text-anchor="end">(42,5)</text>
+</g>
+<g data-ref="K3" data-pin="8" data-net="VCC_T3" data-hole="40,5">
+<text x="938.00" y="310.00" class="pin" text-anchor="start"> 8  VCC_T3</text>
+<text x="1234.00" y="310.00" class="hint" text-anchor="end">(40,5)</text>
+</g>
+<g data-ref="K3" data-pin="13" data-net="NC" data-hole="44,8">
+<text x="938.00" y="328.00" class="pin" text-anchor="start">13  NC</text>
+<text x="1234.00" y="328.00" class="hint" text-anchor="end">(44,8)</text>
+</g>
+<g data-ref="K3" data-pin="11" data-net="NC" data-hole="42,8">
+<text x="938.00" y="346.00" class="pin" text-anchor="start">11  NC</text>
+<text x="1234.00" y="346.00" class="hint" text-anchor="end">(42,8)</text>
+</g>
+<g data-ref="K3" data-pin="9" data-net="NC" data-hole="40,8">
+<text x="938.00" y="364.00" class="pin" text-anchor="start"> 9  NC</text>
+<text x="1234.00" y="364.00" class="hint" text-anchor="end">(40,8)</text>
+</g>
+<rect x="1258.0" y="190" width="394.0" height="195" rx="4" class="card"/>
+<text x="1268.00" y="210.00" class="ref" text-anchor="start">K4  •  placa B</text>
+<text x="1268.00" y="226.00" class="value" text-anchor="start">Omron G5V-2-H1 DC5 (30mA)</text>
+<rect x="1275.0" y="271" width="50" height="20" rx="4" class="sym"/>
+<text x="1300.00" y="285.00" class="hint" text-anchor="middle">bobina</text>
+<path d="M1275.0,281 L1265.0,281" class="wire"/>
+<path d="M1325.0,281 L1335.0,281" class="wire"/>
+<path d="M1275.0,325 L1295.0,325" class="wire"/>
+<circle cx="1295.0" cy="325" r="2" class="sym"/>
+<path d="M1295.0,325 L1318.0,310" class="sym"/>
+<circle cx="1325.0" cy="308" r="2" class="sym"/>
+<circle cx="1325.0" cy="329" r="2" class="sym"/>
+<text x="1268.00" y="342.00" class="hint" text-anchor="start">COM4</text>
+<text x="1320.00" y="300.00" class="hint" text-anchor="start">NC6</text>
+<text x="1320.00" y="344.00" class="hint" text-anchor="start">NO8</text>
+<g data-ref="K4" data-pin="1" data-net="COIL4_PLUS" data-hole="65,5">
+<text x="1348.00" y="238.00" class="pin" text-anchor="start"> 1  COIL4_PLUS</text>
+<text x="1644.00" y="238.00" class="hint" text-anchor="end">(65,5)</text>
+</g>
+<g data-ref="K4" data-pin="16" data-net="COIL4_LOW" data-hole="65,8">
+<text x="1348.00" y="256.00" class="pin" text-anchor="start">16  COIL4_LOW</text>
+<text x="1644.00" y="256.00" class="hint" text-anchor="end">(65,8)</text>
+</g>
+<g data-ref="K4" data-pin="4" data-net="VPP" data-hole="62,5">
+<text x="1348.00" y="274.00" class="pin" text-anchor="start"> 4  VPP</text>
+<text x="1644.00" y="274.00" class="hint" text-anchor="end">(62,5)</text>
+</g>
+<g data-ref="K4" data-pin="6" data-net="VCC_EP" data-hole="60,5">
+<text x="1348.00" y="292.00" class="pin" text-anchor="start"> 6  VCC_EP</text>
+<text x="1644.00" y="292.00" class="hint" text-anchor="end">(60,5)</text>
+</g>
+<g data-ref="K4" data-pin="8" data-net="+12P75" data-hole="58,5">
+<text x="1348.00" y="310.00" class="pin" text-anchor="start"> 8  +12P75</text>
+<text x="1644.00" y="310.00" class="hint" text-anchor="end">(58,5)</text>
+</g>
+<g data-ref="K4" data-pin="13" data-net="NC" data-hole="62,8">
+<text x="1348.00" y="328.00" class="pin" text-anchor="start">13  NC</text>
+<text x="1644.00" y="328.00" class="hint" text-anchor="end">(62,8)</text>
+</g>
+<g data-ref="K4" data-pin="11" data-net="NC" data-hole="60,8">
+<text x="1348.00" y="346.00" class="pin" text-anchor="start">11  NC</text>
+<text x="1644.00" y="346.00" class="hint" text-anchor="end">(60,8)</text>
+</g>
+<g data-ref="K4" data-pin="9" data-net="NC" data-hole="58,8">
+<text x="1348.00" y="364.00" class="pin" text-anchor="start"> 9  NC</text>
+<text x="1644.00" y="364.00" class="hint" text-anchor="end">(58,8)</text>
+</g>
+<rect x="28.0" y="388" width="394.0" height="173" rx="4" class="card"/>
+<text x="38.00" y="408.00" class="ref" text-anchor="start">JB3  •  placa B</text>
+<text x="38.00" y="424.00" class="value" text-anchor="start">Mega controles: D10 D11 D12 D14 D48 D49 A0 A1 A2</text>
+<text x="38.00" y="438.00" class="value" text-anchor="start">A3 GND</text>
+<g data-ref="JB3" data-pin="1" data-net="K1_DRV" data-hole="74,46">
+<text x="38.00" y="450.00" class="pin" text-anchor="start"> 1  K1_DRV</text>
+<text x="217.00" y="450.00" class="hint" text-anchor="end">(74,46)</text>
+</g>
+<g data-ref="JB3" data-pin="2" data-net="K2_DRV" data-hole="74,47">
+<text x="38.00" y="468.00" class="pin" text-anchor="start"> 2  K2_DRV</text>
+<text x="217.00" y="468.00" class="hint" text-anchor="end">(74,47)</text>
+</g>
+<g data-ref="JB3" data-pin="3" data-net="K3_DRV" data-hole="74,48">
+<text x="38.00" y="486.00" class="pin" text-anchor="start"> 3  K3_DRV</text>
+<text x="217.00" y="486.00" class="hint" text-anchor="end">(74,48)</text>
+</g>
+<g data-ref="JB3" data-pin="4" data-net="K4_DRV" data-hole="74,49">
+<text x="38.00" y="504.00" class="pin" text-anchor="start"> 4  K4_DRV</text>
+<text x="217.00" y="504.00" class="hint" text-anchor="end">(74,49)</text>
+</g>
+<g data-ref="JB3" data-pin="5" data-net="MODE_SW" data-hole="74,50">
+<text x="38.00" y="522.00" class="pin" text-anchor="start"> 5  MODE_SW</text>
+<text x="217.00" y="522.00" class="hint" text-anchor="end">(74,50)</text>
+</g>
+<g data-ref="JB3" data-pin="6" data-net="BUS_EN" data-hole="74,51">
+<text x="38.00" y="540.00" class="pin" text-anchor="start"> 6  BUS_EN</text>
+<text x="217.00" y="540.00" class="hint" text-anchor="end">(74,51)</text>
+</g>
+<g data-ref="JB3" data-pin="7" data-net="ADC_VCC" data-hole="74,52">
+<text x="235.00" y="450.00" class="pin" text-anchor="start"> 7  ADC_VCC</text>
+<text x="414.00" y="450.00" class="hint" text-anchor="end">(74,52)</text>
+</g>
+<g data-ref="JB3" data-pin="8" data-net="ADC_VPP" data-hole="74,53">
+<text x="235.00" y="468.00" class="pin" text-anchor="start"> 8  ADC_VPP</text>
+<text x="414.00" y="468.00" class="hint" text-anchor="end">(74,53)</text>
+</g>
+<g data-ref="JB3" data-pin="9" data-net="ADC_VIN" data-hole="74,54">
+<text x="235.00" y="486.00" class="pin" text-anchor="start"> 9  ADC_VIN</text>
+<text x="414.00" y="486.00" class="hint" text-anchor="end">(74,54)</text>
+</g>
+<g data-ref="JB3" data-pin="10" data-net="ADC_B5" data-hole="74,55">
+<text x="235.00" y="504.00" class="pin" text-anchor="start">10  ADC_B5</text>
+<text x="414.00" y="504.00" class="hint" text-anchor="end">(74,55)</text>
+</g>
+<g data-ref="JB3" data-pin="11" data-net="GND" data-hole="74,56">
+<text x="235.00" y="522.00" class="pin" text-anchor="start">11  GND</text>
+<text x="414.00" y="522.00" class="hint" text-anchor="end">(74,56)</text>
+</g>
+<rect x="438.0" y="388" width="394.0" height="141" rx="4" class="card"/>
+<text x="448.00" y="408.00" class="ref" text-anchor="start">JB1  •  placa B</text>
+<text x="448.00" y="424.00" class="value" text-anchor="start">Para JA4, cabo numerado 1:1</text>
+<g data-ref="JB1" data-pin="1" data-net="VCC_EP" data-hole="74,27">
+<text x="448.00" y="436.00" class="pin" text-anchor="start"> 1  VCC_EP</text>
+<text x="627.00" y="436.00" class="hint" text-anchor="end">(74,27)</text>
+</g>
+<g data-ref="JB1" data-pin="2" data-net="VPP" data-hole="74,28">
+<text x="448.00" y="454.00" class="pin" text-anchor="start"> 2  VPP</text>
+<text x="627.00" y="454.00" class="hint" text-anchor="end">(74,28)</text>
+</g>
+<g data-ref="JB1" data-pin="3" data-net="VIN_HOLD" data-hole="74,29">
+<text x="448.00" y="472.00" class="pin" text-anchor="start"> 3  VIN_HOLD</text>
+<text x="627.00" y="472.00" class="hint" text-anchor="end">(74,29)</text>
+</g>
+<g data-ref="JB1" data-pin="4" data-net="GND" data-hole="74,30">
+<text x="448.00" y="490.00" class="pin" text-anchor="start"> 4  GND</text>
+<text x="627.00" y="490.00" class="hint" text-anchor="end">(74,30)</text>
+</g>
+<g data-ref="JB1" data-pin="5" data-net="+5B" data-hole="74,31">
+<text x="448.00" y="508.00" class="pin" text-anchor="start"> 5  +5B</text>
+<text x="627.00" y="508.00" class="hint" text-anchor="end">(74,31)</text>
+</g>
+<g data-ref="JB1" data-pin="6" data-net="BUS_OE" data-hole="74,32">
+<text x="645.00" y="436.00" class="pin" text-anchor="start"> 6  BUS_OE</text>
+<text x="824.00" y="436.00" class="hint" text-anchor="end">(74,32)</text>
+</g>
+<g data-ref="JB1" data-pin="7" data-net="+5M" data-hole="74,33">
+<text x="645.00" y="454.00" class="pin" text-anchor="start"> 7  +5M</text>
+<text x="824.00" y="454.00" class="hint" text-anchor="end">(74,33)</text>
+</g>
+<g data-ref="JB1" data-pin="8" data-net="UV_FAIL" data-hole="74,34">
+<text x="645.00" y="472.00" class="pin" text-anchor="start"> 8  UV_FAIL</text>
+<text x="824.00" y="472.00" class="hint" text-anchor="end">(74,34)</text>
+</g>
+<g data-ref="JB1" data-pin="9" data-net="NC" data-hole="74,35">
+<text x="645.00" y="490.00" class="pin" text-anchor="start"> 9  NC</text>
+<text x="824.00" y="490.00" class="hint" text-anchor="end">(74,35)</text>
+</g>
+<g data-ref="JB1" data-pin="10" data-net="NC" data-hole="74,36">
+<text x="645.00" y="508.00" class="pin" text-anchor="start">10  NC</text>
+<text x="824.00" y="508.00" class="hint" text-anchor="end">(74,36)</text>
+</g>
+<rect x="848.0" y="388" width="394.0" height="123" rx="4" class="card"/>
+<text x="858.00" y="408.00" class="ref" text-anchor="start">JS1  •  placa B</text>
+<text x="858.00" y="424.00" class="value" text-anchor="start">Chave DPDT: C1 NO1 C2 NO2</text>
+<rect x="868.0" y="449.0" width="44" height="28" rx="4" class="sym"/>
+<text x="890.00" y="467.00" class="small" text-anchor="middle">J</text>
+<g data-ref="JS1" data-pin="1" data-net="MODE_SW" data-hole="39,49">
+<text x="938.00" y="436.00" class="pin" text-anchor="start"> 1  MODE_SW</text>
+<text x="1234.00" y="436.00" class="hint" text-anchor="end">(39,49)</text>
+</g>
+<g data-ref="JS1" data-pin="2" data-net="GND" data-hole="39,50">
+<text x="938.00" y="454.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="1234.00" y="454.00" class="hint" text-anchor="end">(39,50)</text>
+</g>
+<g data-ref="JS1" data-pin="3" data-net="COIL4_PLUS" data-hole="39,51">
+<text x="938.00" y="472.00" class="pin" text-anchor="start"> 3  COIL4_PLUS</text>
+<text x="1234.00" y="472.00" class="hint" text-anchor="end">(39,51)</text>
+</g>
+<g data-ref="JS1" data-pin="4" data-net="+5B" data-hole="39,52">
+<text x="938.00" y="490.00" class="pin" text-anchor="start"> 4  +5B</text>
+<text x="1234.00" y="490.00" class="hint" text-anchor="end">(39,52)</text>
+</g>
+<rect x="1258.0" y="388" width="394.0" height="105" rx="4" class="card"/>
+<text x="1268.00" y="408.00" class="ref" text-anchor="start">QP2  •  placa B</text>
+<text x="1268.00" y="424.00" class="value" text-anchor="start">BC337-40 onsemi: 1C 2B 3E</text>
+<circle cx="1300.0" cy="454" r="21" class="sym"/>
+<path d="M1292.0,442 L1292.0,466" class="sym"/>
+<path d="M1273.0,454 L1292.0,454" class="wire"/>
+<path d="M1292.0,448 L1312.0,436" class="sym"/>
+<path d="M1312.0,436 L1312.0,425" class="wire"/>
+<path d="M1292.0,460 L1312.0,472" class="sym"/>
+<path d="M1312.0,472 L1312.0,483" class="wire"/>
+<polygon points="1312.0,472 1304.0,470 1308.0,465" fill="#1a2d3d" stroke="#1a2d3d" stroke-width="1.8"/>
+<text x="1270.00" y="449.00" class="hint" text-anchor="start">B2</text>
+<text x="1315.00" y="432.00" class="hint" text-anchor="start">C1</text>
+<text x="1315.00" y="486.00" class="hint" text-anchor="start">E3</text>
+<g data-ref="QP2" data-pin="1" data-net="COIL1_LOW" data-hole="14,5">
+<text x="1348.00" y="436.00" class="pin" text-anchor="start"> 1  COIL1_LOW</text>
+<text x="1644.00" y="436.00" class="hint" text-anchor="end">(14,5)</text>
+</g>
+<g data-ref="QP2" data-pin="2" data-net="BASE_K1" data-hole="15,5">
+<text x="1348.00" y="454.00" class="pin" text-anchor="start"> 2  BASE_K1</text>
+<text x="1644.00" y="454.00" class="hint" text-anchor="end">(15,5)</text>
+</g>
+<g data-ref="QP2" data-pin="3" data-net="GND" data-hole="16,5">
+<text x="1348.00" y="472.00" class="pin" text-anchor="start"> 3  GND</text>
+<text x="1644.00" y="472.00" class="hint" text-anchor="end">(16,5)</text>
+</g>
+<rect x="1258.0" y="496" width="394.0" height="105" rx="4" class="card"/>
+<text x="1268.00" y="516.00" class="ref" text-anchor="start">QP3  •  placa B</text>
+<text x="1268.00" y="532.00" class="value" text-anchor="start">BC337-40 onsemi: 1C 2B 3E</text>
+<circle cx="1300.0" cy="562" r="21" class="sym"/>
+<path d="M1292.0,550 L1292.0,574" class="sym"/>
+<path d="M1273.0,562 L1292.0,562" class="wire"/>
+<path d="M1292.0,556 L1312.0,544" class="sym"/>
+<path d="M1312.0,544 L1312.0,533" class="wire"/>
+<path d="M1292.0,568 L1312.0,580" class="sym"/>
+<path d="M1312.0,580 L1312.0,591" class="wire"/>
+<polygon points="1312.0,580 1304.0,578 1308.0,573" fill="#1a2d3d" stroke="#1a2d3d" stroke-width="1.8"/>
+<text x="1270.00" y="557.00" class="hint" text-anchor="start">B2</text>
+<text x="1315.00" y="540.00" class="hint" text-anchor="start">C1</text>
+<text x="1315.00" y="594.00" class="hint" text-anchor="start">E3</text>
+<g data-ref="QP3" data-pin="1" data-net="COIL2_LOW" data-hole="32,5">
+<text x="1348.00" y="544.00" class="pin" text-anchor="start"> 1  COIL2_LOW</text>
+<text x="1644.00" y="544.00" class="hint" text-anchor="end">(32,5)</text>
+</g>
+<g data-ref="QP3" data-pin="2" data-net="BASE_K2" data-hole="33,5">
+<text x="1348.00" y="562.00" class="pin" text-anchor="start"> 2  BASE_K2</text>
+<text x="1644.00" y="562.00" class="hint" text-anchor="end">(33,5)</text>
+</g>
+<g data-ref="QP3" data-pin="3" data-net="GND" data-hole="34,5">
+<text x="1348.00" y="580.00" class="pin" text-anchor="start"> 3  GND</text>
+<text x="1644.00" y="580.00" class="hint" text-anchor="end">(34,5)</text>
+</g>
+<rect x="848.0" y="514" width="394.0" height="105" rx="4" class="card"/>
+<text x="858.00" y="534.00" class="ref" text-anchor="start">QP4  •  placa B</text>
+<text x="858.00" y="550.00" class="value" text-anchor="start">BC337-40 onsemi: 1C 2B 3E</text>
+<circle cx="890.0" cy="580" r="21" class="sym"/>
+<path d="M882.0,568 L882.0,592" class="sym"/>
+<path d="M863.0,580 L882.0,580" class="wire"/>
+<path d="M882.0,574 L902.0,562" class="sym"/>
+<path d="M902.0,562 L902.0,551" class="wire"/>
+<path d="M882.0,586 L902.0,598" class="sym"/>
+<path d="M902.0,598 L902.0,609" class="wire"/>
+<polygon points="902.0,598 894.0,596 898.0,591" fill="#1a2d3d" stroke="#1a2d3d" stroke-width="1.8"/>
+<text x="860.00" y="575.00" class="hint" text-anchor="start">B2</text>
+<text x="905.00" y="558.00" class="hint" text-anchor="start">C1</text>
+<text x="905.00" y="612.00" class="hint" text-anchor="start">E3</text>
+<g data-ref="QP4" data-pin="1" data-net="COIL3_LOW" data-hole="50,5">
+<text x="938.00" y="562.00" class="pin" text-anchor="start"> 1  COIL3_LOW</text>
+<text x="1234.00" y="562.00" class="hint" text-anchor="end">(50,5)</text>
+</g>
+<g data-ref="QP4" data-pin="2" data-net="BASE_K3" data-hole="51,5">
+<text x="938.00" y="580.00" class="pin" text-anchor="start"> 2  BASE_K3</text>
+<text x="1234.00" y="580.00" class="hint" text-anchor="end">(51,5)</text>
+</g>
+<g data-ref="QP4" data-pin="3" data-net="GND" data-hole="52,5">
+<text x="938.00" y="598.00" class="pin" text-anchor="start"> 3  GND</text>
+<text x="1234.00" y="598.00" class="hint" text-anchor="end">(52,5)</text>
+</g>
+<rect x="438.0" y="532" width="394.0" height="105" rx="4" class="card"/>
+<text x="448.00" y="552.00" class="ref" text-anchor="start">QP5  •  placa B</text>
+<text x="448.00" y="568.00" class="value" text-anchor="start">BC337-40 onsemi: 1C 2B 3E</text>
+<circle cx="480.0" cy="598" r="21" class="sym"/>
+<path d="M472.0,586 L472.0,610" class="sym"/>
+<path d="M453.0,598 L472.0,598" class="wire"/>
+<path d="M472.0,592 L492.0,580" class="sym"/>
+<path d="M492.0,580 L492.0,569" class="wire"/>
+<path d="M472.0,604 L492.0,616" class="sym"/>
+<path d="M492.0,616 L492.0,627" class="wire"/>
+<polygon points="492.0,616 484.0,614 488.0,609" fill="#1a2d3d" stroke="#1a2d3d" stroke-width="1.8"/>
+<text x="450.00" y="593.00" class="hint" text-anchor="start">B2</text>
+<text x="495.00" y="576.00" class="hint" text-anchor="start">C1</text>
+<text x="495.00" y="630.00" class="hint" text-anchor="start">E3</text>
+<g data-ref="QP5" data-pin="1" data-net="COIL4_LOW" data-hole="68,5">
+<text x="528.00" y="580.00" class="pin" text-anchor="start"> 1  COIL4_LOW</text>
+<text x="824.00" y="580.00" class="hint" text-anchor="end">(68,5)</text>
+</g>
+<g data-ref="QP5" data-pin="2" data-net="BASE_K4" data-hole="69,5">
+<text x="528.00" y="598.00" class="pin" text-anchor="start"> 2  BASE_K4</text>
+<text x="824.00" y="598.00" class="hint" text-anchor="end">(69,5)</text>
+</g>
+<g data-ref="QP5" data-pin="3" data-net="GND" data-hole="70,5">
+<text x="528.00" y="616.00" class="pin" text-anchor="start"> 3  GND</text>
+<text x="824.00" y="616.00" class="hint" text-anchor="end">(70,5)</text>
+</g>
+<rect x="28.0" y="564" width="394.0" height="87" rx="4" class="card"/>
+<text x="38.00" y="584.00" class="ref" text-anchor="start">DF1  •  placa B</text>
+<text x="38.00" y="600.00" class="value" text-anchor="start">1N4148</text>
+<path d="M70.0,596 L70.0,609" class="wire"/>
+<polygon points="58.0,609 82.0,609 70.0,631" fill="white" stroke="#1a2d3d" stroke-width="1.8"/>
+<path d="M57.0,632 L83.0,632" class="sym"/>
+<path d="M70.0,632 L70.0,646" class="wire"/>
+<text x="87.00" y="636.00" class="hint" text-anchor="start">K</text>
+<text x="87.00" y="609.00" class="hint" text-anchor="start">A</text>
+<g data-ref="DF1" data-pin="1" data-net="COIL1_LOW" data-hole="13,11">
+<text x="118.00" y="612.00" class="pin" text-anchor="start"> 1  COIL1_LOW</text>
+<text x="414.00" y="612.00" class="hint" text-anchor="end">(13,11)</text>
+</g>
+<g data-ref="DF1" data-pin="2" data-net="CLAMP_K1" data-hole="16,11">
+<text x="118.00" y="630.00" class="pin" text-anchor="start"> 2  CLAMP_K1</text>
+<text x="414.00" y="630.00" class="hint" text-anchor="end">(16,11)</text>
+</g>
+<rect x="1258.0" y="604" width="394.0" height="87" rx="4" class="card"/>
+<text x="1268.00" y="624.00" class="ref" text-anchor="start">DF2  •  placa B</text>
+<text x="1268.00" y="640.00" class="value" text-anchor="start">1N4148</text>
+<path d="M1300.0,636 L1300.0,649" class="wire"/>
+<polygon points="1288.0,649 1312.0,649 1300.0,671" fill="white" stroke="#1a2d3d" stroke-width="1.8"/>
+<path d="M1287.0,672 L1313.0,672" class="sym"/>
+<path d="M1300.0,672 L1300.0,686" class="wire"/>
+<text x="1317.00" y="676.00" class="hint" text-anchor="start">K</text>
+<text x="1317.00" y="649.00" class="hint" text-anchor="start">A</text>
+<g data-ref="DF2" data-pin="1" data-net="COIL2_LOW" data-hole="31,11">
+<text x="1348.00" y="652.00" class="pin" text-anchor="start"> 1  COIL2_LOW</text>
+<text x="1644.00" y="652.00" class="hint" text-anchor="end">(31,11)</text>
+</g>
+<g data-ref="DF2" data-pin="2" data-net="CLAMP_K2" data-hole="34,11">
+<text x="1348.00" y="670.00" class="pin" text-anchor="start"> 2  CLAMP_K2</text>
+<text x="1644.00" y="670.00" class="hint" text-anchor="end">(34,11)</text>
+</g>
+<rect x="848.0" y="622" width="394.0" height="87" rx="4" class="card"/>
+<text x="858.00" y="642.00" class="ref" text-anchor="start">DF3  •  placa B</text>
+<text x="858.00" y="658.00" class="value" text-anchor="start">1N4148</text>
+<path d="M890.0,654 L890.0,667" class="wire"/>
+<polygon points="878.0,667 902.0,667 890.0,689" fill="white" stroke="#1a2d3d" stroke-width="1.8"/>
+<path d="M877.0,690 L903.0,690" class="sym"/>
+<path d="M890.0,690 L890.0,704" class="wire"/>
+<text x="907.00" y="694.00" class="hint" text-anchor="start">K</text>
+<text x="907.00" y="667.00" class="hint" text-anchor="start">A</text>
+<g data-ref="DF3" data-pin="1" data-net="COIL3_LOW" data-hole="49,11">
+<text x="938.00" y="670.00" class="pin" text-anchor="start"> 1  COIL3_LOW</text>
+<text x="1234.00" y="670.00" class="hint" text-anchor="end">(49,11)</text>
+</g>
+<g data-ref="DF3" data-pin="2" data-net="CLAMP_K3" data-hole="52,11">
+<text x="938.00" y="688.00" class="pin" text-anchor="start"> 2  CLAMP_K3</text>
+<text x="1234.00" y="688.00" class="hint" text-anchor="end">(52,11)</text>
+</g>
+<rect x="438.0" y="640" width="394.0" height="87" rx="4" class="card"/>
+<text x="448.00" y="660.00" class="ref" text-anchor="start">DF4  •  placa B</text>
+<text x="448.00" y="676.00" class="value" text-anchor="start">1N4148</text>
+<path d="M480.0,672 L480.0,685" class="wire"/>
+<polygon points="468.0,685 492.0,685 480.0,707" fill="white" stroke="#1a2d3d" stroke-width="1.8"/>
+<path d="M467.0,708 L493.0,708" class="sym"/>
+<path d="M480.0,708 L480.0,722" class="wire"/>
+<text x="497.00" y="712.00" class="hint" text-anchor="start">K</text>
+<text x="497.00" y="685.00" class="hint" text-anchor="start">A</text>
+<g data-ref="DF4" data-pin="1" data-net="COIL4_LOW" data-hole="67,11">
+<text x="528.00" y="688.00" class="pin" text-anchor="start"> 1  COIL4_LOW</text>
+<text x="824.00" y="688.00" class="hint" text-anchor="end">(67,11)</text>
+</g>
+<g data-ref="DF4" data-pin="2" data-net="CLAMP_K4" data-hole="70,11">
+<text x="528.00" y="706.00" class="pin" text-anchor="start"> 2  CLAMP_K4</text>
+<text x="824.00" y="706.00" class="hint" text-anchor="end">(70,11)</text>
+</g>
+<rect x="28.0" y="654" width="394.0" height="87" rx="4" class="card"/>
+<text x="38.00" y="674.00" class="ref" text-anchor="start">RP11  •  placa B</text>
+<text x="38.00" y="690.00" class="value" text-anchor="start">2k2</text>
+<path d="M44.0,711 L55.0,711" class="wire"/>
+<rect x="55.0" y="705" width="30" height="12" rx="4" class="sym"/>
+<path d="M85.0,711 L96.0,711" class="wire"/>
+<g data-ref="RP11" data-pin="1" data-net="K1_DRV" data-hole="3,11">
+<text x="118.00" y="702.00" class="pin" text-anchor="start"> 1  K1_DRV</text>
+<text x="414.00" y="702.00" class="hint" text-anchor="end">(3,11)</text>
+</g>
+<g data-ref="RP11" data-pin="2" data-net="BASE_K1" data-hole="6,11">
+<text x="118.00" y="720.00" class="pin" text-anchor="start"> 2  BASE_K1</text>
+<text x="414.00" y="720.00" class="hint" text-anchor="end">(6,11)</text>
+</g>
+<rect x="1258.0" y="694" width="394.0" height="87" rx="4" class="card"/>
+<text x="1268.00" y="714.00" class="ref" text-anchor="start">RP12  •  placa B</text>
+<text x="1268.00" y="730.00" class="value" text-anchor="start">2k2</text>
+<path d="M1274.0,751 L1285.0,751" class="wire"/>
+<rect x="1285.0" y="745" width="30" height="12" rx="4" class="sym"/>
+<path d="M1315.0,751 L1326.0,751" class="wire"/>
+<g data-ref="RP12" data-pin="1" data-net="K2_DRV" data-hole="21,11">
+<text x="1348.00" y="742.00" class="pin" text-anchor="start"> 1  K2_DRV</text>
+<text x="1644.00" y="742.00" class="hint" text-anchor="end">(21,11)</text>
+</g>
+<g data-ref="RP12" data-pin="2" data-net="BASE_K2" data-hole="24,11">
+<text x="1348.00" y="760.00" class="pin" text-anchor="start"> 2  BASE_K2</text>
+<text x="1644.00" y="760.00" class="hint" text-anchor="end">(24,11)</text>
+</g>
+<rect x="848.0" y="712" width="394.0" height="87" rx="4" class="card"/>
+<text x="858.00" y="732.00" class="ref" text-anchor="start">RP13  •  placa B</text>
+<text x="858.00" y="748.00" class="value" text-anchor="start">2k2</text>
+<path d="M864.0,769 L875.0,769" class="wire"/>
+<rect x="875.0" y="763" width="30" height="12" rx="4" class="sym"/>
+<path d="M905.0,769 L916.0,769" class="wire"/>
+<g data-ref="RP13" data-pin="1" data-net="K3_DRV" data-hole="39,11">
+<text x="938.00" y="760.00" class="pin" text-anchor="start"> 1  K3_DRV</text>
+<text x="1234.00" y="760.00" class="hint" text-anchor="end">(39,11)</text>
+</g>
+<g data-ref="RP13" data-pin="2" data-net="BASE_K3" data-hole="42,11">
+<text x="938.00" y="778.00" class="pin" text-anchor="start"> 2  BASE_K3</text>
+<text x="1234.00" y="778.00" class="hint" text-anchor="end">(42,11)</text>
+</g>
+<rect x="438.0" y="730" width="394.0" height="87" rx="4" class="card"/>
+<text x="448.00" y="750.00" class="ref" text-anchor="start">RP14  •  placa B</text>
+<text x="448.00" y="766.00" class="value" text-anchor="start">1k5</text>
+<path d="M454.0,787 L465.0,787" class="wire"/>
+<rect x="465.0" y="781" width="30" height="12" rx="4" class="sym"/>
+<path d="M495.0,787 L506.0,787" class="wire"/>
+<g data-ref="RP14" data-pin="1" data-net="K4_DRV" data-hole="57,11">
+<text x="528.00" y="778.00" class="pin" text-anchor="start"> 1  K4_DRV</text>
+<text x="824.00" y="778.00" class="hint" text-anchor="end">(57,11)</text>
+</g>
+<g data-ref="RP14" data-pin="2" data-net="BASE_K4" data-hole="60,11">
+<text x="528.00" y="796.00" class="pin" text-anchor="start"> 2  BASE_K4</text>
+<text x="824.00" y="796.00" class="hint" text-anchor="end">(60,11)</text>
+</g>
+<rect x="28.0" y="744" width="394.0" height="87" rx="4" class="card"/>
+<text x="38.00" y="764.00" class="ref" text-anchor="start">RP15  •  placa B</text>
+<text x="38.00" y="780.00" class="value" text-anchor="start">100k</text>
+<path d="M44.0,801 L55.0,801" class="wire"/>
+<rect x="55.0" y="795" width="30" height="12" rx="4" class="sym"/>
+<path d="M85.0,801 L96.0,801" class="wire"/>
+<g data-ref="RP15" data-pin="1" data-net="BASE_K1" data-hole="8,11">
+<text x="118.00" y="792.00" class="pin" text-anchor="start"> 1  BASE_K1</text>
+<text x="414.00" y="792.00" class="hint" text-anchor="end">(8,11)</text>
+</g>
+<g data-ref="RP15" data-pin="2" data-net="GND" data-hole="11,11">
+<text x="118.00" y="810.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="414.00" y="810.00" class="hint" text-anchor="end">(11,11)</text>
+</g>
+<rect x="1258.0" y="784" width="394.0" height="87" rx="4" class="card"/>
+<text x="1268.00" y="804.00" class="ref" text-anchor="start">RP16  •  placa B</text>
+<text x="1268.00" y="820.00" class="value" text-anchor="start">100k</text>
+<path d="M1274.0,841 L1285.0,841" class="wire"/>
+<rect x="1285.0" y="835" width="30" height="12" rx="4" class="sym"/>
+<path d="M1315.0,841 L1326.0,841" class="wire"/>
+<g data-ref="RP16" data-pin="1" data-net="BASE_K2" data-hole="26,11">
+<text x="1348.00" y="832.00" class="pin" text-anchor="start"> 1  BASE_K2</text>
+<text x="1644.00" y="832.00" class="hint" text-anchor="end">(26,11)</text>
+</g>
+<g data-ref="RP16" data-pin="2" data-net="GND" data-hole="29,11">
+<text x="1348.00" y="850.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="1644.00" y="850.00" class="hint" text-anchor="end">(29,11)</text>
+</g>
+<rect x="848.0" y="802" width="394.0" height="87" rx="4" class="card"/>
+<text x="858.00" y="822.00" class="ref" text-anchor="start">RP17  •  placa B</text>
+<text x="858.00" y="838.00" class="value" text-anchor="start">100k</text>
+<path d="M864.0,859 L875.0,859" class="wire"/>
+<rect x="875.0" y="853" width="30" height="12" rx="4" class="sym"/>
+<path d="M905.0,859 L916.0,859" class="wire"/>
+<g data-ref="RP17" data-pin="1" data-net="BASE_K3" data-hole="44,11">
+<text x="938.00" y="850.00" class="pin" text-anchor="start"> 1  BASE_K3</text>
+<text x="1234.00" y="850.00" class="hint" text-anchor="end">(44,11)</text>
+</g>
+<g data-ref="RP17" data-pin="2" data-net="GND" data-hole="47,11">
+<text x="938.00" y="868.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="1234.00" y="868.00" class="hint" text-anchor="end">(47,11)</text>
+</g>
+<rect x="438.0" y="820" width="394.0" height="87" rx="4" class="card"/>
+<text x="448.00" y="840.00" class="ref" text-anchor="start">RP18  •  placa B</text>
+<text x="448.00" y="856.00" class="value" text-anchor="start">100k</text>
+<path d="M454.0,877 L465.0,877" class="wire"/>
+<rect x="465.0" y="871" width="30" height="12" rx="4" class="sym"/>
+<path d="M495.0,877 L506.0,877" class="wire"/>
+<g data-ref="RP18" data-pin="1" data-net="BASE_K4" data-hole="62,11">
+<text x="528.00" y="868.00" class="pin" text-anchor="start"> 1  BASE_K4</text>
+<text x="824.00" y="868.00" class="hint" text-anchor="end">(62,11)</text>
+</g>
+<g data-ref="RP18" data-pin="2" data-net="GND" data-hole="65,11">
+<text x="528.00" y="886.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="824.00" y="886.00" class="hint" text-anchor="end">(65,11)</text>
+</g>
+<rect x="28.0" y="834" width="394.0" height="87" rx="4" class="card"/>
+<text x="38.00" y="854.00" class="ref" text-anchor="start">ZF1  •  placa B</text>
+<text x="38.00" y="870.00" class="value" text-anchor="start">BZX85C12 12V</text>
+<path d="M70.0,866 L70.0,879" class="wire"/>
+<polygon points="58.0,879 82.0,879 70.0,901" fill="white" stroke="#1a2d3d" stroke-width="1.8"/>
+<path d="M57.0,902 L83.0,902" class="sym"/>
+<path d="M70.0,902 L70.0,916" class="wire"/>
+<text x="87.00" y="906.00" class="hint" text-anchor="start">K</text>
+<text x="87.00" y="879.00" class="hint" text-anchor="start">A</text>
+<g data-ref="ZF1" data-pin="1" data-net="+5B" data-hole="3,14">
+<text x="118.00" y="882.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="414.00" y="882.00" class="hint" text-anchor="end">(3,14)</text>
+</g>
+<g data-ref="ZF1" data-pin="2" data-net="CLAMP_K1" data-hole="6,14">
+<text x="118.00" y="900.00" class="pin" text-anchor="start"> 2  CLAMP_K1</text>
+<text x="414.00" y="900.00" class="hint" text-anchor="end">(6,14)</text>
+</g>
+<rect x="1258.0" y="874" width="394.0" height="87" rx="4" class="card"/>
+<text x="1268.00" y="894.00" class="ref" text-anchor="start">ZF2  •  placa B</text>
+<text x="1268.00" y="910.00" class="value" text-anchor="start">BZX85C12 12V</text>
+<path d="M1300.0,906 L1300.0,919" class="wire"/>
+<polygon points="1288.0,919 1312.0,919 1300.0,941" fill="white" stroke="#1a2d3d" stroke-width="1.8"/>
+<path d="M1287.0,942 L1313.0,942" class="sym"/>
+<path d="M1300.0,942 L1300.0,956" class="wire"/>
+<text x="1317.00" y="946.00" class="hint" text-anchor="start">K</text>
+<text x="1317.00" y="919.00" class="hint" text-anchor="start">A</text>
+<g data-ref="ZF2" data-pin="1" data-net="+5B" data-hole="21,14">
+<text x="1348.00" y="922.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="1644.00" y="922.00" class="hint" text-anchor="end">(21,14)</text>
+</g>
+<g data-ref="ZF2" data-pin="2" data-net="CLAMP_K2" data-hole="24,14">
+<text x="1348.00" y="940.00" class="pin" text-anchor="start"> 2  CLAMP_K2</text>
+<text x="1644.00" y="940.00" class="hint" text-anchor="end">(24,14)</text>
+</g>
+<rect x="848.0" y="892" width="394.0" height="87" rx="4" class="card"/>
+<text x="858.00" y="912.00" class="ref" text-anchor="start">ZF3  •  placa B</text>
+<text x="858.00" y="928.00" class="value" text-anchor="start">BZX85C12 12V</text>
+<path d="M890.0,924 L890.0,937" class="wire"/>
+<polygon points="878.0,937 902.0,937 890.0,959" fill="white" stroke="#1a2d3d" stroke-width="1.8"/>
+<path d="M877.0,960 L903.0,960" class="sym"/>
+<path d="M890.0,960 L890.0,974" class="wire"/>
+<text x="907.00" y="964.00" class="hint" text-anchor="start">K</text>
+<text x="907.00" y="937.00" class="hint" text-anchor="start">A</text>
+<g data-ref="ZF3" data-pin="1" data-net="+5B" data-hole="39,14">
+<text x="938.00" y="940.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="1234.00" y="940.00" class="hint" text-anchor="end">(39,14)</text>
+</g>
+<g data-ref="ZF3" data-pin="2" data-net="CLAMP_K3" data-hole="42,14">
+<text x="938.00" y="958.00" class="pin" text-anchor="start"> 2  CLAMP_K3</text>
+<text x="1234.00" y="958.00" class="hint" text-anchor="end">(42,14)</text>
+</g>
+<rect x="438.0" y="910" width="394.0" height="87" rx="4" class="card"/>
+<text x="448.00" y="930.00" class="ref" text-anchor="start">ZF4  •  placa B</text>
+<text x="448.00" y="946.00" class="value" text-anchor="start">BZX85C12 12V</text>
+<path d="M480.0,942 L480.0,955" class="wire"/>
+<polygon points="468.0,955 492.0,955 480.0,977" fill="white" stroke="#1a2d3d" stroke-width="1.8"/>
+<path d="M467.0,978 L493.0,978" class="sym"/>
+<path d="M480.0,978 L480.0,992" class="wire"/>
+<text x="497.00" y="982.00" class="hint" text-anchor="start">K</text>
+<text x="497.00" y="955.00" class="hint" text-anchor="start">A</text>
+<g data-ref="ZF4" data-pin="1" data-net="COIL4_PLUS" data-hole="57,14">
+<text x="528.00" y="958.00" class="pin" text-anchor="start"> 1  COIL4_PLUS</text>
+<text x="824.00" y="958.00" class="hint" text-anchor="end">(57,14)</text>
+</g>
+<g data-ref="ZF4" data-pin="2" data-net="CLAMP_K4" data-hole="60,14">
+<text x="528.00" y="976.00" class="pin" text-anchor="start"> 2  CLAMP_K4</text>
+<text x="824.00" y="976.00" class="hint" text-anchor="end">(60,14)</text>
+</g>
+</svg>

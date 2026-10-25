@@ -1,0 +1,129 @@
+FIRMWARE V2 — M27C256B PRESTO II — 24/10/2026
+
+ESCOPO
+Somente Arduino Mega 2560 de 16 MHz com a interface de fontes integradas,
+relés, comparadores, MOSFETs e buffers TI SN74AHCT541N deste projeto.
+NÃO usar em ligação direta EPROM/Mega, na placa antiga de fontes manuais,
+com outro perfil de EPROM ou com firmware/cliente V1.
+Confira a marcação completa da memória: M27C256B não é TS27C256Q.
+
+O firmware não constitui segurança certificada. A simulação e a compilação
+não substituem ensaio físico das fontes, intertravamento UV, contatos dos relés,
+entrada AREF/ADC, níveis lógicos, sequência das tensões ou pulso na EPROM.
+
+PINOS DO MEGA
+AP A0..A14: D22..D36, respectivamente (nomes A0..A14 aqui são da EPROM).
+RP Q0..Q7: D47,D38,D37,D40,D41,D42,D43,D44 via comparadores.
+WP Q0..Q7: D2..D9 via MOSFETs, HIGH força bit zero.
+/CE D45 e /OE D46: via MOSFETs, HIGH no Mega ativa LOW na EPROM.
+BUS_EN D49: HIGH habilita buffers de endereço através do BC337.
+MODE D48 INPUT_PULLUP: LOW=GRAVAR, HIGH=LER; não recebe 12 V.
+K1 D10, K2 D11, K3 D12, K4 D14: drivers de bobina do projeto, nunca bobinas diretas.
+LEDs OPCIONAIS D50=leitura,D51=sessão de gravação/verificação,D52=falha;
+resistores de 1 kΩ se instalados. Não fazem parte do núcleo obrigatório.
+Sensores ANALÓGICOS A0=VCC,A1=VPP,A2=VIN_PROT,A3=5B; não confundir
+com os nomes dos endereços da EPROM. AREF externa física: 2,500 V.
+
+COMPORTAMENTO
+Reset: BUS e K4 desabilitados, todos os relés soltos, VCC máxima 6,25 V.
+Antes de baixar VCC, confirma por ADC que VPP acompanha VCC. Se VPP
+ficar presa em 12,75 V, mantém o ajuste de VCC e retorna VPP_STUCK.
+Depois recupera leitura 5 V/5 V, com barramento isolado. Nenhum pulso é
+permitido sem handshake V2, comando A, chave GRAVAR e fontes válidas.
+
+PGM: VCC6,25±0,10 V e VPP12,75±0,10 V (janelas de firmware).
+Máximo 25 pulsos nominais 100 us por byte, verify elevado entre pulsos,
+nenhum sobrepulso. Timer1 reservado ao pulso; não adicionar Servo,
+Tone ou outra biblioteca que altere Timer1/PORTL sem revisar a temporização.
+Interrupções ficam suspensas apenas durante o pulso; SREG é restaurado.
+
+Finalização: compara todos os 32768 bytes em 6,00±0,10 V, depois
+4,20±0,05 V e depois 5,00±0,10 V. Nesses modos VPP segue VCC e a leitura
+usa /CELOW,/OELOW. Só então o firmware pode responder SUCCESS.
+O BIN é transmitido em blocos de 128 bytes, não armazenado inteiro no Mega.
+
+Proteções de software: VIN_PROT 11,1..13,0 V, 5B 4,95..5,05 V,
+VPP seguindo VCC±0,12 V. Estabilização>=500 ms e 8 amostras válidas
+consecutivas; timeout 2 s por transição. Monitoramento de ADC a cada 20 ms
+e da chave durante a sessão. O intertravamento UV físico é necessário:
+software não reage instantaneamente e não controla um MCU sem alimentação.
+Falha de alimentação/chave DETECTADA pelo firmware deixa FAULT retido,
+sem religar K4 automaticamente. Recuperação explícita por I ou D, com sequência
+segura. O comparador UV de hardware NÃO tem latch: um evento breve, menor
+que o intervalo entre amostras, pode voltar antes de o software percebê-lo.
+Não afirmar que todo evento UV físico fica retido; medir esse comportamento.
+D é aceito mesmo sem handshake; P apenas lê os sensores e não arma nada.
+K e Q são serviços exclusivamente SEM chip e com a chave LER (abaixo).
+Sessão ociosa expira em 15 s; pacote parcial tem deadline total 5 s / entre bytes 1,5 s.
+
+INSTALAÇÃO E USO
+Abra eprom27/eprom27.ino na Arduino IDE, placa Mega2560; não mudar o mapa.
+Instale Python 3 e pyserial no computador que vai operar a porta:
+  python3 -m pip install pyserial
+Exemplos a partir desta pasta:
+  python3 eprom_pc.py --porta /dev/ttyACM0 tensoes
+  python3 eprom_pc.py --porta /dev/ttyACM0 calibrar --vcc 4.2
+  python3 eprom_pc.py --porta /dev/ttyACM0 calibrar --vcc 5
+  python3 eprom_pc.py --porta /dev/ttyACM0 calibrar --vcc 6
+  python3 eprom_pc.py --porta /dev/ttyACM0 calibrar --vcc 6.25
+  python3 eprom_pc.py --porta /dev/ttyACM0 pulso --vcc 6.25
+  python3 eprom_pc.py --porta /dev/ttyACM0 info
+  python3 eprom_pc.py --porta /dev/ttyACM0 autoteste
+  python3 eprom_pc.py --porta /dev/ttyACM0 vazio
+  python3 eprom_pc.py --porta /dev/ttyACM0 ler backup.bin
+  python3 eprom_pc.py --porta /dev/ttyACM0 verificar imagem.bin
+  python3 eprom_pc.py --porta /dev/ttyACM0 gravar imagem.bin
+No Windows, substitua a porta por COM3 ou a correspondente.
+
+Retire a EPROM para o autoteste inicial da interface. Ele compara 00/FF/AA/55
+nos caminhos de escrita/leitura; não mede pulso e não certifica chip ausente.
+Leitura salva somente três dumps idênticos; não sobrescreve arquivo existente.
+BIN de gravação/verificação deve ter exatamente 32768 bytes; não faz padding.
+Para gravar, mantenha a chave GRAVAR até terminar todas as verificações.
+O cliente solicita a palavra GRAVAR e trata resets, falhas e Ctrl+C sem
+repetir automaticamente um bloco que possa já ter sido programado.
+
+CALIBRAÇÃO
+Retire a EPROM e selecione LER. A ação calibrar seleciona os relés para o
+alvo indicado, com BUS desabilitado e K4 desligado. Nunca eleva VPP para
+12,75 V: ela acompanha VCC. O estado de serviço aparece como FAULT/CALIBRATION
+e invalida a sessão de escrita. Não é uma falha que autoriza inserir o chip.
+O alvo pode estar desajustado: UNCALIBRATED mantém os relés selecionados,
+permitindo ajustar o trimpot com multímetro, sem desfazer a seleção.
+O cliente mantém a porta aberta: Enter relê os sensores, FIM/Ctrl+C pede D e
+restaura 5 V/5 V pela sequência segura. Não inserir a EPROM nesse serviço.
+Antes de selecionar os relés, exige VIN/5B válidos e VPP seguindo VCC.
+Se VPP estiver presa, não reduz VCC. Ajuste a linha de 12,75 V no TP B7
+conforme o esquema, ainda com K4 desligado; K nunca a encaminha ao soquete.
+
+Antes de inserir EPROM, ajuste as fontes conforme o esquema e confira
+contra multímetro em cada TP. Verifique também o USB do Mega>=4,75 V.
+Use a ação tensoes: exibe VCC,VPP,VIN_PROT,5B e os 4 ADCs brutos,
+inclusive se a inicialização ficou em FAULT e o handshake I não é permitido.
+Ganhos de medição estão em eprom27/config.h, ordem VCC, VPP, VIN, 5B.
+Para cada canal: ganho_novo=ganho_atual*(multímetro/tensão_exibida).
+Recompile e confira novamente em todos os modos; não use ganho para
+mascarar uma fonte fora da especificação. Ganhos não ajustam reguladores.
+AREF é 2,500 V externa: nunca aplique 5 V nesse pino e não selecione DEFAULT.
+O caminho de sensores tem MOSFETs: precisão depende da alimentação USB,
+resistores e componentes reais. ADC nominal não é medição calibrada.
+
+ENSAIOS FÍSICOS OBRIGATÓRIOS
+Sem chip: medir polaridade/tensões/AREF, estados de reset, estabilidade,
+retirada de VPP antes de baixar VCC, intertravamento UV e isolamento USBoff.
+Com osciloscópio: /CE no pino 20 deve ter 95..105 us, contando o RC do
+pull-up e fiação; conferir setup/hold >= 2 us e ausência de contenção.
+A ação pulso emite exatamente um pulso de serviço, SEM EPROM, após selecionar
+o alvo VCC e conferir as fontes. /OE permanece HIGH e os endereços isolados;
+VPP acompanha VCC, nunca 12,75 V. O comando Q recusa alvo fora da janela,
+chave GRAVAR ou falha que não seja o estado de calibração permitido.
+Ao encerrar a ação, D retorna a 5 V. Não é um ensaio de programação da memória.
+Depois usar memória em condição conhecida e imagem de teste conhecida.
+A memória que sofreu inversão de alimentação não serve como referência.
+
+FONTE PRIMÁRIA
+STMicroelectronics M27C256B, revisão 2, maio de 2006, pp. 9, 10, 15, 18:
+https://www.mouser.com/datasheet/2/389/stmicroelectronics_cd00000515-1204492.pdf
+O documento ST original está hospedado no distribuidor.
+Algoritmo físico e interface/protocolo são coisas distintas: o projeto não
+promete o tempo típico de 3,5 s do componente; USB, ADC e bitbanging acrescentam tempo.

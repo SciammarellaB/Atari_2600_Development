@@ -1,0 +1,77 @@
+PROTOCOLO BINÁRIO E2 / PERFIL EPROM27 V2 M27C256B_PRESTOII
+
+TRANSPORTE
+USB serial 115200 baud. Todas as requisições/respostas usam:
+  45 32 | cmdU8 | seqLE16 | lenLE16 | payload[len] | CRC32LE
+45 32 são os bytes ASCII 'E2'. CRC32 IEEE/zlib sobre cmd,seq,len,payload,
+excluindo os dois bytes magic. Não enviar quebras de linha nem comandos ASCII soltos.
+O payload máximo de requisição é 131 bytes. Respostas: primeiro byte do
+payload é status 0=OK / 1=erro; os bytes restantes são corpo binário ou ASCII.
+seq incrementa módulo 65536, a partir do escolhido no handshake I.
+Cliente não repete automaticamente um bloco em timeout ou CRC de resposta errado.
+
+COMPATIBILIDADE
+O payload W preserva endereço LE16+tamanho U8+dados do cliente V1.
+O envelope V2 é novo e obrigatório; V1 não é compatível no fio nem no algoritmo.
+I identifica exatamente:
+  EPROM27 V2 M27C256B_PRESTOII AUTO_RAILS MAX128
+P, D, K e Q são permitidos sem handshake: diagnóstico, retirada segura e
+serviços SEM EPROM. K/Q exigem a chave LER. Nenhum deles autoriza VPP
+de programação. Os demais exigem I e sequência correta.
+I recupera leitura, invalida qualquer sessão anterior e inicia nova sequência.
+
+COMANDOS / CORPO DE REQUISIÇÃO / CORPO DE RESPOSTA OK
+I / vazio / identificação acima
+D / vazio / DISARMED (fontes 5 V/5 V medidas, controles inibidos)
+P / vazio / stageU8,modeU8,VCCmVLE16,VPPmVLE16,VINmVLE16,5BmVLE16,
+            ADCVCCLE16,ADCVPPLE16,ADCVINLE16,ADC5BLE16
+            total 18 bytes; stage 0=READ, 1=PROGRAM, 2=VERIFY_HIGH, 3=VERIFY_LOW,
+            4=VERIFY_FINAL, 5=FAULT; mode 0=LER, 1=GRAVAR
+K / seleção U8 / CALIBRATION ou UNCALIBRATED; SEM CHIP, chave LER;
+            seleção 0=5 V, 1=6,25 V, 2=6 V, 3=4,2 V. Isola barramento, desliga K4,
+            confirma VPP seguindo VCC e fontes antes de selecionar relés.
+            Mantém o alvo selecionado mesmo se o trimpot não está calibrado.
+            Estado FAULT/CALIBRATION, sessão invalidada; P continua disponível.
+Q / vazio / PULSE_100US; SEM CHIP, chave LER, somente READ ou FAULT/CALIBRATION;
+            exige fontes no alvo, VPP seguindo VCC, /OE HIGH e endereços isolados.
+            Emite exatamente 1 pulso /CE de 100 us, não programa, nunca eleva VPP.
+S / vazio / 4 bytes lidos nos padrões 00, FF, AA, 55; somente READ
+R / endereço LE16,tamanho LE16(1..128) / bytes solicitados; somente READ
+A / vazio / ARMED após sequência 6,25/12,75 V e blank check integral
+W / endereço LE16,tamanho U8(1..128),dados / OK; somente PROGRAM
+H / vazio / VERIFY_6V; exige W ter coberto todos os 32768 bytes
+V / endereço LE16,tamanho U8(1..128),dados / OK; somente VERIFY_*; comparação exata
+L / vazio / VERIFY_4V2; exige V ter coberto todos os 32768 bytes em 6 V
+F / vazio / VERIFY_5V; exige V ter coberto todos os 32768 bytes em 4,2 V
+C / vazio / SUCCESS; exige V ter coberto todos os 32768 bytes em 5 V
+
+W e V exigem cobertura sequencial a partir de 0, sem lacunas, repetição nem
+ultrapassar 32767. Cada transição reinicia a cobertura de V em 0.
+O Mega recebe os 128 bytes esperados do BIN e compara cada byte localmente;
+não basta o computador mandar uma confirmação sem transferir o conteúdo.
+Nenhum SUCCESS é enviado em mera confirmação de bloco ou passagem parcial.
+
+ERROS / RECUPERAÇÃO
+Frame com CRC/comprimento/sequência inválidos ou parcial expirado retira
+BUS e K4, tenta recuperar READ e invalida o handshake. O receptor volta a
+procurar a próxima magic; dados residuais sem envelope CRC não viram A/W.
+Timeout parcial pode não ter sequência completa: não há resposta garantida.
+Deadline total 5 s evita que um emissor mantenha pacote incompleto indefinidamente;
+intervalo sem byte >1,5 s também encerra. Sessão ociosa >15 s aborta.
+Estado FAULT é retido após falha elétrica/chave detectada pelo firmware;
+a volta da fonte não rearma o software. O UV físico não tem latch e um evento
+breve pode não ser amostrado; não afirmar retenção de todos os eventos físicos.
+D explícito tenta recuperar READ e pode confirmar DISARMED mesmo sem handshake.
+Depois de erro, use I antes de iniciar outra operação. P permite inspeção em FAULT.
+
+Erros ASCII incluem NEED_HANDSHAKE,SEQUENCE,FRAME_LENGTH,FRAME_TIMEOUT,CRC,
+RANGE,READ_RANGE_OR_STAGE,STAGE_OR_ADDRESS,STAGE_OR_COVERAGE,COVERAGE,
+MODE,MODE_OR_STAGE,POWER,RAIL_SETTLE,VPP_TARGET,VPP_STUCK,NOT_BLANK,
+ZERO_TO_ONE,VERIFY_PROGRAM,VERIFY_IMAGE,COMMAND_OR_LENGTH,SESSION_TIMEOUT.
+Serviços também usam SERVICE_RANGE,SERVICE_KEY,SERVICE_KEY_OR_STAGE,SERVICE_RAILS.
+VPP_STUCK mantém VCC no ajuste atual: não interpretar como fonte desligada.
+
+TESTES
+Os stubs testam protocolo/ordem e a intenção de pulso. Não modelam bordas
+analógicas, tempos de contato, efeitos de alimentação invertida ou segurança
+na ausência do MCU. O contrato de hardware e os ensaios continuam necessários.

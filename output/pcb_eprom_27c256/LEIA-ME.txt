@@ -1,0 +1,78 @@
+PCB EPROM 27C256 + ARDUINO MEGA 2560 — REVISÃO 0.1
+24/10/2026 — PROTÓTIPO PARA REVISÃO E ENSAIO DE BANCADA
+
+ABRIR
+1. Leia pcb_eprom_27c256_esquema.pdf: 7 pranchas A3, com PCB, montagem,
+   três folhas do esquema, conectores e lista de componentes.
+2. No KiCad 7 ou posterior, abra eprom27_rev01.kicad_pro.
+   Mantenha fp-lib-table e footprints/ junto dos três arquivos do projeto.
+   Os footprints estão incluídos; os modelos 3D opcionais são da biblioteca
+   padrão do KiCad e não acompanham este pacote.
+3. A placa tem 200 x 140 mm, duas camadas e componentes THT.
+   Liga ao Mega por cabos ponto a ponto. Não encaixa diretamente como shield.
+   U1 usa soquete DIP-28 de 600 mil; o corpo de um ZIF não foi dimensionado.
+
+ESTADO DA VALIDAÇÃO
+KiCad 7.0.11: esquema e placa abertos; netlist exportada com sucesso.
+227 pinos conectados conferidos contra contrato_eletrico.json; J3.12 é NC.
+74 footprints, 649 segmentos, 18 vias e plano de GND na camada B.Cu.
+DRC final: 0 violações, 0 pads desconectados e 0 erros de footprint.
+Pinagem e polaridades tiveram revisão independente.
+Firmware deste pacote: PROGRAMMER_HARDWARE=1; 15 testes instrumentados passaram.
+As sete páginas do PDF foram renderizadas e inspecionadas visualmente.
+
+Não houve ensaio físico desta placa nem programação de uma EPROM real.
+DRC verifica regras do desenho e conectividade; não comprova funcionamento.
+Não estão incluídos Gerbers nem arquivos de fabricação. Esta revisão requer
+ensaio elétrico, medição dos pulsos e conferência mecânica antes de fabricar.
+
+INTERFACES
+J1: A0..A14 para Mega D22..D36; pino 16 = GND.
+J2: RD0..RD7 para D47,D38,D37,D40,D41,D42,D43,D44;
+    pino 9 = 5V do Mega (+5M); pino 10 = GND.
+J3: WR0..WR7 para D2..D9; pino 9 = D45; pino 10 = D46;
+    pino 11 = GND; pino 12 sem conexão.
+J4: 1=VCC_EP, 2=GND, 3=VPP, 4=GND, 5=V_AUX, 6=GND.
+Conferir pinos no CAD: pad quadrado identifica o pino 1.
+Veja também ligacoes_mega.csv e a prancha 6 do PDF.
+
+FONTES EXTERNAS MANUAIS — TODAS COM GND COMUM
+VCC_EP: leitura 5 V; programação 6,0 V ±0,25 V.
+VPP: leitura 5 V; programação 12,5 V ±0,3 V.
+V_AUX: 9 a 15 V fixos para os LM339; independe da comutação de VPP.
++5M: somente o 5V do Mega. Não unir +5M a VCC_EP ou VPP.
+O circuito não mede nem comuta as fontes e não protege contra polaridade
+invertida. O comando de desarme não retira as tensões externas.
+Elevar VCC_EP antes de VPP e reduzir VPP antes de VCC_EP.
+Endereços do Mega devem estar em alta impedância quando VCC_EP estiver ausente.
+Leia a sequência detalhada no manual e em codigos/LEIA-ME.txt.
+
+COMPONENTES E PERFIL
+Perfil de programação da ST TS27C256Q antiga, incluindo TS27C256-30CQ.
+Confirmar a marcação real; não usar este perfil em uma M27C256B.
+2N7000: footprint Microchip TO-92, 1=S, 2=G, 3=D; conferir a peça comprada.
+R39 e R40: preferir 1%. Capacitores C1..C5: 100 nF cerâmicos, 25 V ou mais.
+Os eletrolíticos de 100 uF são complemento e não substituem esses cerâmicos.
+O apagamento dessa EPROM exige UV adequado pela janela; não é elétrico.
+
+CONTEÚDO
+eprom27_rev01.kicad_*: projeto editável, esquema e PCB roteada.
+esquema_01..03.svg: esquema de ligação vetorial dividido em três folhas.
+pcb_visao_superior.png/.svg: vista explicativa das trilhas por cima.
+pcb_montagem.png/.svg: posição e orientação dos componentes.
+Na vista explicativa, o plano de GND é omitido para mostrar as trilhas;
+o plano permanece presente e preenchido no arquivo .kicad_pcb.
+bom.csv: lista por referência e footprint; pads_redes.csv: pinos físicos/redes.
+netlist.xml: netlist exportada do esquema principal pelo KiCad.
+drc_rev01.txt: relatório final de regras da placa.
+codigos/: sketch configurado para a PCB, cliente Python e testes.
+fontes/: geradores de CAD/apresentação e arquivos de roteamento intermediários.
+LICENCA_FOOTPRINTS.txt: licença das bibliotecas oficiais KiCad incluídas.
+
+FONTES DOS GERADORES
+Requerem Python 3, pcbnew do KiCad 7, bibliotecas oficiais KiCad 7,
+ReportLab, pypdf, CairoSVG e fontes DejaVu Sans.
+Geradores são documentação da construção. Não os execute sobre uma placa
+editada à mão: gerar_pcb.py recria o posicionamento inicial sem roteamento.
+O importador SES só é aplicável ao posicionamento que originou esse arquivo.
+O esquema moderno principal entregue é eprom27_rev01.kicad_sch.

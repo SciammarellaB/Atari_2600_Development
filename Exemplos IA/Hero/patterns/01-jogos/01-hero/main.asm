@@ -55,7 +55,7 @@ ActorX      = $9B
 ActorY      = $9C
 ActorColor  = $9D
 SpritePtr   = $9E       ; dois bytes: ponteiro indireto para o bitmap de P1
-NextHero    = $A0
+NextHeroRow = $A0       ; 0..7 = linha do heroi; 8 = linha transparente
 NextActor   = $A1
 FirstActorPixel = $A2   ; prefill do mineiro no evento72; zero nos demais
 NextPF1     = $A3
@@ -70,9 +70,10 @@ BombMask    = $AC
 StatusMask  = $AD
 Background  = $AE
 RockColor   = $AF
-VisibleSlots = $B0      ; tres bytes: bateria, cristal e mineiro presentes
+VisibleSlots = $B0      ; tres alturas: bateria, cristal e mineiro; 128 = oculto
 BombDisplayY = $B3      ; linha da carga M1; 128 enquanto nao houver pavio
-HeroPixels  = $B8       ; oito bytes do heroi, com helice animada
+SlotPixels  = $B4       ; primeiros bytes dos tres atores, preparados no VBLANK
+HeroPixels  = $B7       ; oito bytes do heroi + uma linha transparente em $BF
 Map1        = $C0       ; onze bandas do PF1, cada banda com 16 linhas
 Map2        = $CB       ; onze bandas do PF2, incluindo a parede removivel
 HudColor    = $D6
@@ -149,15 +150,18 @@ Frame
         sta ENAM1
         sta PF0
         sta PF2
-        sta NextHero
+        sta HeroPixels+8
         sta NextActor
         sta FirstActorPixel
+        lda #8
+        sta NextHeroRow
         lda FuelMask
         sta PF1
         lda HudColor
         sta COLUPF
         lda #0
         sta COLUBK
+        sta HMCLR       ; espera o HMOVE terminar antes de zerar os ajustes
 WaitBlank
         lda INTIM
         bne WaitBlank
@@ -191,28 +195,62 @@ InventoryLines
         lda Background
         sta COLUBK
         ldx #0
-        lda NextHero
+        ldy NextHeroRow
+        txa
+        eor ShotY
+        cmp #1          ; Carry=0 somente na altura do laser; LDA preserva Carry
+        lda HeroPixels,y
         sta WSYNC       ; ultima linha do painel termina com o mapa preparado
         jmp DrawPair
 
 ; --- Kernel de duas linhas: cada iteracao desenha um par ---
-; A primeira linha escreve P0/M0 ate os ciclos 6/18, PF1/PF2 ate 24/30 e P1
-; ate 36. P1 usa X>=56 (pixel inicial no ciclo ~41); nao cortamos seu desenho.
+; A primeira linha escreve P0/M0/cor ate os ciclos 6/13/20, PF1/PF2 ate 26/32
+; e P1 ate 38. PF1 comeca em X=16 (ciclo 28); P1 em X>=56 (ciclo ~41).
 ; PF0 nao muda na caverna. ALIGN impede penalidade de pagina nos desvios.
-; A segunda linha calcula P1 e atualiza o mapa somente a cada oito pares.
+; A segunda linha calcula P1 e consulta a banda do mapa para o proximo par.
         align 256
 HeroBlank
-        lda #0
-        sta NextHero
+        lda #8
+        sta NextHeroRow
         jmp EndLineA
 
+; O cristal fica mais a esquerda: seu reset vem antes das leituras de P0.
+; NextActor ja e zero desde PrepareSlot, pois seu primeiro byte nao e antecipado.
+PositionCrystal
+        ldy NextHeroRow
+        sec
+CrystalDivide15
+        sbc #15
+        bcs CrystalDivide15
+        eor #7
+        asl
+        asl
+        asl
+        asl
+        sta HMP1
+        sta RESP1
+        txa
+        eor ShotY
+        cmp #1
+        lda HeroPixels,y
+        jmp ActorSync
+
 ; --- Reposicionamento de P1 numa segunda linha sem pixels desse player ---
-; Os eventos chegam com A=X_alvo-30. O despacho e SEC consomem 13 ciclos;
-; as escritas diretas de 3 ciclos compensam as indexadas de 5/4 da rotina
-; inicial: 13*3 - (2+1)*3 = 30 pixels. HMCLR zerou os ajustes de P0/M0/M1.
+; A base do despacho corresponde a X_alvo-30. Para bateria/mineiro, o prefill
+; e as leituras de P0 antes de RESP1 acrescentam 28 ciclos: A=X_alvo-114.
+; Para o cristal, desvio e LDY acrescentam oito ciclos: A=X_alvo-54.
+; As escritas diretas compensam as indexadas de PositionObject. HMCLR zerou
+; os ajustes no VBLANK. Os testes conferem o reset grosso mais o ajuste fino.
 ; O WSYNC fecha B e HMOVE inicia A seguinte. Cair em DrawPair custa os
 ; mesmos tres ciclos do JMP normal: nao alonga o kernel nem move o heroi.
 PositionActor
+        cpx #60
+        beq PositionCrystal
+        tay
+        lda FirstActorPixel
+        sta NextActor
+        tya
+        ldy NextHeroRow
         sec
 ActorDivide15
         sbc #15
@@ -223,24 +261,25 @@ ActorDivide15
         asl
         asl
         sta HMP1
+        txa
+        eor ShotY
+        cmp #1
+        lda HeroPixels,y
         sta RESP1
-        lda FirstActorPixel ; evento72 precisa do bitmap[0]; demais usam zero
-        sta NextActor
-        lda NextHero    ; antecipa leitura para dar folga a linha A
+ActorSync
         sta WSYNC
         sta HMOVE
 DrawPair
-        sta GRP0        ; A veio de NextHero antes do WSYNC da linha anterior
+        sta GRP0        ; bitmap e indice Y vieram da segunda linha anterior
 
 ; --- Laser calculado no proprio par ---
-; Comparar X depois de LDA preserva a igualdade. ENAM0 recebe 2 somente em
-; ShotY; calcular aqui dispensa preparar e ler outro cache de pixels.
-        lda #0
-        cpx ShotY
-        bne StoreLaser
-        lda #2
-StoreLaser
+; Carry veio de (X EOR ShotY) CMP #1, calculado antes do WSYNC. $FE+1+Carry
+; resulta em $FF na igualdade e zero na diferenca. ENAM0 usa somente o bit 1.
+        lda #$FE
+        adc #1
         sta ENAM0
+        lda HeroColors,y
+        sta COLUP0      ; uma cor por linha do bitmap, repetida no par inteiro
         lda NextPF1
         sta PF1
         lda NextPF2
@@ -260,16 +299,14 @@ StoreBomb
 
 ; --- Pixels do heroi para o par seguinte ---
 ; A subtracao sem sinal exclui tanto valores antes de HeroY quanto apos
-; HeroY+7. LDA HeroPixels,Y consulta a RAM e nao cruza pagina.
+; HeroY+7. O indice 8 seleciona bitmap zero e cor do laser fora do heroi.
         inx
         txa
         sec
         sbc HeroY
         cmp #8
         bcs HeroBlank
-        tay
-        lda HeroPixels,y
-        sta NextHero
+        sta NextHeroRow
 EndLineA
         sta WSYNC
 
@@ -295,20 +332,17 @@ SaveActor
         sta NextActor
         cpx #88
         beq LastPair
-        txa
-        and #7
-        bne SameBand
-        txa
-        lsr
-        lsr
-        lsr
+        lda MapRows,x   ; X/8 tabelado economiza ciclos para as cores de P0
         tay
         lda Map1,y
         sta NextPF1
         lda Map2,y
         sta NextPF2
-SameBand
-        lda NextHero
+        txa
+        eor ShotY
+        cmp #1
+        ldy NextHeroRow
+        lda HeroPixels,y
         sta WSYNC
         jmp DrawPair
 LastPair
@@ -343,17 +377,9 @@ WaitOverscan
 PrepareSlot
         and #3
         tay
-        lda #0
+        lda SlotPixels,y
         sta FirstActorPixel
         lda VisibleSlots,y
-        beq HideSlot
-        lda SlotFirstPixels,y
-        sta FirstActorPixel
-        lda SlotY,y
-        bne SaveSlotY
-HideSlot
-        lda #Offscreen
-SaveSlotY
         sta ActorY
         lda SlotBitmaps,y
         sta SpritePtr
@@ -361,8 +387,11 @@ SaveSlotY
         sta COLUP1
         lda #0
         sta NextActor
-        sta HMCLR       ; zera P0, M0 e M1: os proximos HMOVE so movem P1
-        lda NextHero
+        txa
+        eor ShotY
+        cmp #1
+        ldy NextHeroRow
+        lda HeroPixels,y
         sta WSYNC
         jmp DrawPair
 
@@ -1025,6 +1054,22 @@ BatHidden
         sta VisibleSlots+1
         lda Room
         sta VisibleSlots+2
+        ldy #2
+PrepareSlotData
+        lda #0
+        sta SlotPixels,y
+        lda VisibleSlots,y
+        beq SlotHidden
+        lda SlotFirstPixels,y
+        sta SlotPixels,y
+        lda SlotY,y
+        bne SaveVisibleSlot
+SlotHidden
+        lda #Offscreen
+SaveVisibleSlot
+        sta VisibleSlots,y
+        dey
+        bpl PrepareSlotData
         lda #Offscreen
         sta BombDisplayY
         lda BombTimer
@@ -1091,6 +1136,15 @@ Divide15
 ; bitmaps de P1 ficam nesta mesma pagina, permitindo trocar somente o byte
 ; baixo do ponteiro. O capacete do heroi olha para a direita antes de REFP0.
         align 256
+HeroColors
+        byte $0E        ; helice clara
+        byte $08        ; eixo cinza
+        byte $2E        ; capacete amarelo
+        byte $3C        ; rosto
+        byte $86,$86    ; mochila/bracos e tronco azuis
+        byte $84        ; pernas azuis mais escuras
+        byte $04        ; botas cinza escuras
+        byte $2E        ; laser fora da altura do heroi; bitmap correspondente zero
 HeroBitmap
         byte %11111111 ; helice, animada pela preparacao grafica
         byte %00011000 ; eixo do propulsor
@@ -1165,16 +1219,17 @@ RoomRocks
         byte $26,$9A
 
 ; --- Agenda vertical: indice e o proximo par X, de zero a 88 ---
-; Os eventos de posicao guardam X_alvo-30: bateria120->90, cristal56->26,
-; mineiro128->98. Incluimos indice88=zero para a saida final do kernel.
+; Os resets compensam os caminhos de PositionActor/PositionCrystal:
+; bateria120-114=6, cristal56-54=2, mineiro128-114=14.
+; Incluimos indice88=zero para a saida final do kernel.
 ; Se mudar as bandas 8/9, tambem ajuste a recarga omitida no evento72.
 KernelEvents
         ds 29,0
-        byte $80,90
+        byte $80,6
         ds 28,0
-        byte $81,26
+        byte $81,2
         ds 10,0
-        byte $82,98
+        byte $82,14
         ds 16,0
 SlotY
         byte 40,64,72
@@ -1184,6 +1239,21 @@ SlotColors
         byte $CA,$AE,$0E
 SlotFirstPixels
         byte 0,0,%00111100 ; primeiro byte do mineiro; os outros comecam depois
+
+; Indice da banda por par; pagina propria impede um ciclo extra no LDA abs,X.
+        align 256
+MapRows
+        ds 8,0
+        ds 8,1
+        ds 8,2
+        ds 8,3
+        ds 8,4
+        ds 8,5
+        ds 8,6
+        ds 8,7
+        ds 8,8
+        ds 8,9
+        ds 8,10
 
 ; --- Vetores do cartucho de 4 KiB ---
 ; Os tres apontam para Reset. O 6507 nao expoe IRQ/NMI, mas os seis bytes

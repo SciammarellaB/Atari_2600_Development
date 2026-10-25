@@ -1,0 +1,46 @@
+VALIDACAO DO PROJETO PERFURADO - REV0.2 - 24/10/2026
+
+CONTRATO E LISTAS
+200 referencias unicas;619 terminais fisicos; zero sobreposicoes de furos.
+Verificados limites das duas grades e reserva da ultima linha paraGND.
+458 ligacoes internas +8fios no cabo A-B. Continuidade integral dos grafos
+por rede e placa, incluindo barramentosGND, sem ligacoes a NC ou rede alheia.
+Indice das seis pranchas:619 registros correspondem exatamente a cada
+referencia,pino,rede,placa,coluna e linha do contratoEletricoJSON.
+SVGs analisados comoXML. Estados dos quatro reles e tensoes nominais
+calculadas conferidos; pinos criticos, flybackK4 e clamps conferidos.
+
+COMANDO E RESULTADO
+python3 output/perfurada_m27c256b/fontes/validar_projeto.py
+PASS 200 referencias unicas,619 terminais,zero sobreposicoes de furos.
+PASS 458 ligacoes internas e8fios A-B:cobertura e continuidade do grafo.
+PASS 619 pinos nos esquemas;SVGs XML validos;estados e pinos criticos conferidos.
+
+REVISAO ELETRICA INDEPENDENTE
+Pinagem dos reles comparada a figura original Omron(vista inferior), incluindo
+espelhamento correto da grade superior e contatosCOM4/NC6/NO8.
+AlgoritmoM27C256B, interfacesAHCT/LM339, LM317segmentado, referenciaLM4040,
+HC14regenerandoUV/OE, clamps e polaridades revisados.
+ReservatorioCP1 afastado doTO220; cinco ceramicos aproximados dos respectivos
+blocos. Retornos de desacoplamento definidos diretamente aoGNDlocal.
+Envelopes previstos nao substituem medicao dos corpos/dissipadores comprados.
+
+FIRMWARE E CLIENTE
+38/38 testesC++ instrumentados e17/17Python passaram.
+CompilacaoMega real: core arduino:avr1.8.7,11286bytesflash,771bytesglobais.
+Revisao independente repetiu suites na primeira versao30C++/13Python e,
+apos adicionar os servicosK/Q, executou8novosC++,4Python direcionados e
+4cenariosCLI adicionais(FIM,Ctrl+C,timeoutP,timeoutP+falhaD), todosPASS.
+Resultados completos e comandos em codigos/VALIDACAO.txt.
+
+PDF E MAPAS
+Manual20paginas:A4prosa,4mapasA3(superior/solda) e6pranchasA3.
+Paginas renderizadas comPoppler e inspecionadas visualmente.
+Nao foi executadoDRC dePCB nesta revisao: a montagem e em ilhas e fios.
+
+PENDENTE DE BANCADA
+Nenhum upload, leitura fisica, apagamentoUV ou programacao real foi realizado.
+Validar tensoes/ripple/carga/termica, calibracao/linearidadeADC,UV,USBoff,
+contatos, hold e pulsos95..105us reais no pino20, incluindo resetdurantepulso
+e queda lenta/abrupta dos12V. A memoria que sofreu alimentacao invertida nao
+deve ser usada como referencia conhecida. Simulacao nao certifica hardware.

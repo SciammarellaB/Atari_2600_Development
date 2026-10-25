@@ -1,0 +1,496 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 1680 1188">
+<rect width="1680" height="1188" fill="white"/>
+<style>text{font-family:DejaVu Sans,sans-serif;fill:#142231;font-size:15px}.wire{fill:none;stroke:#23654d;stroke-width:2}.sym{fill:white;stroke:#142231;stroke-width:2}.pin{font-size:11px;fill:#536272}.small{font-size:12px}.title{font-size:25px;font-weight:bold}.panel{fill:#f8fafc;stroke:#c7d0db;stroke-width:1}</style>
+<text x="35" y="42" class="title" text-anchor="start">LEITOR / GRAVADOR ST TS27C256Q — canais de dados Q4 a Q7</text>
+<text x="35" y="71" class="" text-anchor="start">REVISÃO 0.1 • PROTÓTIPO • folha 3/3 • PROGRAMMER_HARDWARE=1 • pinos físicos numerados</text>
+<path d="M30,90 L1650,90" class="sym"/>
+<path d="M30,1130 L1650,1130" class="sym"/>
+<text x="35" y="1154" class="small" text-anchor="start">Mesmo nome de rede = conexão elétrica, inclusive entre folhas. J1/J2/J3: cabos ponto a ponto ao Mega; não é shield.</text>
+<text x="35" y="1174" class="small" text-anchor="start">Fontes externas ajustadas manualmente. SEM proteção contra polaridade invertida. Circuito não ensaiado fisicamente.</text>
+<rect x="35" y="110" width="790" height="420" class="panel"/>
+<text x="50" y="137" class="" text-anchor="start">CANAL Q4 — escrita com inversão / leitura sem inversão</text>
+<text x="213" y="308" class="small" text-anchor="start">R5 220R</text>
+<path d="M145,320 L170,320" class="wire"/>
+<rect x="170" y="312" width="50" height="16" class="sym"/>
+<path d="M220,320 L245,320" class="wire"/>
+<g data-ref="R5" data-pin="1" data-net="WR4">
+<text x="149" y="313" class="pin" text-anchor="start">1</text>
+<path d="M145,320 L105,320" class="wire"/>
+<text x="100" y="315" class="small" text-anchor="end">WR4</text>
+</g>
+<g data-ref="R5" data-pin="2" data-net="G4">
+<text x="249" y="313" class="pin" text-anchor="start">2</text>
+</g>
+<text x="203" y="418" class="small" text-anchor="start">R13 100k</text>
+<path d="M185,394 L185,410" class="wire"/>
+<rect x="177" y="410" width="16" height="40" class="sym"/>
+<path d="M185,450 L185,466" class="wire"/>
+<g data-ref="R13" data-pin="1" data-net="G4">
+<text x="189" y="387" class="pin" text-anchor="start">1</text>
+<path d="M185,394 L225,394" class="wire"/>
+<text x="230" y="389" class="small" text-anchor="start">G4</text>
+</g>
+<g data-ref="R13" data-pin="2" data-net="GND">
+<text x="189" y="459" class="pin" text-anchor="start">2</text>
+<path d="M185,466 L225,466" class="wire"/>
+<text x="230" y="461" class="small" text-anchor="start">GND</text>
+</g>
+<circle cx="365" cy="330" r="31" class="sym"/>
+<path d="M352,311 L352,349" class="sym"/>
+<path d="M360,310 L360,318" class="sym"/>
+<path d="M360,326 L360,334" class="sym"/>
+<path d="M360,342 L360,350" class="sym"/>
+<path d="M360,314 L379,314" class="sym"/>
+<path d="M379,314 L379,280" class="wire"/>
+<path d="M360,346 L379,346" class="sym"/>
+<path d="M379,346 L379,380" class="wire"/>
+<path d="M310,330 L352,330" class="wire"/>
+<path d="M379,346 L379,330" class="sym"/>
+<path d="M379,330 L360,330" class="sym"/>
+<polygon points="361,330 368,326 368,334" class="sym"/>
+<text x="403" y="320" class="small" text-anchor="start">Q5 2N7000</text>
+<g data-ref="Q5" data-pin="1" data-net="GND">
+<text x="383" y="373" class="pin" text-anchor="start">1</text>
+<path d="M379,380 L419,380" class="wire"/>
+<text x="424" y="375" class="small" text-anchor="start">GND</text>
+</g>
+<g data-ref="Q5" data-pin="2" data-net="G4">
+<text x="314" y="323" class="pin" text-anchor="start">2</text>
+<path d="M310,330 L270,330" class="wire"/>
+<text x="265" y="325" class="small" text-anchor="end">G4</text>
+</g>
+<g data-ref="Q5" data-pin="3" data-net="Q4">
+<text x="383" y="273" class="pin" text-anchor="start">3</text>
+<path d="M379,280 L419,280" class="wire"/>
+<text x="424" y="275" class="small" text-anchor="start">Q4</text>
+</g>
+<path d="M245,320 L280,320" class="wire"/>
+<path d="M280,320 L280,330" class="wire"/>
+<path d="M280,330 L310,330" class="wire"/>
+<text x="397" y="188" class="small" text-anchor="start">R21 10k</text>
+<path d="M379,164 L379,180" class="wire"/>
+<rect x="371" y="180" width="16" height="40" class="sym"/>
+<path d="M379,220 L379,236" class="wire"/>
+<g data-ref="R21" data-pin="1" data-net="VCC_EP">
+<text x="383" y="157" class="pin" text-anchor="start">1</text>
+<path d="M379,164 L419,164" class="wire"/>
+<text x="424" y="159" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<g data-ref="R21" data-pin="2" data-net="Q4">
+<text x="383" y="229" class="pin" text-anchor="start">2</text>
+<path d="M379,236 L419,236" class="wire"/>
+<text x="424" y="231" class="small" text-anchor="start">Q4</text>
+</g>
+<polygon points="550,285 550,375 635,330" class="sym"/>
+<path d="M515,307 L550,307" class="wire"/>
+<path d="M515,353 L550,353" class="wire"/>
+<path d="M635,330 L665,330" class="wire"/>
+<text x="557" y="312" class="" text-anchor="start">+</text>
+<text x="557" y="358" class="" text-anchor="start">−</text>
+<text x="555" y="272" class="small" text-anchor="start">U3A LM339N</text>
+<text x="568" y="394" class="small" text-anchor="start">saída coletor aberto</text>
+<g data-ref="U3" data-pin="5" data-net="Q4">
+<text x="519" y="300" class="pin" text-anchor="start">5</text>
+<path d="M515,307 L475,307" class="wire"/>
+<text x="470" y="302" class="small" text-anchor="end">Q4</text>
+</g>
+<g data-ref="U3" data-pin="4" data-net="VREF">
+<text x="519" y="346" class="pin" text-anchor="start">4</text>
+<path d="M515,353 L475,353" class="wire"/>
+<text x="470" y="348" class="small" text-anchor="end">VREF</text>
+</g>
+<g data-ref="U3" data-pin="2" data-net="RD4">
+<text x="669" y="323" class="pin" text-anchor="start">2</text>
+<path d="M665,330 L705,330" class="wire"/>
+<text x="710" y="325" class="small" text-anchor="start">RD4</text>
+</g>
+<text x="743" y="188" class="small" text-anchor="start">R29 4k7</text>
+<path d="M725,164 L725,180" class="wire"/>
+<rect x="717" y="180" width="16" height="40" class="sym"/>
+<path d="M725,220 L725,236" class="wire"/>
+<g data-ref="R29" data-pin="1" data-net="+5M">
+<text x="729" y="157" class="pin" text-anchor="start">1</text>
+<path d="M725,164 L765,164" class="wire"/>
+<text x="770" y="159" class="small" text-anchor="start">+5M</text>
+</g>
+<g data-ref="R29" data-pin="2" data-net="RD4">
+<text x="729" y="229" class="pin" text-anchor="start">2</text>
+<path d="M725,236 L765,236" class="wire"/>
+<text x="770" y="231" class="small" text-anchor="start">RD4</text>
+</g>
+<text x="55" y="495" class="small" text-anchor="start">WR4=HIGH → Q4=LOW. WR4=LOW → MOSFET desligado; Q4 liberado pelo pull-up.</text>
+<text x="55" y="515" class="small" text-anchor="start">RD4=HIGH quando Q4 &gt; VREF. Conectar apenas RD4 à entrada do Mega.</text>
+<rect x="855" y="110" width="790" height="420" class="panel"/>
+<text x="870" y="137" class="" text-anchor="start">CANAL Q5 — escrita com inversão / leitura sem inversão</text>
+<text x="1033" y="308" class="small" text-anchor="start">R6 220R</text>
+<path d="M965,320 L990,320" class="wire"/>
+<rect x="990" y="312" width="50" height="16" class="sym"/>
+<path d="M1040,320 L1065,320" class="wire"/>
+<g data-ref="R6" data-pin="1" data-net="WR5">
+<text x="969" y="313" class="pin" text-anchor="start">1</text>
+<path d="M965,320 L925,320" class="wire"/>
+<text x="920" y="315" class="small" text-anchor="end">WR5</text>
+</g>
+<g data-ref="R6" data-pin="2" data-net="G5">
+<text x="1069" y="313" class="pin" text-anchor="start">2</text>
+</g>
+<text x="1023" y="418" class="small" text-anchor="start">R14 100k</text>
+<path d="M1005,394 L1005,410" class="wire"/>
+<rect x="997" y="410" width="16" height="40" class="sym"/>
+<path d="M1005,450 L1005,466" class="wire"/>
+<g data-ref="R14" data-pin="1" data-net="G5">
+<text x="1009" y="387" class="pin" text-anchor="start">1</text>
+<path d="M1005,394 L1045,394" class="wire"/>
+<text x="1050" y="389" class="small" text-anchor="start">G5</text>
+</g>
+<g data-ref="R14" data-pin="2" data-net="GND">
+<text x="1009" y="459" class="pin" text-anchor="start">2</text>
+<path d="M1005,466 L1045,466" class="wire"/>
+<text x="1050" y="461" class="small" text-anchor="start">GND</text>
+</g>
+<circle cx="1185" cy="330" r="31" class="sym"/>
+<path d="M1172,311 L1172,349" class="sym"/>
+<path d="M1180,310 L1180,318" class="sym"/>
+<path d="M1180,326 L1180,334" class="sym"/>
+<path d="M1180,342 L1180,350" class="sym"/>
+<path d="M1180,314 L1199,314" class="sym"/>
+<path d="M1199,314 L1199,280" class="wire"/>
+<path d="M1180,346 L1199,346" class="sym"/>
+<path d="M1199,346 L1199,380" class="wire"/>
+<path d="M1130,330 L1172,330" class="wire"/>
+<path d="M1199,346 L1199,330" class="sym"/>
+<path d="M1199,330 L1180,330" class="sym"/>
+<polygon points="1181,330 1188,326 1188,334" class="sym"/>
+<text x="1223" y="320" class="small" text-anchor="start">Q6 2N7000</text>
+<g data-ref="Q6" data-pin="1" data-net="GND">
+<text x="1203" y="373" class="pin" text-anchor="start">1</text>
+<path d="M1199,380 L1239,380" class="wire"/>
+<text x="1244" y="375" class="small" text-anchor="start">GND</text>
+</g>
+<g data-ref="Q6" data-pin="2" data-net="G5">
+<text x="1134" y="323" class="pin" text-anchor="start">2</text>
+<path d="M1130,330 L1090,330" class="wire"/>
+<text x="1085" y="325" class="small" text-anchor="end">G5</text>
+</g>
+<g data-ref="Q6" data-pin="3" data-net="Q5">
+<text x="1203" y="273" class="pin" text-anchor="start">3</text>
+<path d="M1199,280 L1239,280" class="wire"/>
+<text x="1244" y="275" class="small" text-anchor="start">Q5</text>
+</g>
+<path d="M1065,320 L1100,320" class="wire"/>
+<path d="M1100,320 L1100,330" class="wire"/>
+<path d="M1100,330 L1130,330" class="wire"/>
+<text x="1217" y="188" class="small" text-anchor="start">R22 10k</text>
+<path d="M1199,164 L1199,180" class="wire"/>
+<rect x="1191" y="180" width="16" height="40" class="sym"/>
+<path d="M1199,220 L1199,236" class="wire"/>
+<g data-ref="R22" data-pin="1" data-net="VCC_EP">
+<text x="1203" y="157" class="pin" text-anchor="start">1</text>
+<path d="M1199,164 L1239,164" class="wire"/>
+<text x="1244" y="159" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<g data-ref="R22" data-pin="2" data-net="Q5">
+<text x="1203" y="229" class="pin" text-anchor="start">2</text>
+<path d="M1199,236 L1239,236" class="wire"/>
+<text x="1244" y="231" class="small" text-anchor="start">Q5</text>
+</g>
+<polygon points="1370,285 1370,375 1455,330" class="sym"/>
+<path d="M1335,307 L1370,307" class="wire"/>
+<path d="M1335,353 L1370,353" class="wire"/>
+<path d="M1455,330 L1485,330" class="wire"/>
+<text x="1377" y="312" class="" text-anchor="start">+</text>
+<text x="1377" y="358" class="" text-anchor="start">−</text>
+<text x="1375" y="272" class="small" text-anchor="start">U3B LM339N</text>
+<text x="1388" y="394" class="small" text-anchor="start">saída coletor aberto</text>
+<g data-ref="U3" data-pin="7" data-net="Q5">
+<text x="1339" y="300" class="pin" text-anchor="start">7</text>
+<path d="M1335,307 L1295,307" class="wire"/>
+<text x="1290" y="302" class="small" text-anchor="end">Q5</text>
+</g>
+<g data-ref="U3" data-pin="6" data-net="VREF">
+<text x="1339" y="346" class="pin" text-anchor="start">6</text>
+<path d="M1335,353 L1295,353" class="wire"/>
+<text x="1290" y="348" class="small" text-anchor="end">VREF</text>
+</g>
+<g data-ref="U3" data-pin="1" data-net="RD5">
+<text x="1489" y="323" class="pin" text-anchor="start">1</text>
+<path d="M1485,330 L1525,330" class="wire"/>
+<text x="1530" y="325" class="small" text-anchor="start">RD5</text>
+</g>
+<text x="1563" y="188" class="small" text-anchor="start">R30 4k7</text>
+<path d="M1545,164 L1545,180" class="wire"/>
+<rect x="1537" y="180" width="16" height="40" class="sym"/>
+<path d="M1545,220 L1545,236" class="wire"/>
+<g data-ref="R30" data-pin="1" data-net="+5M">
+<text x="1549" y="157" class="pin" text-anchor="start">1</text>
+<path d="M1545,164 L1585,164" class="wire"/>
+<text x="1590" y="159" class="small" text-anchor="start">+5M</text>
+</g>
+<g data-ref="R30" data-pin="2" data-net="RD5">
+<text x="1549" y="229" class="pin" text-anchor="start">2</text>
+<path d="M1545,236 L1585,236" class="wire"/>
+<text x="1590" y="231" class="small" text-anchor="start">RD5</text>
+</g>
+<text x="875" y="495" class="small" text-anchor="start">WR5=HIGH → Q5=LOW. WR5=LOW → MOSFET desligado; Q5 liberado pelo pull-up.</text>
+<text x="875" y="515" class="small" text-anchor="start">RD5=HIGH quando Q5 &gt; VREF. Conectar apenas RD5 à entrada do Mega.</text>
+<rect x="35" y="545" width="790" height="420" class="panel"/>
+<text x="50" y="572" class="" text-anchor="start">CANAL Q6 — escrita com inversão / leitura sem inversão</text>
+<text x="213" y="743" class="small" text-anchor="start">R7 220R</text>
+<path d="M145,755 L170,755" class="wire"/>
+<rect x="170" y="747" width="50" height="16" class="sym"/>
+<path d="M220,755 L245,755" class="wire"/>
+<g data-ref="R7" data-pin="1" data-net="WR6">
+<text x="149" y="748" class="pin" text-anchor="start">1</text>
+<path d="M145,755 L105,755" class="wire"/>
+<text x="100" y="750" class="small" text-anchor="end">WR6</text>
+</g>
+<g data-ref="R7" data-pin="2" data-net="G6">
+<text x="249" y="748" class="pin" text-anchor="start">2</text>
+</g>
+<text x="203" y="853" class="small" text-anchor="start">R15 100k</text>
+<path d="M185,829 L185,845" class="wire"/>
+<rect x="177" y="845" width="16" height="40" class="sym"/>
+<path d="M185,885 L185,901" class="wire"/>
+<g data-ref="R15" data-pin="1" data-net="G6">
+<text x="189" y="822" class="pin" text-anchor="start">1</text>
+<path d="M185,829 L225,829" class="wire"/>
+<text x="230" y="824" class="small" text-anchor="start">G6</text>
+</g>
+<g data-ref="R15" data-pin="2" data-net="GND">
+<text x="189" y="894" class="pin" text-anchor="start">2</text>
+<path d="M185,901 L225,901" class="wire"/>
+<text x="230" y="896" class="small" text-anchor="start">GND</text>
+</g>
+<circle cx="365" cy="765" r="31" class="sym"/>
+<path d="M352,746 L352,784" class="sym"/>
+<path d="M360,745 L360,753" class="sym"/>
+<path d="M360,761 L360,769" class="sym"/>
+<path d="M360,777 L360,785" class="sym"/>
+<path d="M360,749 L379,749" class="sym"/>
+<path d="M379,749 L379,715" class="wire"/>
+<path d="M360,781 L379,781" class="sym"/>
+<path d="M379,781 L379,815" class="wire"/>
+<path d="M310,765 L352,765" class="wire"/>
+<path d="M379,781 L379,765" class="sym"/>
+<path d="M379,765 L360,765" class="sym"/>
+<polygon points="361,765 368,761 368,769" class="sym"/>
+<text x="403" y="755" class="small" text-anchor="start">Q7 2N7000</text>
+<g data-ref="Q7" data-pin="1" data-net="GND">
+<text x="383" y="808" class="pin" text-anchor="start">1</text>
+<path d="M379,815 L419,815" class="wire"/>
+<text x="424" y="810" class="small" text-anchor="start">GND</text>
+</g>
+<g data-ref="Q7" data-pin="2" data-net="G6">
+<text x="314" y="758" class="pin" text-anchor="start">2</text>
+<path d="M310,765 L270,765" class="wire"/>
+<text x="265" y="760" class="small" text-anchor="end">G6</text>
+</g>
+<g data-ref="Q7" data-pin="3" data-net="Q6">
+<text x="383" y="708" class="pin" text-anchor="start">3</text>
+<path d="M379,715 L419,715" class="wire"/>
+<text x="424" y="710" class="small" text-anchor="start">Q6</text>
+</g>
+<path d="M245,755 L280,755" class="wire"/>
+<path d="M280,755 L280,765" class="wire"/>
+<path d="M280,765 L310,765" class="wire"/>
+<text x="397" y="623" class="small" text-anchor="start">R23 10k</text>
+<path d="M379,599 L379,615" class="wire"/>
+<rect x="371" y="615" width="16" height="40" class="sym"/>
+<path d="M379,655 L379,671" class="wire"/>
+<g data-ref="R23" data-pin="1" data-net="VCC_EP">
+<text x="383" y="592" class="pin" text-anchor="start">1</text>
+<path d="M379,599 L419,599" class="wire"/>
+<text x="424" y="594" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<g data-ref="R23" data-pin="2" data-net="Q6">
+<text x="383" y="664" class="pin" text-anchor="start">2</text>
+<path d="M379,671 L419,671" class="wire"/>
+<text x="424" y="666" class="small" text-anchor="start">Q6</text>
+</g>
+<polygon points="550,720 550,810 635,765" class="sym"/>
+<path d="M515,742 L550,742" class="wire"/>
+<path d="M515,788 L550,788" class="wire"/>
+<path d="M635,765 L665,765" class="wire"/>
+<text x="557" y="747" class="" text-anchor="start">+</text>
+<text x="557" y="793" class="" text-anchor="start">−</text>
+<text x="555" y="707" class="small" text-anchor="start">U3C LM339N</text>
+<text x="568" y="829" class="small" text-anchor="start">saída coletor aberto</text>
+<g data-ref="U3" data-pin="9" data-net="Q6">
+<text x="519" y="735" class="pin" text-anchor="start">9</text>
+<path d="M515,742 L475,742" class="wire"/>
+<text x="470" y="737" class="small" text-anchor="end">Q6</text>
+</g>
+<g data-ref="U3" data-pin="8" data-net="VREF">
+<text x="519" y="781" class="pin" text-anchor="start">8</text>
+<path d="M515,788 L475,788" class="wire"/>
+<text x="470" y="783" class="small" text-anchor="end">VREF</text>
+</g>
+<g data-ref="U3" data-pin="14" data-net="RD6">
+<text x="669" y="758" class="pin" text-anchor="start">14</text>
+<path d="M665,765 L705,765" class="wire"/>
+<text x="710" y="760" class="small" text-anchor="start">RD6</text>
+</g>
+<text x="743" y="623" class="small" text-anchor="start">R31 4k7</text>
+<path d="M725,599 L725,615" class="wire"/>
+<rect x="717" y="615" width="16" height="40" class="sym"/>
+<path d="M725,655 L725,671" class="wire"/>
+<g data-ref="R31" data-pin="1" data-net="+5M">
+<text x="729" y="592" class="pin" text-anchor="start">1</text>
+<path d="M725,599 L765,599" class="wire"/>
+<text x="770" y="594" class="small" text-anchor="start">+5M</text>
+</g>
+<g data-ref="R31" data-pin="2" data-net="RD6">
+<text x="729" y="664" class="pin" text-anchor="start">2</text>
+<path d="M725,671 L765,671" class="wire"/>
+<text x="770" y="666" class="small" text-anchor="start">RD6</text>
+</g>
+<text x="55" y="930" class="small" text-anchor="start">WR6=HIGH → Q6=LOW. WR6=LOW → MOSFET desligado; Q6 liberado pelo pull-up.</text>
+<text x="55" y="950" class="small" text-anchor="start">RD6=HIGH quando Q6 &gt; VREF. Conectar apenas RD6 à entrada do Mega.</text>
+<rect x="855" y="545" width="790" height="420" class="panel"/>
+<text x="870" y="572" class="" text-anchor="start">CANAL Q7 — escrita com inversão / leitura sem inversão</text>
+<text x="1033" y="743" class="small" text-anchor="start">R8 220R</text>
+<path d="M965,755 L990,755" class="wire"/>
+<rect x="990" y="747" width="50" height="16" class="sym"/>
+<path d="M1040,755 L1065,755" class="wire"/>
+<g data-ref="R8" data-pin="1" data-net="WR7">
+<text x="969" y="748" class="pin" text-anchor="start">1</text>
+<path d="M965,755 L925,755" class="wire"/>
+<text x="920" y="750" class="small" text-anchor="end">WR7</text>
+</g>
+<g data-ref="R8" data-pin="2" data-net="G7">
+<text x="1069" y="748" class="pin" text-anchor="start">2</text>
+</g>
+<text x="1023" y="853" class="small" text-anchor="start">R16 100k</text>
+<path d="M1005,829 L1005,845" class="wire"/>
+<rect x="997" y="845" width="16" height="40" class="sym"/>
+<path d="M1005,885 L1005,901" class="wire"/>
+<g data-ref="R16" data-pin="1" data-net="G7">
+<text x="1009" y="822" class="pin" text-anchor="start">1</text>
+<path d="M1005,829 L1045,829" class="wire"/>
+<text x="1050" y="824" class="small" text-anchor="start">G7</text>
+</g>
+<g data-ref="R16" data-pin="2" data-net="GND">
+<text x="1009" y="894" class="pin" text-anchor="start">2</text>
+<path d="M1005,901 L1045,901" class="wire"/>
+<text x="1050" y="896" class="small" text-anchor="start">GND</text>
+</g>
+<circle cx="1185" cy="765" r="31" class="sym"/>
+<path d="M1172,746 L1172,784" class="sym"/>
+<path d="M1180,745 L1180,753" class="sym"/>
+<path d="M1180,761 L1180,769" class="sym"/>
+<path d="M1180,777 L1180,785" class="sym"/>
+<path d="M1180,749 L1199,749" class="sym"/>
+<path d="M1199,749 L1199,715" class="wire"/>
+<path d="M1180,781 L1199,781" class="sym"/>
+<path d="M1199,781 L1199,815" class="wire"/>
+<path d="M1130,765 L1172,765" class="wire"/>
+<path d="M1199,781 L1199,765" class="sym"/>
+<path d="M1199,765 L1180,765" class="sym"/>
+<polygon points="1181,765 1188,761 1188,769" class="sym"/>
+<text x="1223" y="755" class="small" text-anchor="start">Q8 2N7000</text>
+<g data-ref="Q8" data-pin="1" data-net="GND">
+<text x="1203" y="808" class="pin" text-anchor="start">1</text>
+<path d="M1199,815 L1239,815" class="wire"/>
+<text x="1244" y="810" class="small" text-anchor="start">GND</text>
+</g>
+<g data-ref="Q8" data-pin="2" data-net="G7">
+<text x="1134" y="758" class="pin" text-anchor="start">2</text>
+<path d="M1130,765 L1090,765" class="wire"/>
+<text x="1085" y="760" class="small" text-anchor="end">G7</text>
+</g>
+<g data-ref="Q8" data-pin="3" data-net="Q7">
+<text x="1203" y="708" class="pin" text-anchor="start">3</text>
+<path d="M1199,715 L1239,715" class="wire"/>
+<text x="1244" y="710" class="small" text-anchor="start">Q7</text>
+</g>
+<path d="M1065,755 L1100,755" class="wire"/>
+<path d="M1100,755 L1100,765" class="wire"/>
+<path d="M1100,765 L1130,765" class="wire"/>
+<text x="1217" y="623" class="small" text-anchor="start">R24 10k</text>
+<path d="M1199,599 L1199,615" class="wire"/>
+<rect x="1191" y="615" width="16" height="40" class="sym"/>
+<path d="M1199,655 L1199,671" class="wire"/>
+<g data-ref="R24" data-pin="1" data-net="VCC_EP">
+<text x="1203" y="592" class="pin" text-anchor="start">1</text>
+<path d="M1199,599 L1239,599" class="wire"/>
+<text x="1244" y="594" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<g data-ref="R24" data-pin="2" data-net="Q7">
+<text x="1203" y="664" class="pin" text-anchor="start">2</text>
+<path d="M1199,671 L1239,671" class="wire"/>
+<text x="1244" y="666" class="small" text-anchor="start">Q7</text>
+</g>
+<polygon points="1370,720 1370,810 1455,765" class="sym"/>
+<path d="M1335,742 L1370,742" class="wire"/>
+<path d="M1335,788 L1370,788" class="wire"/>
+<path d="M1455,765 L1485,765" class="wire"/>
+<text x="1377" y="747" class="" text-anchor="start">+</text>
+<text x="1377" y="793" class="" text-anchor="start">−</text>
+<text x="1375" y="707" class="small" text-anchor="start">U3D LM339N</text>
+<text x="1388" y="829" class="small" text-anchor="start">saída coletor aberto</text>
+<g data-ref="U3" data-pin="11" data-net="Q7">
+<text x="1339" y="735" class="pin" text-anchor="start">11</text>
+<path d="M1335,742 L1295,742" class="wire"/>
+<text x="1290" y="737" class="small" text-anchor="end">Q7</text>
+</g>
+<g data-ref="U3" data-pin="10" data-net="VREF">
+<text x="1339" y="781" class="pin" text-anchor="start">10</text>
+<path d="M1335,788 L1295,788" class="wire"/>
+<text x="1290" y="783" class="small" text-anchor="end">VREF</text>
+</g>
+<g data-ref="U3" data-pin="13" data-net="RD7">
+<text x="1489" y="758" class="pin" text-anchor="start">13</text>
+<path d="M1485,765 L1525,765" class="wire"/>
+<text x="1530" y="760" class="small" text-anchor="start">RD7</text>
+</g>
+<text x="1563" y="623" class="small" text-anchor="start">R32 4k7</text>
+<path d="M1545,599 L1545,615" class="wire"/>
+<rect x="1537" y="615" width="16" height="40" class="sym"/>
+<path d="M1545,655 L1545,671" class="wire"/>
+<g data-ref="R32" data-pin="1" data-net="+5M">
+<text x="1549" y="592" class="pin" text-anchor="start">1</text>
+<path d="M1545,599 L1585,599" class="wire"/>
+<text x="1590" y="594" class="small" text-anchor="start">+5M</text>
+</g>
+<g data-ref="R32" data-pin="2" data-net="RD7">
+<text x="1549" y="664" class="pin" text-anchor="start">2</text>
+<path d="M1545,671 L1585,671" class="wire"/>
+<text x="1590" y="666" class="small" text-anchor="start">RD7</text>
+</g>
+<text x="875" y="930" class="small" text-anchor="start">WR7=HIGH → Q7=LOW. WR7=LOW → MOSFET desligado; Q7 liberado pelo pull-up.</text>
+<text x="875" y="950" class="small" text-anchor="start">RD7=HIGH quando Q7 &gt; VREF. Conectar apenas RD7 à entrada do Mega.</text>
+<rect x="95" y="1005" width="130" height="80" class="sym"/>
+<text x="108" y="1032" class="" text-anchor="start">U3E LM339N</text>
+<text x="108" y="1055" class="small" text-anchor="start">alimentação</text>
+<g data-ref="U3" data-pin="3" data-net="V_AUX">
+<text x="164" y="968" class="pin" text-anchor="start">3</text>
+<path d="M160,975 L200,975" class="wire"/>
+<text x="205" y="970" class="small" text-anchor="start">V_AUX</text>
+</g>
+<path d="M160,975 L160,1005" class="wire"/>
+<g data-ref="U3" data-pin="12" data-net="GND">
+<text x="164" y="1108" class="pin" text-anchor="start">12</text>
+<path d="M160,1115 L200,1115" class="wire"/>
+<text x="205" y="1110" class="small" text-anchor="start">GND</text>
+</g>
+<path d="M160,1085 L160,1115" class="wire"/>
+<text x="398" y="1033" class="small" text-anchor="start">C4 100 nF / 25 V</text>
+<path d="M380,1015 L380,1040" class="wire"/>
+<path d="M367,1040 L393,1040" class="sym"/>
+<path d="M367,1050 L393,1050" class="sym"/>
+<path d="M380,1050 L380,1075" class="wire"/>
+<g data-ref="C4" data-pin="1" data-net="V_AUX">
+<text x="384" y="1008" class="pin" text-anchor="start">1</text>
+<path d="M380,1015 L420,1015" class="wire"/>
+<text x="425" y="1010" class="small" text-anchor="start">V_AUX</text>
+</g>
+<g data-ref="C4" data-pin="2" data-net="GND">
+<text x="384" y="1068" class="pin" text-anchor="start">2</text>
+<path d="M380,1075 L420,1075" class="wire"/>
+<text x="425" y="1070" class="small" text-anchor="start">GND</text>
+</g>
+<text x="550" y="1020" class="small" text-anchor="start">Cada entrada + lê Qn; cada entrada − recebe VREF ≈ 1,56 V.</text>
+<text x="550" y="1045" class="small" text-anchor="start">Pull-up de Qn em VCC_EP; pull-up de RDn em +5M. Estas redes são diferentes.</text>
+<text x="550" y="1070" class="small" text-anchor="start">2N7000 Microchip: 1=S, 2=G, 3=D. Gates em GND por 100 kΩ no reset.</text>
+<text x="550" y="1095" class="small" text-anchor="start">Escrita depende de /OE desabilitado. Não unir dados da EPROM diretamente ao Mega.</text>
+</svg>

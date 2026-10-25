@@ -1,0 +1,201 @@
+Placa,Referencia,Valor,Tipo,Origem_coluna,Origem_linha
+A,U1,M27C256B-10F1 + soquete DIP28 600 mil,dip28,10,9
+A,U2,LM339N DIP14,dip14,56,7
+A,U3,LM339N DIP14,dip14,56,27
+A,JA1,"Mega D22..D36, GND",header16,2,6
+A,JA2,"Mega RD0..7, 5V USB, GND",header10,72,5
+A,JA3,"Mega D2..9, D45, D46, GND, NC",header12,2,30
+A,JA4,"Para JB1, cabo numerado 1:1",header10,72,43
+A,Q1,2N7000 Microchip: 1S 2G 3D,mos,35,5
+A,R1,220R,res,27,5
+A,R9,100k,res,31,7
+A,R17,10k,res,42,5
+A,R25,4k7,res,61,5
+A,Q2,2N7000 Microchip: 1S 2G 3D,mos,35,10
+A,R2,220R,res,27,10
+A,R10,100k,res,31,12
+A,R18,10k,res,42,10
+A,R26,4k7,res,61,10
+A,Q3,2N7000 Microchip: 1S 2G 3D,mos,35,15
+A,R3,220R,res,27,15
+A,R11,100k,res,31,17
+A,R19,10k,res,42,15
+A,R27,4k7,res,61,15
+A,Q4,2N7000 Microchip: 1S 2G 3D,mos,35,20
+A,R4,220R,res,27,20
+A,R12,100k,res,31,22
+A,R20,10k,res,42,20
+A,R28,4k7,res,61,20
+A,Q5,2N7000 Microchip: 1S 2G 3D,mos,35,25
+A,R5,220R,res,27,25
+A,R13,100k,res,31,27
+A,R21,10k,res,42,25
+A,R29,4k7,res,61,25
+A,Q6,2N7000 Microchip: 1S 2G 3D,mos,35,30
+A,R6,220R,res,27,30
+A,R14,100k,res,31,32
+A,R22,10k,res,42,30
+A,R30,4k7,res,61,30
+A,Q7,2N7000 Microchip: 1S 2G 3D,mos,35,35
+A,R7,220R,res,27,35
+A,R15,100k,res,31,37
+A,R23,10k,res,42,35
+A,R31,4k7,res,61,35
+A,Q8,2N7000 Microchip: 1S 2G 3D,mos,35,40
+A,R8,220R,res,27,40
+A,R16,100k,res,31,42
+A,R24,10k,res,42,40
+A,R32,4k7,res,61,40
+A,Q9,2N7000 Microchip: 1S 2G 3D,mos,28,46
+A,R33,1k,res,21,46
+A,R34,100k,res,27,49
+A,R35,1k,res,33,46
+A,Q10,2N7000 Microchip: 1S 2G 3D,mos,44,46
+A,R36,1k,res,37,46
+A,R37,100k,res,43,49
+A,R38,1k,res,49,46
+A,R39,22k 1%,res,55,45
+A,R40,10k 1%,res,62,45
+A,C1,100nF 25V,cap,18,8
+A,C2,100nF 25V,cap,6,8
+A,C3,100nF 25V,cap,54,5
+A,C4,100nF 25V,cap,54,25
+A,C5,100nF 25V,cap,59,49
+A,C6,100nF 25V,cap,5,27
+A,C7,100nF 25V,cap,17,27
+A,U4,TI SN74AHCT541N DIP20 (nao HCT541),dip20,7,29
+A,U5,TI SN74AHCT541N DIP20 (nao HCT541),dip20,16,29
+A,RN1,SIP9 8x100k comum no pino1,header9,23,6
+A,RN2,SIP9 8x100k comum no pino1,header9,23,22
+A,R41,100k,res,6,42
+A,QP9,BC337-40 onsemi: 1C 2B 3E,npn,28,43
+A,R42,4k7,res,21,43
+A,R43,100k,res,21,49
+A,QP10,BC337-40 onsemi: 1C 2B 3E,npn,44,43
+A,R44,4k7,res,37,43
+A,R45,100k,res,37,49
+A,TPA1,GND,test,5,52
+A,TPA2,+5M,test,14,52
+A,TPA3,VCC_EP,test,23,52
+A,TPA4,VPP,test,32,52
+A,TPA5,VIN_HOLD,test,41,52
+A,TPA6,VREF_DATA,test,50,52
+A,TPA7,CE_N,test,59,52
+A,TPA8,OE_N,test,68,52
+B,JB1,"Para JA4, cabo numerado 1:1",header10,74,27
+B,JB2,Entrada apos fusivel e S0,header2,3,26
+B,QP1,IRF9540N TO220 1G 2D 3S,to220,5,26
+B,RP1,100k,res,10,26
+B,ZP1,1N4742A 12V 1W,diode,15,26
+B,DP1,1N5819,diode,20,26
+B,CP1,4700uF 25V,bulk,3,29
+B,CP2,100nF 25V,cap,13,29
+B,JM1,"MODULO BUCK: IN+, IN-, OUT+, OUT-",header4,17,29
+B,JM2,"MODULO BOOST: IN+, IN-, OUT+, OUT-",header4,19,29
+B,CP3,470uF 16V,elect,3,39
+B,CP4,100nF 25V,cap,8,39
+B,UP1,ST LM317T TO220 1ADJ 2OUT 3IN,to220,27,26
+B,RP2,100R 1%,res,32,26
+B,RP3,15R 1%,res,37,26
+B,RV1,3296W 10R multivoltas,trim,42,26
+B,RP4,68R 1%,res,27,30
+B,RV2,3296W 50R multivoltas,trim,32,30
+B,RP5,56R 1%,res,37,30
+B,RV3,3296W 20R multivoltas,trim,42,30
+B,RP6,200R 1%,res,27,34
+B,RV4,3296W 100R multivoltas,trim,32,34
+B,CP5,47uF 16V,elect,37,34
+B,CP6,100nF 25V,cap,32,22
+B,DP2,1N4007 OUT->IN,diode,27,39
+B,CP7,100nF 25V,cap,27,22
+B,UP2,ST LM317T TO220 1ADJ 2OUT 3IN,to220,51,26
+B,RP7,100R 1%,res,56,26
+B,RP8,820R 1%,res,61,26
+B,RV5,3296W 200R multivoltas,trim,66,26
+B,CP8,10uF 35V,elect,51,30
+B,CP9,100nF 50V,cap,56,30
+B,CP10,10uF 25V,elect,60,30
+B,CP11,100nF 25V,cap,51,22
+B,DP3,1N4007 OUT->IN,diode,51,35
+B,RP9,2k2 0.25W,res,56,35
+B,CP12,100nF 25V,cap,61,35
+B,K1,Omron G5V-2-H1 DC5 (30mA),relay,3,4
+B,QP2,BC337-40 onsemi: 1C 2B 3E,npn,13,4
+B,RP11,2k2,res,3,10
+B,RP15,100k,res,8,10
+B,DF1,1N4148,diode,13,10
+B,ZF1,BZX85C12 12V,diode,3,13
+B,K2,Omron G5V-2-H1 DC5 (30mA),relay,21,4
+B,QP3,BC337-40 onsemi: 1C 2B 3E,npn,31,4
+B,RP12,2k2,res,21,10
+B,RP16,100k,res,26,10
+B,DF2,1N4148,diode,31,10
+B,ZF2,BZX85C12 12V,diode,21,13
+B,K3,Omron G5V-2-H1 DC5 (30mA),relay,39,4
+B,QP4,BC337-40 onsemi: 1C 2B 3E,npn,49,4
+B,RP13,2k2,res,39,10
+B,RP17,100k,res,44,10
+B,DF3,1N4148,diode,49,10
+B,ZF3,BZX85C12 12V,diode,39,13
+B,K4,Omron G5V-2-H1 DC5 (30mA),relay,57,4
+B,QP5,BC337-40 onsemi: 1C 2B 3E,npn,67,4
+B,RP14,1k5,res,57,10
+B,RP18,100k,res,62,10
+B,DF4,1N4148,diode,67,10
+B,ZF4,BZX85C12 12V,diode,57,13
+B,JB3,Mega controles: D10 D11 D12 D14 D48 D49 A0 A1 A2 A3 GND,header11,74,46
+B,JS1,Chave DPDT: C1 NO1 C2 NO2,header4,39,49
+B,JB4,Para Mega AREF (referencia externa 2.5V),header2,41,49
+B,UR1,LM4040AIZ-2.5/NOPB TI: 1NC 2K 3A,mos,43,49
+B,RP19,1k,res,48,49
+B,CP13,100nF 25V,cap,44,45
+B,UC1,LM393N DIP8,dip8,57,49
+B,RP20,100k 0.1%,res,62,49
+B,RP21,29k4 0.1%,res,67,49
+B,CP14,100nF 25V,cap,57,45
+B,QP6,BC337-40 onsemi: 1C 2B 3E,npn,43,54
+B,RP22,2k2,res,48,54
+B,RP23,100k,res,53,54
+B,RP24,10k,res,58,54
+B,RP25,8k2 1%,res,63,54
+B,RP26,10k 1%,res,68,54
+B,RP27,10k 1%,res,39,57
+B,CP16,10nF filme/C0G 5% 50V,cap,44,57
+B,UC2,TI SN74HC14N DIP14 (nao HCT14),dip14,48,57
+B,CP15,100nF 25V,cap,53,57
+B,QP7,BC337-40 onsemi: 1C 2B 3E,npn,57,57
+B,RP28,4k7,res,62,57
+B,RP30,100k,res,67,57
+B,QP8,BC337-40 onsemi: 1C 2B 3E,npn,39,65
+B,RP29,4k7,res,44,65
+B,RP31,100k,res,49,65
+B,RS1A,20k 0.1%,res,3,49
+B,RS1B,10k 0.1%,res,8,49
+B,RS1C,10k 0.1%,res,13,49
+B,QS1,2N7000 Microchip: 1S 2G 3D,mos,18,49
+B,CS1,100nF 25V,cap,23,49
+B,RS2A,56k 0.1%,res,27,49
+B,RS2B,10k 0.1%,res,32,49
+B,RS2C,10k 0.1%,res,3,52
+B,QS2,2N7000 Microchip: 1S 2G 3D,mos,8,52
+B,CS2,100nF 25V,cap,13,52
+B,RS3A,56k 0.1%,res,17,52
+B,RS3B,10k 0.1%,res,22,52
+B,RS3C,10k 0.1%,res,27,52
+B,QS3,2N7000 Microchip: 1S 2G 3D,mos,32,52
+B,CS3,100nF 25V,cap,3,55
+B,RS4A,20k 0.1%,res,7,55
+B,RS4B,10k 0.1%,res,12,55
+B,RS4C,10k 0.1%,res,17,55
+B,QS4,2N7000 Microchip: 1S 2G 3D,mos,22,55
+B,CS4,100nF 25V,cap,27,55
+B,TPB1,GND,test,31,55
+B,TPB2,VIN_PROT,test,33,55
+B,TPB3,VIN_HOLD,test,35,55
+B,TPB4,+5B,test,3,58
+B,TPB5,+18B,test,5,58
+B,TPB6,VCC_EP,test,7,58
+B,TPB7,+12P75,test,9,58
+B,TPB8,VPP,test,11,58
+B,TPB9,AREF_2V5,test,13,58
+B,TPB10,UV_SENSE,test,15,58

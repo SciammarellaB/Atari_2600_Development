@@ -156,10 +156,14 @@ def check_kernel():
         blank = [(cycle, value) for cycle, reg, value in events if reg == 1]
         assert [value for _, value in blank] == [0, 2], blank
         assert (blank[1][0] - blank[0][0]) // 76 == 192, blank
+        move = next(cycle for cycle, reg, _ in events if reg == 0x2A)
+        clear = next(cycle for cycle, reg, _ in events if reg == 0x2B)
+        # Motion regs devem permanecer estaveis enquanto HMOVE esta em curso.
+        assert move + 24 <= clear < blank[0][0], (move, clear)
         start_line = blank[0][0] // 76 + 16
         # O kernel deve atualizar PF1 antes de X=16 e PF2 antes de X=48.
-        for register, deadline in ((0x1B, 6), (0x1C, 36), (0x1D, 18),
-                                   (0x0E, 24), (0x0F, 30)):
+        for register, deadline in ((0x1B, 6), (0x1C, 38), (0x1D, 13),
+                                   (0x06, 20), (0x0E, 26), (0x0F, 32)):
             writes = [(cycle, value) for cycle, reg, value in events
                       if reg == register and start_line <= cycle // 76
                       < start_line + 176]
@@ -180,6 +184,66 @@ def check_kernel():
         machine.set("ShotY", 10 + x % 65)
         machine.frame()
     print("OK: 262 linhas; 192 visiveis; prazos de P0/P1/M0/PF; 113 posicoes")
+
+
+def check_hero_colors():
+    """Confere bitmap/cor por par e posicao de P1 nas janelas de troca."""
+    machine = Machine()
+    palette = [0x0E, 0x08, 0x2E, 0x3C, 0x86, 0x86, 0x84, 0x04]
+    for room in (0, 1):
+        machine.set("Room", room)
+        machine.call("LoadRoom")
+        machine.set("State", 1)
+        for hero_y in range(8, 80):
+            for facing in (0, 8):
+                machine.set("HeroY", hero_y)
+                machine.set("HeroX", 20 if facing else 132)
+                machine.set("Facing", facing)
+                machine.set("Clock", hero_y & 7)
+                machine.set("ShotY", hero_y + 2)
+                machine.set("BombTimer", 60)
+                # A carga fica no par 30: varremos o heroi dentro e fora dela,
+                # incluindo o caminho longo HeroBlank + bomba habilitada.
+                machine.set("BombY", 24)
+                machine.frame()
+                events = machine.bus.events
+                first = next(cycle // 76 for cycle, reg, value in events
+                             if reg == 1 and value == 0) + 16
+                cave = [(cycle, reg, value) for cycle, reg, value in events
+                        if first <= cycle // 76 < first + 176]
+                for register in (0x1B, 0x06, 0x1D):
+                    rows = [(cycle, value) for cycle, reg, value in cave
+                            if reg == register]
+                    assert len(rows) == 88, (room, hero_y, register, len(rows))
+                    for pair, (cycle, value) in enumerate(rows):
+                        assert cycle // 76 == first + pair * 2
+                        offset = pair - hero_y
+                        if register == 0x06:
+                            expected = palette[offset] if 0 <= offset < 8 else 0x2E
+                            assert cycle % 76 <= 20
+                        elif register == 0x1D:
+                            expected = 2 if pair == hero_y + 2 else 0
+                            value &= 2  # ENAM0 ignora os demais bits escritos.
+                        else:
+                            expected = (machine.bus[SYMBOLS["HeroPixels"] + offset]
+                                        if 0 <= offset < 8 else 0)
+                        assert value == expected, (room, hero_y, pair, register,
+                                                   value, expected)
+                assert next(value for _, reg, value in events if reg == 0x0B) == facing
+                # Mesmo reset horizontal efetivo de P1 antes/depois da mudanca:
+                # o pulso grosso mais o ajuste fino deve corresponder a X+63.
+                motion = 0
+                targets = iter((120, 56, 128))
+                for cycle, register, value in cave:
+                    if register == 0x21:
+                        motion = value >> 4
+                        if motion >= 8:
+                            motion -= 16
+                    elif register == 0x11:
+                        target = next(targets)
+                        assert cycle % 76 * 3 - motion == target + 63, (
+                            target, cycle % 76, motion)
+    print("OK: cores/bitmap do heroi em 72 alturas, dois lados e duas salas; P1 alinhado")
 
 
 def check_no_flicker():
@@ -375,6 +439,7 @@ def check_complete_route():
 # aqui; pixels, HMOVE, qualidade do flicker e som exigem Stella ou Atari real.
 if __name__ == "__main__":
     check_kernel()
+    check_hero_colors()
     check_no_flicker()
     check_map_and_controls()
     check_laser()

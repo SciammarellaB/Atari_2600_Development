@@ -1,0 +1,24 @@
+; Registradores do TIA e RIOT usados neste exemplo.
+VSYNC   = $00
+VBLANK  = $01
+WSYNC   = $02
+NUSIZ0  = $04
+COLUP0  = $06
+COLUPF  = $08
+COLUBK  = $09
+CTRLPF  = $0A
+PF0     = $0D
+PF1     = $0E
+PF2     = $0F
+RESP0   = $10
+AUDC0   = $15
+AUDF0   = $17
+AUDV0   = $19
+GRP0    = $1B
+HMP0    = $20
+HMOVE   = $2A
+SWCHA   = $0280
+SWACNT  = $0281
+SWCHB   = $0282
+INTIM   = $0284
+TIM64T  = $0296

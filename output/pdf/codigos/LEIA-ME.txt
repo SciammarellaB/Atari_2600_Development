@@ -1,0 +1,52 @@
+EPROM 27C256 + ARDUINO MEGA - 24/10/2026
+
+Consulte o PDF antes de montar ou energizar.
+Leitura demonstrada na conversa; gravador de referencia nao ensaiado fisicamente.
+O perfil de gravacao e para ST TS27C256Q antiga, incluindo TS27C256-30CQ.
+Confirme a marcacao completa do chip; nao aplicar a M27C256B.
+
+ARQUIVOS
+eprom27/eprom27.ino: firmware completo para Arduino IDE (Mega 2560).
+eprom_pc.py: cliente Python 3; requer pyserial.
+criar_teste.py: gera/substitui teste32k.bin de 32768 bytes, nao executavel como jogo.
+VALIDACAO.txt: compilacoes, testes e limites.
+
+MONTAGENS
+Macro PROGRAMMER_HARDWARE 0: leitor direto em 5 V (padrao).
+Macro PROGRAMMER_HARDWARE 1: gravador LM339 + MOSFETs descrito no PDF.
+Mudar a macro exige a montagem correspondente; nao e apenas atualizar sketch.
+
+Mapa leitor padronizado:
+A0..A14 EPROM -> Mega D22..D36 (sequencia logica).
+Q0..Q7 EPROM -> Mega D47,D38,D37,D40,D41,D42,D43,D44.
+/CE -> D45; /OE -> D46; VPP pino1 e VCC pino28 -> 5V; VSS pino14 -> GND.
+No gravador, retirar ligacoes diretas de dados e controles; usar interfaces do PDF.
+
+PYTHON
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install pyserial
+No Windows, usar py -m venv .venv e .venv\Scripts\activate no Prompt.
+Feche o Monitor Serial antes de acessar a porta pelo cliente.
+Substitua /dev/ttyACM0 por sua porta (por exemplo /dev/ttyUSB0 ou COM3).
+
+python eprom_pc.py --porta /dev/ttyACM0 info
+python eprom_pc.py --porta /dev/ttyACM0 teste
+python eprom_pc.py --porta /dev/ttyACM0 vazio
+python eprom_pc.py --porta /dev/ttyACM0 ler original.bin
+python eprom_pc.py --porta /dev/ttyACM0 verificar original.bin
+
+GRAVACAO - somente montagem B e fontes medidas conforme PDF
+1. Sem chip, fontes em modo leitura: executar autoteste.
+   python eprom_pc.py --porta /dev/ttyACM0 autoteste
+2. Inserir EPROM apagada com tudo desligado; seguir sequencia de partida do PDF.
+3. VCC de programacao 6.0V +/-0.25V; elevar antes de VPP12.5V +/-0.3V.
+4. python eprom_pc.py --porta /dev/ttyACM0 gravar teste32k.bin
+5. Confirmar GRAVAR somente apos conferir o chip e as tensoes.
+6. Ao terminar ou falhar: /CE e /OE altos; baixar VPP para5V ANTES de VCC para5V.
+7. Com5V/5V medidos, confirmar no cliente para verificacao integral final.
+
+O software NAO mede nem desliga fontes externas. D apenas desarma controles e
+libera enderecos. Nunca elevar tensoes na montagem de leitura direta.
+Apagamento e por UV atraves da janela; nao existe comando de apagamento eletrico.
+BIN de entrada deve ter exatamente32768bytes; layout dos4jogos depende do cartucho.

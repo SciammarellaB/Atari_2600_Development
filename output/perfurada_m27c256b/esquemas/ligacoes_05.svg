@@ -1,0 +1,409 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 1680 1188">
+<rect width="1680" height="1188" fill="white"/>
+<style>text{font-family:DejaVu Sans,sans-serif;fill:#1a2d3d}.title{font-size:25px;font-weight:700}.subtitle{font-size:15px}.card{fill:#f8fafc;stroke:#becbd5;stroke-width:1}.wire{fill:none;stroke:#227054;stroke-width:1.8}.sym{fill:white;stroke:#1a2d3d;stroke-width:1.8}.small{font-size:12px}.value{font-size:12px;fill:#394e60}.ref{font-size:16px;font-weight:bold}.pin{font-size:12px;font-family:DejaVu Sans Mono,monospace}.hint{font-size:11px;fill:#61707c}.flow{fill:#edf5ef;stroke:#739880;stroke-width:1}</style>
+<text x="28.00" y="37.00" class="title" text-anchor="start">M27C256B • LIGAÇÕES PARA PLACA PERFURADA • Supervisão e intertravamento</text>
+<text x="28.00" y="65.00" class="subtitle" text-anchor="start">Revisão 0.2 • protótipo sem ensaio físico • prancha 5/6 • todos os pinos e furos extraídos do contrato</text>
+<text x="28.00" y="88.00" class="small" text-anchor="start">UC2 = SN74HC14, não HCT14. UC1 = LM393. BC337 onsemi: C1/B2/E3. CP16 = 10 nF no atraso de BUS_OE.</text>
+<path d="M25,100 L1655,100" class="sym"/>
+<path d="M25,1137 L1655,1137" class="sym"/>
+<text x="28.00" y="1158.00" class="small" text-anchor="start">MESMO NOME DE REDE = ligação elétrica entre todos os terminais, inclusive entre placas. NC = deixar sem ligação.</text>
+<text x="28.00" y="1178.00" class="small" text-anchor="start">(c,l) = coluna e linha do furo, vista superior. +5M = USB do Mega; +5B = buck externo: NÃO interligar esses positivos.</text>
+<rect x="28" y="116" width="526.6666666666666" height="60" rx="4" class="flow"/>
+<text x="38.00" y="138.00" class="ref" text-anchor="start">UC1 • LM393</text>
+<text x="38.00" y="156.00" class="small" text-anchor="start">VIN_PROT e +5B supervisionados</text>
+<text x="565.67" y="150.00" class="ref" text-anchor="middle">→</text>
+<rect x="576.6666666666666" y="116" width="526.6666666666666" height="60" rx="4" class="flow"/>
+<text x="586.67" y="138.00" class="ref" text-anchor="start">UC2 • HC14</text>
+<text x="586.67" y="156.00" class="small" text-anchor="start">UV_FAIL; atraso BUS_SLOW</text>
+<text x="1114.33" y="150.00" class="ref" text-anchor="middle">→</text>
+<rect x="1125.3333333333333" y="116" width="526.6666666666666" height="60" rx="4" class="flow"/>
+<text x="1135.33" y="138.00" class="ref" text-anchor="start">QP7/QP8 e QP9/QP10</text>
+<text x="1135.33" y="156.00" class="small" text-anchor="start">bloqueio de BUS e gates CE/OE</text>
+<rect x="28.0" y="190" width="394.0" height="195" rx="4" class="card"/>
+<text x="38.00" y="210.00" class="ref" text-anchor="start">UC1  •  placa B</text>
+<text x="38.00" y="226.00" class="value" text-anchor="start">LM393N DIP8</text>
+<rect x="48.0" y="274.0" width="44" height="54" rx="4" class="sym"/>
+<text x="70.00" y="305.00" class="small" text-anchor="middle">CI</text>
+<g data-ref="UC1" data-pin="1" data-net="UV_OK" data-hole="58,50">
+<text x="118.00" y="238.00" class="pin" text-anchor="start"> 1  UV_OK</text>
+<text x="414.00" y="238.00" class="hint" text-anchor="end">(58,50)</text>
+</g>
+<g data-ref="UC1" data-pin="2" data-net="AREF_2V5" data-hole="58,51">
+<text x="118.00" y="256.00" class="pin" text-anchor="start"> 2  AREF_2V5</text>
+<text x="414.00" y="256.00" class="hint" text-anchor="end">(58,51)</text>
+</g>
+<g data-ref="UC1" data-pin="3" data-net="UV_SENSE" data-hole="58,52">
+<text x="118.00" y="274.00" class="pin" text-anchor="start"> 3  UV_SENSE</text>
+<text x="414.00" y="274.00" class="hint" text-anchor="end">(58,52)</text>
+</g>
+<g data-ref="UC1" data-pin="4" data-net="GND" data-hole="58,53">
+<text x="118.00" y="292.00" class="pin" text-anchor="start"> 4  GND</text>
+<text x="414.00" y="292.00" class="hint" text-anchor="end">(58,53)</text>
+</g>
+<g data-ref="UC1" data-pin="5" data-net="B5_UV" data-hole="61,53">
+<text x="118.00" y="310.00" class="pin" text-anchor="start"> 5  B5_UV</text>
+<text x="414.00" y="310.00" class="hint" text-anchor="end">(61,53)</text>
+</g>
+<g data-ref="UC1" data-pin="6" data-net="AREF_2V5" data-hole="61,52">
+<text x="118.00" y="328.00" class="pin" text-anchor="start"> 6  AREF_2V5</text>
+<text x="414.00" y="328.00" class="hint" text-anchor="end">(61,52)</text>
+</g>
+<g data-ref="UC1" data-pin="7" data-net="UV_OK" data-hole="61,51">
+<text x="118.00" y="346.00" class="pin" text-anchor="start"> 7  UV_OK</text>
+<text x="414.00" y="346.00" class="hint" text-anchor="end">(61,51)</text>
+</g>
+<g data-ref="UC1" data-pin="8" data-net="VIN_HOLD" data-hole="61,50">
+<text x="118.00" y="364.00" class="pin" text-anchor="start"> 8  VIN_HOLD</text>
+<text x="414.00" y="364.00" class="hint" text-anchor="end">(61,50)</text>
+</g>
+<rect x="438.0" y="190" width="394.0" height="177" rx="4" class="card"/>
+<text x="448.00" y="210.00" class="ref" text-anchor="start">UC2  •  placa B</text>
+<text x="448.00" y="226.00" class="value" text-anchor="start">TI SN74HC14N DIP14 (nao HCT14)</text>
+<g data-ref="UC2" data-pin="1" data-net="UV_OK" data-hole="49,58">
+<text x="448.00" y="238.00" class="pin" text-anchor="start"> 1  UV_OK</text>
+<text x="627.00" y="238.00" class="hint" text-anchor="end">(49,58)</text>
+</g>
+<g data-ref="UC2" data-pin="2" data-net="UV_FAIL" data-hole="49,59">
+<text x="448.00" y="256.00" class="pin" text-anchor="start"> 2  UV_FAIL</text>
+<text x="627.00" y="256.00" class="hint" text-anchor="end">(49,59)</text>
+</g>
+<g data-ref="UC2" data-pin="3" data-net="GND" data-hole="49,60">
+<text x="448.00" y="274.00" class="pin" text-anchor="start"> 3  GND</text>
+<text x="627.00" y="274.00" class="hint" text-anchor="end">(49,60)</text>
+</g>
+<g data-ref="UC2" data-pin="4" data-net="NC" data-hole="49,61">
+<text x="448.00" y="292.00" class="pin" text-anchor="start"> 4  NC</text>
+<text x="627.00" y="292.00" class="hint" text-anchor="end">(49,61)</text>
+</g>
+<g data-ref="UC2" data-pin="5" data-net="BUS_SLOW" data-hole="49,62">
+<text x="448.00" y="310.00" class="pin" text-anchor="start"> 5  BUS_SLOW</text>
+<text x="627.00" y="310.00" class="hint" text-anchor="end">(49,62)</text>
+</g>
+<g data-ref="UC2" data-pin="6" data-net="BUS_INV" data-hole="49,63">
+<text x="448.00" y="328.00" class="pin" text-anchor="start"> 6  BUS_INV</text>
+<text x="627.00" y="328.00" class="hint" text-anchor="end">(49,63)</text>
+</g>
+<g data-ref="UC2" data-pin="7" data-net="GND" data-hole="49,64">
+<text x="448.00" y="346.00" class="pin" text-anchor="start"> 7  GND</text>
+<text x="627.00" y="346.00" class="hint" text-anchor="end">(49,64)</text>
+</g>
+<g data-ref="UC2" data-pin="8" data-net="BUS_OE" data-hole="52,64">
+<text x="645.00" y="238.00" class="pin" text-anchor="start"> 8  BUS_OE</text>
+<text x="824.00" y="238.00" class="hint" text-anchor="end">(52,64)</text>
+</g>
+<g data-ref="UC2" data-pin="9" data-net="BUS_INV" data-hole="52,63">
+<text x="645.00" y="256.00" class="pin" text-anchor="start"> 9  BUS_INV</text>
+<text x="824.00" y="256.00" class="hint" text-anchor="end">(52,63)</text>
+</g>
+<g data-ref="UC2" data-pin="10" data-net="NC" data-hole="52,62">
+<text x="645.00" y="274.00" class="pin" text-anchor="start">10  NC</text>
+<text x="824.00" y="274.00" class="hint" text-anchor="end">(52,62)</text>
+</g>
+<g data-ref="UC2" data-pin="11" data-net="GND" data-hole="52,61">
+<text x="645.00" y="292.00" class="pin" text-anchor="start">11  GND</text>
+<text x="824.00" y="292.00" class="hint" text-anchor="end">(52,61)</text>
+</g>
+<g data-ref="UC2" data-pin="12" data-net="NC" data-hole="52,60">
+<text x="645.00" y="310.00" class="pin" text-anchor="start">12  NC</text>
+<text x="824.00" y="310.00" class="hint" text-anchor="end">(52,60)</text>
+</g>
+<g data-ref="UC2" data-pin="13" data-net="GND" data-hole="52,59">
+<text x="645.00" y="328.00" class="pin" text-anchor="start">13  GND</text>
+<text x="824.00" y="328.00" class="hint" text-anchor="end">(52,59)</text>
+</g>
+<g data-ref="UC2" data-pin="14" data-net="+5B" data-hole="52,58">
+<text x="645.00" y="346.00" class="pin" text-anchor="start">14  +5B</text>
+<text x="824.00" y="346.00" class="hint" text-anchor="end">(52,58)</text>
+</g>
+<rect x="848.0" y="190" width="394.0" height="105" rx="4" class="card"/>
+<text x="858.00" y="210.00" class="ref" text-anchor="start">QP6  •  placa B</text>
+<text x="858.00" y="226.00" class="value" text-anchor="start">BC337-40 onsemi: 1C 2B 3E</text>
+<circle cx="890.0" cy="256" r="21" class="sym"/>
+<path d="M882.0,244 L882.0,268" class="sym"/>
+<path d="M863.0,256 L882.0,256" class="wire"/>
+<path d="M882.0,250 L902.0,238" class="sym"/>
+<path d="M902.0,238 L902.0,227" class="wire"/>
+<path d="M882.0,262 L902.0,274" class="sym"/>
+<path d="M902.0,274 L902.0,285" class="wire"/>
+<polygon points="902.0,274 894.0,272 898.0,267" fill="#1a2d3d" stroke="#1a2d3d" stroke-width="1.8"/>
+<text x="860.00" y="251.00" class="hint" text-anchor="start">B2</text>
+<text x="905.00" y="234.00" class="hint" text-anchor="start">C1</text>
+<text x="905.00" y="288.00" class="hint" text-anchor="start">E3</text>
+<g data-ref="QP6" data-pin="1" data-net="BUS_SLOW" data-hole="44,55">
+<text x="938.00" y="238.00" class="pin" text-anchor="start"> 1  BUS_SLOW</text>
+<text x="1234.00" y="238.00" class="hint" text-anchor="end">(44,55)</text>
+</g>
+<g data-ref="QP6" data-pin="2" data-net="BASE_BUS" data-hole="45,55">
+<text x="938.00" y="256.00" class="pin" text-anchor="start"> 2  BASE_BUS</text>
+<text x="1234.00" y="256.00" class="hint" text-anchor="end">(45,55)</text>
+</g>
+<g data-ref="QP6" data-pin="3" data-net="GND" data-hole="46,55">
+<text x="938.00" y="274.00" class="pin" text-anchor="start"> 3  GND</text>
+<text x="1234.00" y="274.00" class="hint" text-anchor="end">(46,55)</text>
+</g>
+<rect x="1258.0" y="190" width="394.0" height="105" rx="4" class="card"/>
+<text x="1268.00" y="210.00" class="ref" text-anchor="start">QP7  •  placa B</text>
+<text x="1268.00" y="226.00" class="value" text-anchor="start">BC337-40 onsemi: 1C 2B 3E</text>
+<circle cx="1300.0" cy="256" r="21" class="sym"/>
+<path d="M1292.0,244 L1292.0,268" class="sym"/>
+<path d="M1273.0,256 L1292.0,256" class="wire"/>
+<path d="M1292.0,250 L1312.0,238" class="sym"/>
+<path d="M1312.0,238 L1312.0,227" class="wire"/>
+<path d="M1292.0,262 L1312.0,274" class="sym"/>
+<path d="M1312.0,274 L1312.0,285" class="wire"/>
+<polygon points="1312.0,274 1304.0,272 1308.0,267" fill="#1a2d3d" stroke="#1a2d3d" stroke-width="1.8"/>
+<text x="1270.00" y="251.00" class="hint" text-anchor="start">B2</text>
+<text x="1315.00" y="234.00" class="hint" text-anchor="start">C1</text>
+<text x="1315.00" y="288.00" class="hint" text-anchor="start">E3</text>
+<g data-ref="QP7" data-pin="1" data-net="BASE_BUS" data-hole="58,58">
+<text x="1348.00" y="238.00" class="pin" text-anchor="start"> 1  BASE_BUS</text>
+<text x="1644.00" y="238.00" class="hint" text-anchor="end">(58,58)</text>
+</g>
+<g data-ref="QP7" data-pin="2" data-net="UV_CLAMP7" data-hole="59,58">
+<text x="1348.00" y="256.00" class="pin" text-anchor="start"> 2  UV_CLAMP7</text>
+<text x="1644.00" y="256.00" class="hint" text-anchor="end">(59,58)</text>
+</g>
+<g data-ref="QP7" data-pin="3" data-net="GND" data-hole="60,58">
+<text x="1348.00" y="274.00" class="pin" text-anchor="start"> 3  GND</text>
+<text x="1644.00" y="274.00" class="hint" text-anchor="end">(60,58)</text>
+</g>
+<rect x="848.0" y="298" width="394.0" height="105" rx="4" class="card"/>
+<text x="858.00" y="318.00" class="ref" text-anchor="start">QP8  •  placa B</text>
+<text x="858.00" y="334.00" class="value" text-anchor="start">BC337-40 onsemi: 1C 2B 3E</text>
+<circle cx="890.0" cy="364" r="21" class="sym"/>
+<path d="M882.0,352 L882.0,376" class="sym"/>
+<path d="M863.0,364 L882.0,364" class="wire"/>
+<path d="M882.0,358 L902.0,346" class="sym"/>
+<path d="M902.0,346 L902.0,335" class="wire"/>
+<path d="M882.0,370 L902.0,382" class="sym"/>
+<path d="M902.0,382 L902.0,393" class="wire"/>
+<polygon points="902.0,382 894.0,380 898.0,375" fill="#1a2d3d" stroke="#1a2d3d" stroke-width="1.8"/>
+<text x="860.00" y="359.00" class="hint" text-anchor="start">B2</text>
+<text x="905.00" y="342.00" class="hint" text-anchor="start">C1</text>
+<text x="905.00" y="396.00" class="hint" text-anchor="start">E3</text>
+<g data-ref="QP8" data-pin="1" data-net="BASE_K4" data-hole="40,66">
+<text x="938.00" y="346.00" class="pin" text-anchor="start"> 1  BASE_K4</text>
+<text x="1234.00" y="346.00" class="hint" text-anchor="end">(40,66)</text>
+</g>
+<g data-ref="QP8" data-pin="2" data-net="UV_CLAMP8" data-hole="41,66">
+<text x="938.00" y="364.00" class="pin" text-anchor="start"> 2  UV_CLAMP8</text>
+<text x="1234.00" y="364.00" class="hint" text-anchor="end">(41,66)</text>
+</g>
+<g data-ref="QP8" data-pin="3" data-net="GND" data-hole="42,66">
+<text x="938.00" y="382.00" class="pin" text-anchor="start"> 3  GND</text>
+<text x="1234.00" y="382.00" class="hint" text-anchor="end">(42,66)</text>
+</g>
+<rect x="1258.0" y="298" width="394.0" height="87" rx="4" class="card"/>
+<text x="1268.00" y="318.00" class="ref" text-anchor="start">CP14  •  placa B</text>
+<text x="1268.00" y="334.00" class="value" text-anchor="start">100nF 25V</text>
+<path d="M1300.0,335 L1300.0,350" class="wire"/>
+<path d="M1288.0,350 L1312.0,350" class="sym"/>
+<path d="M1288.0,360 L1312.0,360" class="sym"/>
+<path d="M1300.0,360 L1300.0,375" class="wire"/>
+<g data-ref="CP14" data-pin="1" data-net="VIN_HOLD" data-hole="58,46">
+<text x="1348.00" y="346.00" class="pin" text-anchor="start"> 1  VIN_HOLD</text>
+<text x="1644.00" y="346.00" class="hint" text-anchor="end">(58,46)</text>
+</g>
+<g data-ref="CP14" data-pin="2" data-net="GND" data-hole="59,46">
+<text x="1348.00" y="364.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="1644.00" y="364.00" class="hint" text-anchor="end">(59,46)</text>
+</g>
+<rect x="438.0" y="370" width="394.0" height="87" rx="4" class="card"/>
+<text x="448.00" y="390.00" class="ref" text-anchor="start">CP15  •  placa B</text>
+<text x="448.00" y="406.00" class="value" text-anchor="start">100nF 25V</text>
+<path d="M480.0,407 L480.0,422" class="wire"/>
+<path d="M468.0,422 L492.0,422" class="sym"/>
+<path d="M468.0,432 L492.0,432" class="sym"/>
+<path d="M480.0,432 L480.0,447" class="wire"/>
+<g data-ref="CP15" data-pin="1" data-net="+5B" data-hole="54,58">
+<text x="528.00" y="418.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="824.00" y="418.00" class="hint" text-anchor="end">(54,58)</text>
+</g>
+<g data-ref="CP15" data-pin="2" data-net="GND" data-hole="55,58">
+<text x="528.00" y="436.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="824.00" y="436.00" class="hint" text-anchor="end">(55,58)</text>
+</g>
+<rect x="28.0" y="388" width="394.0" height="87" rx="4" class="card"/>
+<text x="38.00" y="408.00" class="ref" text-anchor="start">CP16  •  placa B</text>
+<text x="38.00" y="424.00" class="value" text-anchor="start">10nF filme/C0G 5% 50V</text>
+<path d="M70.0,425 L70.0,440" class="wire"/>
+<path d="M58.0,440 L82.0,440" class="sym"/>
+<path d="M58.0,450 L82.0,450" class="sym"/>
+<path d="M70.0,450 L70.0,465" class="wire"/>
+<g data-ref="CP16" data-pin="1" data-net="BUS_SLOW" data-hole="45,58">
+<text x="118.00" y="436.00" class="pin" text-anchor="start"> 1  BUS_SLOW</text>
+<text x="414.00" y="436.00" class="hint" text-anchor="end">(45,58)</text>
+</g>
+<g data-ref="CP16" data-pin="2" data-net="GND" data-hole="46,58">
+<text x="118.00" y="454.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="414.00" y="454.00" class="hint" text-anchor="end">(46,58)</text>
+</g>
+<rect x="1258.0" y="388" width="394.0" height="87" rx="4" class="card"/>
+<text x="1268.00" y="408.00" class="ref" text-anchor="start">RP20  •  placa B</text>
+<text x="1268.00" y="424.00" class="value" text-anchor="start">100k 0.1%</text>
+<path d="M1274.0,445 L1285.0,445" class="wire"/>
+<rect x="1285.0" y="439" width="30" height="12" rx="4" class="sym"/>
+<path d="M1315.0,445 L1326.0,445" class="wire"/>
+<g data-ref="RP20" data-pin="1" data-net="VIN_PROT" data-hole="62,50">
+<text x="1348.00" y="436.00" class="pin" text-anchor="start"> 1  VIN_PROT</text>
+<text x="1644.00" y="436.00" class="hint" text-anchor="end">(62,50)</text>
+</g>
+<g data-ref="RP20" data-pin="2" data-net="UV_SENSE" data-hole="65,50">
+<text x="1348.00" y="454.00" class="pin" text-anchor="start"> 2  UV_SENSE</text>
+<text x="1644.00" y="454.00" class="hint" text-anchor="end">(65,50)</text>
+</g>
+<rect x="848.0" y="406" width="394.0" height="87" rx="4" class="card"/>
+<text x="858.00" y="426.00" class="ref" text-anchor="start">RP21  •  placa B</text>
+<text x="858.00" y="442.00" class="value" text-anchor="start">29k4 0.1%</text>
+<path d="M864.0,463 L875.0,463" class="wire"/>
+<rect x="875.0" y="457" width="30" height="12" rx="4" class="sym"/>
+<path d="M905.0,463 L916.0,463" class="wire"/>
+<g data-ref="RP21" data-pin="1" data-net="UV_SENSE" data-hole="67,50">
+<text x="938.00" y="454.00" class="pin" text-anchor="start"> 1  UV_SENSE</text>
+<text x="1234.00" y="454.00" class="hint" text-anchor="end">(67,50)</text>
+</g>
+<g data-ref="RP21" data-pin="2" data-net="GND" data-hole="70,50">
+<text x="938.00" y="472.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="1234.00" y="472.00" class="hint" text-anchor="end">(70,50)</text>
+</g>
+<rect x="438.0" y="460" width="394.0" height="87" rx="4" class="card"/>
+<text x="448.00" y="480.00" class="ref" text-anchor="start">RP22  •  placa B</text>
+<text x="448.00" y="496.00" class="value" text-anchor="start">2k2</text>
+<path d="M454.0,517 L465.0,517" class="wire"/>
+<rect x="465.0" y="511" width="30" height="12" rx="4" class="sym"/>
+<path d="M495.0,517 L506.0,517" class="wire"/>
+<g data-ref="RP22" data-pin="1" data-net="BUS_EN" data-hole="48,55">
+<text x="528.00" y="508.00" class="pin" text-anchor="start"> 1  BUS_EN</text>
+<text x="824.00" y="508.00" class="hint" text-anchor="end">(48,55)</text>
+</g>
+<g data-ref="RP22" data-pin="2" data-net="BASE_BUS" data-hole="51,55">
+<text x="528.00" y="526.00" class="pin" text-anchor="start"> 2  BASE_BUS</text>
+<text x="824.00" y="526.00" class="hint" text-anchor="end">(51,55)</text>
+</g>
+<rect x="28.0" y="478" width="394.0" height="87" rx="4" class="card"/>
+<text x="38.00" y="498.00" class="ref" text-anchor="start">RP23  •  placa B</text>
+<text x="38.00" y="514.00" class="value" text-anchor="start">100k</text>
+<path d="M44.0,535 L55.0,535" class="wire"/>
+<rect x="55.0" y="529" width="30" height="12" rx="4" class="sym"/>
+<path d="M85.0,535 L96.0,535" class="wire"/>
+<g data-ref="RP23" data-pin="1" data-net="BASE_BUS" data-hole="53,55">
+<text x="118.00" y="526.00" class="pin" text-anchor="start"> 1  BASE_BUS</text>
+<text x="414.00" y="526.00" class="hint" text-anchor="end">(53,55)</text>
+</g>
+<g data-ref="RP23" data-pin="2" data-net="GND" data-hole="56,55">
+<text x="118.00" y="544.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="414.00" y="544.00" class="hint" text-anchor="end">(56,55)</text>
+</g>
+<rect x="1258.0" y="478" width="394.0" height="87" rx="4" class="card"/>
+<text x="1268.00" y="498.00" class="ref" text-anchor="start">RP24  •  placa B</text>
+<text x="1268.00" y="514.00" class="value" text-anchor="start">10k</text>
+<path d="M1274.0,535 L1285.0,535" class="wire"/>
+<rect x="1285.0" y="529" width="30" height="12" rx="4" class="sym"/>
+<path d="M1315.0,535 L1326.0,535" class="wire"/>
+<g data-ref="RP24" data-pin="1" data-net="+5B" data-hole="58,55">
+<text x="1348.00" y="526.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="1644.00" y="526.00" class="hint" text-anchor="end">(58,55)</text>
+</g>
+<g data-ref="RP24" data-pin="2" data-net="UV_OK" data-hole="61,55">
+<text x="1348.00" y="544.00" class="pin" text-anchor="start"> 2  UV_OK</text>
+<text x="1644.00" y="544.00" class="hint" text-anchor="end">(61,55)</text>
+</g>
+<rect x="848.0" y="496" width="394.0" height="87" rx="4" class="card"/>
+<text x="858.00" y="516.00" class="ref" text-anchor="start">RP25  •  placa B</text>
+<text x="858.00" y="532.00" class="value" text-anchor="start">8k2 1%</text>
+<path d="M864.0,553 L875.0,553" class="wire"/>
+<rect x="875.0" y="547" width="30" height="12" rx="4" class="sym"/>
+<path d="M905.0,553 L916.0,553" class="wire"/>
+<g data-ref="RP25" data-pin="1" data-net="+5B" data-hole="63,55">
+<text x="938.00" y="544.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="1234.00" y="544.00" class="hint" text-anchor="end">(63,55)</text>
+</g>
+<g data-ref="RP25" data-pin="2" data-net="B5_UV" data-hole="66,55">
+<text x="938.00" y="562.00" class="pin" text-anchor="start"> 2  B5_UV</text>
+<text x="1234.00" y="562.00" class="hint" text-anchor="end">(66,55)</text>
+</g>
+<rect x="438.0" y="550" width="394.0" height="87" rx="4" class="card"/>
+<text x="448.00" y="570.00" class="ref" text-anchor="start">RP26  •  placa B</text>
+<text x="448.00" y="586.00" class="value" text-anchor="start">10k 1%</text>
+<path d="M454.0,607 L465.0,607" class="wire"/>
+<rect x="465.0" y="601" width="30" height="12" rx="4" class="sym"/>
+<path d="M495.0,607 L506.0,607" class="wire"/>
+<g data-ref="RP26" data-pin="1" data-net="B5_UV" data-hole="68,55">
+<text x="528.00" y="598.00" class="pin" text-anchor="start"> 1  B5_UV</text>
+<text x="824.00" y="598.00" class="hint" text-anchor="end">(68,55)</text>
+</g>
+<g data-ref="RP26" data-pin="2" data-net="GND" data-hole="71,55">
+<text x="528.00" y="616.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="824.00" y="616.00" class="hint" text-anchor="end">(71,55)</text>
+</g>
+<rect x="28.0" y="568" width="394.0" height="87" rx="4" class="card"/>
+<text x="38.00" y="588.00" class="ref" text-anchor="start">RP27  •  placa B</text>
+<text x="38.00" y="604.00" class="value" text-anchor="start">10k 1%</text>
+<path d="M44.0,625 L55.0,625" class="wire"/>
+<rect x="55.0" y="619" width="30" height="12" rx="4" class="sym"/>
+<path d="M85.0,625 L96.0,625" class="wire"/>
+<g data-ref="RP27" data-pin="1" data-net="+5B" data-hole="39,58">
+<text x="118.00" y="616.00" class="pin" text-anchor="start"> 1  +5B</text>
+<text x="414.00" y="616.00" class="hint" text-anchor="end">(39,58)</text>
+</g>
+<g data-ref="RP27" data-pin="2" data-net="BUS_SLOW" data-hole="42,58">
+<text x="118.00" y="634.00" class="pin" text-anchor="start"> 2  BUS_SLOW</text>
+<text x="414.00" y="634.00" class="hint" text-anchor="end">(42,58)</text>
+</g>
+<rect x="1258.0" y="568" width="394.0" height="87" rx="4" class="card"/>
+<text x="1268.00" y="588.00" class="ref" text-anchor="start">RP28  •  placa B</text>
+<text x="1268.00" y="604.00" class="value" text-anchor="start">4k7</text>
+<path d="M1274.0,625 L1285.0,625" class="wire"/>
+<rect x="1285.0" y="619" width="30" height="12" rx="4" class="sym"/>
+<path d="M1315.0,625 L1326.0,625" class="wire"/>
+<g data-ref="RP28" data-pin="1" data-net="UV_FAIL" data-hole="62,58">
+<text x="1348.00" y="616.00" class="pin" text-anchor="start"> 1  UV_FAIL</text>
+<text x="1644.00" y="616.00" class="hint" text-anchor="end">(62,58)</text>
+</g>
+<g data-ref="RP28" data-pin="2" data-net="UV_CLAMP7" data-hole="65,58">
+<text x="1348.00" y="634.00" class="pin" text-anchor="start"> 2  UV_CLAMP7</text>
+<text x="1644.00" y="634.00" class="hint" text-anchor="end">(65,58)</text>
+</g>
+<rect x="848.0" y="586" width="394.0" height="87" rx="4" class="card"/>
+<text x="858.00" y="606.00" class="ref" text-anchor="start">RP29  •  placa B</text>
+<text x="858.00" y="622.00" class="value" text-anchor="start">4k7</text>
+<path d="M864.0,643 L875.0,643" class="wire"/>
+<rect x="875.0" y="637" width="30" height="12" rx="4" class="sym"/>
+<path d="M905.0,643 L916.0,643" class="wire"/>
+<g data-ref="RP29" data-pin="1" data-net="UV_FAIL" data-hole="44,66">
+<text x="938.00" y="634.00" class="pin" text-anchor="start"> 1  UV_FAIL</text>
+<text x="1234.00" y="634.00" class="hint" text-anchor="end">(44,66)</text>
+</g>
+<g data-ref="RP29" data-pin="2" data-net="UV_CLAMP8" data-hole="47,66">
+<text x="938.00" y="652.00" class="pin" text-anchor="start"> 2  UV_CLAMP8</text>
+<text x="1234.00" y="652.00" class="hint" text-anchor="end">(47,66)</text>
+</g>
+<rect x="438.0" y="640" width="394.0" height="87" rx="4" class="card"/>
+<text x="448.00" y="660.00" class="ref" text-anchor="start">RP30  •  placa B</text>
+<text x="448.00" y="676.00" class="value" text-anchor="start">100k</text>
+<path d="M454.0,697 L465.0,697" class="wire"/>
+<rect x="465.0" y="691" width="30" height="12" rx="4" class="sym"/>
+<path d="M495.0,697 L506.0,697" class="wire"/>
+<g data-ref="RP30" data-pin="1" data-net="UV_CLAMP7" data-hole="67,58">
+<text x="528.00" y="688.00" class="pin" text-anchor="start"> 1  UV_CLAMP7</text>
+<text x="824.00" y="688.00" class="hint" text-anchor="end">(67,58)</text>
+</g>
+<g data-ref="RP30" data-pin="2" data-net="GND" data-hole="70,58">
+<text x="528.00" y="706.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="824.00" y="706.00" class="hint" text-anchor="end">(70,58)</text>
+</g>
+<rect x="28.0" y="658" width="394.0" height="87" rx="4" class="card"/>
+<text x="38.00" y="678.00" class="ref" text-anchor="start">RP31  •  placa B</text>
+<text x="38.00" y="694.00" class="value" text-anchor="start">100k</text>
+<path d="M44.0,715 L55.0,715" class="wire"/>
+<rect x="55.0" y="709" width="30" height="12" rx="4" class="sym"/>
+<path d="M85.0,715 L96.0,715" class="wire"/>
+<g data-ref="RP31" data-pin="1" data-net="UV_CLAMP8" data-hole="49,66">
+<text x="118.00" y="706.00" class="pin" text-anchor="start"> 1  UV_CLAMP8</text>
+<text x="414.00" y="706.00" class="hint" text-anchor="end">(49,66)</text>
+</g>
+<g data-ref="RP31" data-pin="2" data-net="GND" data-hole="52,66">
+<text x="118.00" y="724.00" class="pin" text-anchor="start"> 2  GND</text>
+<text x="414.00" y="724.00" class="hint" text-anchor="end">(52,66)</text>
+</g>
+</svg>

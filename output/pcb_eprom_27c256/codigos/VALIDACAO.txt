@@ -1,0 +1,53 @@
+VALIDACAO - 24/10/2026
+
+ALVO REAL DE COMPILACAO
+Arduino CLI 1.5.2-rc.1; core arduino:avr 1.8.8; alvo arduino:avr:mega.
+PROGRAMMER_HARDWARE=0: 4860 bytes flash, 211 bytes globais.
+PROGRAMMER_HARDWARE=1: 5678 bytes flash, 223 bytes globais.
+Ambas as compilacoes terminaram com codigo 0.
+Cliente eprom_pc.py: python -m py_compile terminou com codigo 0.
+
+TESTES DO FIRMWARE (STUB ARDUINO, g++) - 15/15 PASSARAM
+1. CRC32 conhecido de "123456789".
+2. Sucesso na primeira tentativa; sobrepulso de 3 ms; inversao MOS.
+3. Sucesso na tentativa 25; sobrepulso de 75 ms.
+4. Falha apos 25 tentativas sem sobrepulso.
+5. Byte FF nao recebe pulso.
+6. Transicao 0 -> 1 rejeitada sem pulso.
+7. Pacote W com CRC correto no endereco 32767.
+8. Bloco de 128 bytes terminando no endereco 32767.
+9. CRC errado rejeitado antes de pulsos.
+10. Endereco 32767 + tamanho 2 rejeitado.
+11. Tamanho 129 rejeitado.
+12. Tamanho 0 rejeitado.
+13. Escrita desarmada nao programa.
+14. Falha de verify desarma e libera enderecos.
+15. D libera enderecos e inibe controles.
+Instrumentacao tambem confere setup/hold >= 2 us, verify com /CE HIGH e /OE LOW,
+MOSFETs de dados liberados na leitura e interrupcoes suspensas no pulso.
+
+REPETIR EM LINUX COM g++
+cd codigos
+g++ -std=c++17 -Wall -Wextra -Werror -Wno-misleading-indentation -I tests tests/review_firmware.cpp -o /tmp/review_firmware
+/tmp/review_firmware
+Neste pacote da PCB, eprom27/eprom27.ino e tests/eprom27_programmer.ino usam a macro=1.
+
+SIMULACOES DO CLIENTE - REVISAO INDEPENDENTE
+Dump binario de 32 KB e tres leituras identicas: aceitos.
+Divergencia entre leituras: rejeitada antes de salvar.
+ERR NOT_BLANK, ERR VERIFY, desconexao no desarme e Ctrl+C:
+erro original preservado; desarme tentado; aviso para reduzir VPP antes de VCC presente.
+Resposta diferente de DISARMED: desarme considerado nao confirmado.
+
+LIMITACOES
+Nenhum desses testes mede circuito fisico, tensoes, ruído, corrente, largura real
+de pulsos ou comportamento de um chip real. O gravador e referencia de bancada,
+nao um equipamento fisicamente validado. Fontes sao manuais, sem sensores.
+Leitura do usuario: CRC 6691559F repetido 3 vezes; DIFF 0; mascara 0x00.
+Nao foi feito apagamento nem programacao da EPROM do usuario.
+
+SHA256 DAS FONTES PRINCIPAIS
+eprom27/eprom27.ino
+6e38201611cba5e084675fa551e014d50e50d771d72e36adc6815b9c6bc159c0
+eprom_pc.py
+35892013e822d9edf2a2ec21a58160c498f6299e8e124f93d61cfebbffe99496

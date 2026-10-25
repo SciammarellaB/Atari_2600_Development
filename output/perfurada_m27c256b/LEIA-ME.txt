@@ -1,0 +1,89 @@
+M27C256B-10F1 EM PLACA PERFURADA - REVISAO 0.2 - 24/10/2026
+
+COMECE PELO MANUAL PDF DO PACOTE.
+Projeto de prototipo para soldagem manual, nao ensaiado fisicamente.
+Esta revisao usa fontes integradas, interfaces adicionais e firmware V2.
+Nao usar o codigo V1 nem a lista da placa anterior TS27C256Q como gabarito.
+
+CONTEUDO
+manual_perfurada_m27c256b.pdf: montagem, calibracao, operacao e ensaios.
+montagem_A/B_componentes.svg: mapas pelo lado dos componentes.
+montagem_A/B_solda.svg: mapas espelhados, olhando a solda.
+esquemas/: seis pranchas vetoriais com todos os pinos e nomes de redes.
+componentes.csv: lista por referencia e posicao.
+lista_compras.csv: componentes agrupados e materiais externos.
+pinos_furos_redes.csv: cada terminal com coordenadas e rede.
+ligacoes_ponto_a_ponto.csv: 458 fios internos + 8 fios no cabo A-B.
+mega.csv: mapa de sinais para os GPIOs do Mega.
+contrato_eletrico.json: fonte de verdade de pinos, posicoes e estados.
+codigos/: firmware Mega, configuracao ADC, cliente Python, testes e protocolo.
+fontes/: geradores de contrato, mapas, esquemas, manual e validacao.
+
+MONTAGEM
+Placa A: ilhas individuais, 2.54 mm, pelo menos 75 colunas x 53 linhas.
+Placa B: ilhas individuais, 2.54 mm, pelo menos 75 colunas x 74 linhas.
+Tamanhos nominais sugeridos: A20x15cm, B20x20cm; conferir os furos reais.
+E uma montagem extensa: 200 referencias/619 terminais, incluindo TPs e headers.
+Modulos buck/boost ficam fixados por espacadores e ligados por cabos;
+nao foi inventado um footprint universal. Chaves e fusivel ficam no painel.
+
+As coordenadas sempre pertencem ao lado dos componentes. Na vista de solda,
+as colunas estao espelhadas, mas os numeros dos furos NAO mudam.
+GND usa barramento de fio continuo na ultima linha de cada placa.
+Os demais fios sao isolados, inclusive em cruzamentos. Uma cruzada nao e junta.
+A lista ponto a ponto e uma arvore por rede: executar cada ligacao uma vez.
+Retornos dos capacitores de desacoplamento ligam primeiro ao GND local do
+respectivo circuito, como consta na lista; nao trocar por dois fios longos
+independentes ate o barramento.
+Fios podem ser soldados na ilha/terminal pelo lado da solda; nao e preciso
+enfiar varios condutores no mesmo furo. Distribua mecanicamente as juntas.
+Nomes de rede iguais nos esquemas sao conexoes eletricas entre componentes.
+Os quadros de ligacao completos sao um esquema por redes nomeadas; nao sao
+uma mascara de cobre nem um desenho tradicional com todos os fios tracados.
+
+PECAS E MECANICA
+Confira fabricante, pinagem e corpo antes de soldar. TO92 e terminais de
+capacitores podem precisar de formacao para o passo do mapa. Nao force o corpo.
+CP1 aceita corpo de ate18mm; se maior, montar externamente com fios isolados.
+Os dois LM317 precisam de dissipadores que caibam; abas sao OUT e nao podem
+compartilhar metal sem isolacao. Podem ser fixados no chassi com fios curtos.
+Rele obrigatorio nesta versao: Omron G5V-2-H1 DC5, 30mA, nao modelo100mA.
+Buffers: TI SN74AHCT541N, nao SN74HCT541N. Schmitt: SN74HC14N, nao HCT14.
+Led50/51/52 e resistores1k sao opcionais, fora das200referencias principais.
+
+ALIMENTACAO
+Fonte12V regulada1A -> fusivel1A retardado -> S0 -> JB2.1; negativoJB2.2.
+Mega continua pelo USB. GND comum. NUNCA unir +5M USB e +5B buck externo.
+Buck5,00V; boost18V; UP1VCC4.2/5/6/6.25; UP2VPP12.75.
+S1DPDT: LER bloqueia fisicamente a bobinaK4; GRAVAR apenas autoriza software.
+SemUSB, relessoltos deixam6.25/6.25V no soquete, comcontrolesinibidos.
+Isso nao e modo de leitura. Inserir/retirar chip somente com tudo desligado.
+
+CALIBRACAO E OPERACAO
+Sem EPROM: conferir todas as polaridades e ajustar modulos isoladamente.
+Trimpots primeiro na menor resistencia entre1 e2/3, conferida comohmimetro.
+Conferir AREF2.500V; diagnostico P permite corrigir ganhos ADC antes do handshake.
+O servico calibrar mantem alvo ateFIM, comVPPseguindoVCC e chaveLER.
+O servico pulso produz uma unica ativacao deCE, sem VPP elevada.
+Leia os detalhes e comandos em codigos/LEIA-ME.txt e no manual.
+
+LIMITES
+O firmware e a simulacao nao medem os pulsos reais. Validar95..105us no
+pino20, sequencia, hold, resetdurantepulso, queda lenta/abrupta, UV e USBoff.
+O RC de100us nominal nao representa atraso minimo de100us.
+Nao ha latch dehardware para todo transiente UV; eventos breves podem nao
+ser amostrados pelo software. Falhas detectadas pelo firmware ficam retidas.
+Nao ha garantia de protecao contra toda falha de componente ou montagem.
+
+VALIDACAO
+Consulte VALIDACAO_PROJETO.txt e codigos/VALIDACAO.txt para resultados exatos.
+Nenhum upload, leitura real, apagamentoUV ou programacao fisica foi realizado.
+
+REGERAR DOCUMENTOS (Python3; nao sobrescreve o firmware)
+python3 fontes/projeto.py
+python3 fontes/gerar_esquemas.py --png
+python3 fontes/gerar_entrega.py
+python3 fontes/validar_projeto.py
+Dependencias: reportlab,pypdf,cairosvg, fontesDejaVu; o gerador PNG de esquemas
+usa librsvg/cairo disponiveis no Linux. Na estrutura original output/ do projeto,
+o PDF sai em output/pdf/. Se extrair em outra pasta, sai junto deste LEIA-ME.

@@ -1,0 +1,92 @@
+Quantidade,Componente,Tipo,Referencias
+1,+12P75,test,TPB7
+1,+18B,test,TPB5
+1,+5B,test,TPB4
+1,+5M,test,TPA2
+2,100R 1%,res,"RP2, RP7"
+21,100k,res,"R9, R10, R11, R12, R13, R14, R15, R16, R34, R37, R41, R43, R45, RP1, RP15, RP16, RP17, RP18, RP23, RP30, RP31"
+1,100k 0.1%,res,RP20
+20,100nF 25V,cap,"C1, C2, C3, C4, C5, C6, C7, CP2, CP4, CP6, CP7, CP11, CP12, CP13, CP14, CP15, CS1, CS2, CS3, CS4"
+1,100nF 50V,cap,CP9
+9,10k,res,"R17, R18, R19, R20, R21, R22, R23, R24, RP24"
+8,10k 0.1%,res,"RS1B, RS1C, RS2B, RS2C, RS3B, RS3C, RS4B, RS4C"
+3,10k 1%,res,"R40, RP26, RP27"
+1,10nF filme/C0G 5% 50V,cap,CP16
+1,10uF 25V,elect,CP10
+1,10uF 35V,elect,CP8
+1,15R 1%,res,RP3
+2,1N4007 OUT->IN,diode,"DP2, DP3"
+4,1N4148,diode,"DF1, DF2, DF3, DF4"
+1,1N4742A 12V 1W,diode,ZP1
+1,1N5819,diode,DP1
+5,1k,res,"R33, R35, R36, R38, RP19"
+1,1k5,res,RP14
+1,200R 1%,res,RP6
+2,20k 0.1%,res,"RS1A, RS4A"
+8,220R,res,"R1, R2, R3, R4, R5, R6, R7, R8"
+1,22k 1%,res,R39
+1,29k4 0.1%,res,RP21
+14,2N7000 Microchip: 1S 2G 3D,mos,"Q1, Q2, Q3, Q4, Q5, Q6, Q7, Q8, Q9, Q10, QS1, QS2, QS3, QS4"
+4,2k2,res,"RP11, RP12, RP13, RP22"
+1,2k2 0.25W,res,RP9
+1,3296W 100R multivoltas,trim,RV4
+1,3296W 10R multivoltas,trim,RV1
+1,3296W 200R multivoltas,trim,RV5
+1,3296W 20R multivoltas,trim,RV3
+1,3296W 50R multivoltas,trim,RV2
+1,4700uF 25V,bulk,CP1
+1,470uF 16V,elect,CP3
+1,47uF 16V,elect,CP5
+12,4k7,res,"R25, R26, R27, R28, R29, R30, R31, R32, R42, R44, RP28, RP29"
+1,56R 1%,res,RP5
+2,56k 0.1%,res,"RS2A, RS3A"
+1,68R 1%,res,RP4
+1,820R 1%,res,RP8
+1,8k2 1%,res,RP25
+1,AREF_2V5,test,TPB9
+9,BC337-40 onsemi: 1C 2B 3E,npn,"QP9, QP10, QP2, QP3, QP4, QP5, QP6, QP7, QP8"
+4,BZX85C12 12V,diode,"ZF1, ZF2, ZF3, ZF4"
+1,CE_N,test,TPA7
+1,Chave DPDT: C1 NO1 C2 NO2,header4,JS1
+1,Entrada apos fusivel e S0,header2,JB2
+2,GND,test,"TPA1, TPB1"
+1,IRF9540N TO220 1G 2D 3S,to220,QP1
+2,LM339N DIP14,dip14,"U2, U3"
+1,LM393N DIP8,dip8,UC1
+1,LM4040AIZ-2.5/NOPB TI: 1NC 2K 3A,mos,UR1
+1,M27C256B-10F1 + soquete DIP28 600 mil,dip28,U1
+1,"MODULO BOOST: IN+, IN-, OUT+, OUT-",header4,JM2
+1,"MODULO BUCK: IN+, IN-, OUT+, OUT-",header4,JM1
+1,"Mega D2..9, D45, D46, GND, NC",header12,JA3
+1,"Mega D22..D36, GND",header16,JA1
+1,"Mega RD0..7, 5V USB, GND",header10,JA2
+1,Mega controles: D10 D11 D12 D14 D48 D49 A0 A1 A2 A3 GND,header11,JB3
+1,OE_N,test,TPA8
+4,Omron G5V-2-H1 DC5 (30mA),relay,"K1, K2, K3, K4"
+1,"Para JA4, cabo numerado 1:1",header10,JB1
+1,"Para JB1, cabo numerado 1:1",header10,JA4
+1,Para Mega AREF (referencia externa 2.5V),header2,JB4
+2,SIP9 8x100k comum no pino1,header9,"RN1, RN2"
+2,ST LM317T TO220 1ADJ 2OUT 3IN,to220,"UP1, UP2"
+2,TI SN74AHCT541N DIP20 (nao HCT541),dip20,"U4, U5"
+1,TI SN74HC14N DIP14 (nao HCT14),dip14,UC2
+1,UV_SENSE,test,TPB10
+2,VCC_EP,test,"TPA3, TPB6"
+2,VIN_HOLD,test,"TPA5, TPB3"
+1,VIN_PROT,test,TPB2
+2,VPP,test,"TPA4, TPB8"
+1,VREF_DATA,test,TPA6
+1,Fonte regulada12V/1A,externo/auxiliar,
+1,ModuloBUCK entrada12V saida5V/1A minimo,externo/auxiliar,
+1,ModuloBOOST entrada5V saida18V/100mA minimo,externo/auxiliar,
+1,S0interruptorliga/desliga,externo/auxiliar,
+1,S1DPDTON-ON painel,externo/auxiliar,
+1,Fusivel1Aretardado+porta-fusivel,externo/auxiliar,
+1,Placa perfurada ilhas isoladas minimo75x53 furos2.54mm,externo/auxiliar,
+1,Placa perfurada ilhas isoladas minimo75x74 furos2.54mm,externo/auxiliar,
+2,SoqueteDIP20,externo/auxiliar,
+3,SoqueteDIP14,externo/auxiliar,
+1,SoqueteDIP8,externo/auxiliar,
+2,DissipadorTO220 individual comfixacaoisolada,externo/auxiliar,
+1,Mega2560+caboUSB,externo/auxiliar,
+1,"FioAWG26isolado,AWG22alimentacao,barramentoGND0.6mm,espacadores",externo/auxiliar,

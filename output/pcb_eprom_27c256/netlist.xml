@@ -1,0 +1,1799 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<export version="E">
+  <design>
+    <source>/home/sciammarella/Fontes/Estudos/Atari_2600_Development/output/pcb_eprom_27c256/eprom27_rev01.kicad_sch</source>
+    <date>Sat Oct 24 15:57:59 2026</date>
+    <tool>Eeschema 7.0.11+dfsg-1build4</tool>
+    <sheet number="1" name="/" tstamps="/">
+      <title_block>
+        <title>Leitor e gravador ST TS27C256Q</title>
+        <company/>
+        <rev>0.1 PROTOTIPO</rev>
+        <date>2026-10-24</date>
+        <source>eprom27_rev01.kicad_sch</source>
+        <comment number="1" value="Fontes manuais. SEM protecao contra inversao. Nao ensaiado fisicamente."/>
+        <comment number="2" value=""/>
+        <comment number="3" value=""/>
+        <comment number="4" value=""/>
+        <comment number="5" value=""/>
+        <comment number="6" value=""/>
+        <comment number="7" value=""/>
+        <comment number="8" value=""/>
+        <comment number="9" value=""/>
+      </title_block>
+    </sheet>
+  </design>
+  <components>
+    <comp ref="C1">
+      <value>100nF 25V</value>
+      <footprint>Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm</footprint>
+      <libsource lib="Local" part="EP_C1" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9f2082b4-6ac9-5070-a275-4f1c176c1f4c</tstamps>
+    </comp>
+    <comp ref="C2">
+      <value>100nF 25V</value>
+      <footprint>Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm</footprint>
+      <libsource lib="Local" part="EP_C2" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>bab903d9-3e38-5467-b5dd-e0f266b92518</tstamps>
+    </comp>
+    <comp ref="C3">
+      <value>100nF 25V</value>
+      <footprint>Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm</footprint>
+      <libsource lib="Local" part="EP_C3" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>41b07407-ff90-5c46-92f9-526f4bdd7b0d</tstamps>
+    </comp>
+    <comp ref="C4">
+      <value>100nF 25V</value>
+      <footprint>Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm</footprint>
+      <libsource lib="Local" part="EP_C4" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f0832c4e-83f7-5bfc-8aea-5632741474b6</tstamps>
+    </comp>
+    <comp ref="C5">
+      <value>100nF 25V</value>
+      <footprint>Capacitor_THT:C_Disc_D5.0mm_W2.5mm_P2.50mm</footprint>
+      <libsource lib="Local" part="EP_C5" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>eeef4ed8-04b7-5511-bfe3-835571c447b9</tstamps>
+    </comp>
+    <comp ref="J1">
+      <value>ENDERECOS - MEGA</value>
+      <footprint>Connector_PinHeader_2.54mm:PinHeader_1x16_P2.54mm_Vertical</footprint>
+      <libsource lib="Local" part="EP_J1" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9821e5de-e8fd-5e6b-be31-ca0c57eedc5f</tstamps>
+    </comp>
+    <comp ref="J2">
+      <value>LEITURA +5M - MEGA</value>
+      <footprint>Connector_PinHeader_2.54mm:PinHeader_1x10_P2.54mm_Vertical</footprint>
+      <libsource lib="Local" part="EP_J2" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2f599ebb-0661-524a-84f1-e05b61bdee17</tstamps>
+    </comp>
+    <comp ref="J3">
+      <value>ESCRITA E CONTROLES - MEGA</value>
+      <footprint>Connector_PinHeader_2.54mm:PinHeader_1x12_P2.54mm_Vertical</footprint>
+      <libsource lib="Local" part="EP_J3" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6d1f54d1-3365-570c-a33d-93a04a1943b7</tstamps>
+    </comp>
+    <comp ref="J4">
+      <value>FONTES EXTERNAS</value>
+      <footprint>TerminalBlock_Phoenix:TerminalBlock_Phoenix_MKDS-1,5-6-5.08_1x06_P5.08mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_J4" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ff66defc-1f75-59dc-8a1b-fcd3e0922708</tstamps>
+    </comp>
+    <comp ref="Q1">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q1" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>40090a2f-42b6-568f-9fc3-204fa20ec475</tstamps>
+    </comp>
+    <comp ref="Q2">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q2" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9cbfd6b4-5288-5a6f-a1dd-8ccd8b40d932</tstamps>
+    </comp>
+    <comp ref="Q3">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q3" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>306fbedd-ecc3-54ed-96d1-ad514dd7f846</tstamps>
+    </comp>
+    <comp ref="Q4">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q4" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8a5427a5-5d93-5ffb-ab7e-ac828ff29f78</tstamps>
+    </comp>
+    <comp ref="Q5">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q5" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a03de448-a6ad-532e-a943-abce98bb82a5</tstamps>
+    </comp>
+    <comp ref="Q6">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q6" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9f629833-e153-5c39-afad-080684fc77de</tstamps>
+    </comp>
+    <comp ref="Q7">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q7" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f634d841-df8b-59b1-90d9-e336aad38994</tstamps>
+    </comp>
+    <comp ref="Q8">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q8" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9e66f171-1b9e-5668-925a-d3e5d4a10729</tstamps>
+    </comp>
+    <comp ref="Q9">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q9" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>acab8791-f291-5393-a77b-e733d12e241e</tstamps>
+    </comp>
+    <comp ref="Q10">
+      <value>2N7000 Microchip TO92 S-G-D</value>
+      <footprint>Package_TO_SOT_THT:TO-92_Inline_Wide</footprint>
+      <libsource lib="Local" part="EP_Q10" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>298eed23-6984-5b70-b51e-2cc47992ab0c</tstamps>
+    </comp>
+    <comp ref="R1">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R1" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7afbe5f9-9e2b-5ea6-a8d1-6777dda88915</tstamps>
+    </comp>
+    <comp ref="R2">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R2" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>4db26188-28c7-54e2-9a34-5f89e3bb5df9</tstamps>
+    </comp>
+    <comp ref="R3">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R3" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ce9857a4-6c60-5f62-86f6-946a733a4952</tstamps>
+    </comp>
+    <comp ref="R4">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R4" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>53e38ba8-8a10-5764-913d-0c8d7ff0a6a6</tstamps>
+    </comp>
+    <comp ref="R5">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R5" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6b3979e9-a62a-502e-b5a5-3445f978a4aa</tstamps>
+    </comp>
+    <comp ref="R6">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R6" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f2367bff-79a7-54c6-bef1-f76917e3bd66</tstamps>
+    </comp>
+    <comp ref="R7">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R7" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b1e73c55-24ec-5b82-815f-9f101a0d6e31</tstamps>
+    </comp>
+    <comp ref="R8">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R8" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>13bf68b6-10ae-5156-8552-054019b15d14</tstamps>
+    </comp>
+    <comp ref="R9">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R9" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>64920b37-6212-55a8-91d6-63adcf518690</tstamps>
+    </comp>
+    <comp ref="R10">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R10" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e8dc7fbe-ad7c-5147-a6b4-45e40571d903</tstamps>
+    </comp>
+    <comp ref="R11">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R11" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6692909e-4724-5b39-909c-5a92a914b724</tstamps>
+    </comp>
+    <comp ref="R12">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R12" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>f7ae2891-a601-58d2-82e5-4600052b7e39</tstamps>
+    </comp>
+    <comp ref="R13">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R13" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>442279c9-e1ee-586d-bdd8-26614bcf417a</tstamps>
+    </comp>
+    <comp ref="R14">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R14" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>51011f2a-1e10-553f-b553-e275c74eb69f</tstamps>
+    </comp>
+    <comp ref="R15">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R15" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b4b2e9d6-116d-5026-bff2-9c652fcfa2af</tstamps>
+    </comp>
+    <comp ref="R16">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R16" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>fa165d5d-6b45-592f-9e2b-3866af17f261</tstamps>
+    </comp>
+    <comp ref="R17">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R17" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>5f0e5064-7e02-5095-953e-dad339aa2ec8</tstamps>
+    </comp>
+    <comp ref="R18">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R18" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8aaf512b-a241-55ce-adbd-74893730a6b4</tstamps>
+    </comp>
+    <comp ref="R19">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R19" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d3f1c489-8c8a-5024-b627-5d8c29b7cea6</tstamps>
+    </comp>
+    <comp ref="R20">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R20" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>c8be7918-b70b-512c-afeb-14de25403a32</tstamps>
+    </comp>
+    <comp ref="R21">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R21" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ad9d4181-77ac-50c9-9bba-6b4cb1b5e3f4</tstamps>
+    </comp>
+    <comp ref="R22">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R22" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e853f13c-0ecc-5b66-8817-5fe0dcf2078c</tstamps>
+    </comp>
+    <comp ref="R23">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R23" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8e7b182f-066e-505f-93b2-e2316b8bb3d9</tstamps>
+    </comp>
+    <comp ref="R24">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R24" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>67b891c3-3307-5969-81e3-f5a3e4c65deb</tstamps>
+    </comp>
+    <comp ref="R25">
+      <value>4k7</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R25" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ddb19261-0411-5aa5-b248-d8204811faab</tstamps>
+    </comp>
+    <comp ref="R26">
+      <value>4k7</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R26" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>754143bd-4593-5b17-91b5-91363e45ab68</tstamps>
+    </comp>
+    <comp ref="R27">
+      <value>4k7</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R27" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ea51c299-5bec-54e4-8d4b-a8dfbb09be62</tstamps>
+    </comp>
+    <comp ref="R28">
+      <value>4k7</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R28" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9e1969af-3ad6-5c08-9ecf-ff7ecf4b177c</tstamps>
+    </comp>
+    <comp ref="R29">
+      <value>4k7</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R29" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>7e592469-b9ea-50f7-8baa-de1959f8d5b7</tstamps>
+    </comp>
+    <comp ref="R30">
+      <value>4k7</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R30" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>dd90847a-041f-5c72-bf10-9112efe97af1</tstamps>
+    </comp>
+    <comp ref="R31">
+      <value>4k7</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R31" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>492b814f-8339-5256-b40a-3c766ec690dd</tstamps>
+    </comp>
+    <comp ref="R32">
+      <value>4k7</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R32" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>afa8ec86-d28e-5743-bd0f-33c968890a94</tstamps>
+    </comp>
+    <comp ref="R33">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R33" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>00610729-c804-5107-be6b-070ea24ea4ea</tstamps>
+    </comp>
+    <comp ref="R34">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R34" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ff19f3a4-01ae-5fef-b1cf-6e4a978d17a7</tstamps>
+    </comp>
+    <comp ref="R35">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R35" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>9853c0ae-b142-51b1-8909-5dcf39844c14</tstamps>
+    </comp>
+    <comp ref="R36">
+      <value>220R</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R36" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>6be2c8e6-c01a-559c-8f39-e388bd8744f2</tstamps>
+    </comp>
+    <comp ref="R37">
+      <value>100k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R37" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>c4d83fe0-59b9-5092-b5ff-64cf1bfd576f</tstamps>
+    </comp>
+    <comp ref="R38">
+      <value>10k</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R38" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>e4b54329-14b3-59ee-8ec9-a73c40ab524f</tstamps>
+    </comp>
+    <comp ref="R39">
+      <value>22k 1%</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R39" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>d940854d-7d8a-5350-a9da-0f5912fc0284</tstamps>
+    </comp>
+    <comp ref="R40">
+      <value>10k 1%</value>
+      <footprint>Resistor_THT:R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal</footprint>
+      <libsource lib="Local" part="EP_R40" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8d874275-1d91-5fbc-a571-02ca7d642e49</tstamps>
+    </comp>
+    <comp ref="TP1">
+      <value>GND</value>
+      <footprint>TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm</footprint>
+      <libsource lib="Local" part="EP_TP1" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>8636564f-e9d9-5eff-91db-b1a2a723ecb2</tstamps>
+    </comp>
+    <comp ref="TP2">
+      <value>+5M</value>
+      <footprint>TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm</footprint>
+      <libsource lib="Local" part="EP_TP2" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>40cc2fb3-3f34-57d6-ab99-e9524cdc8419</tstamps>
+    </comp>
+    <comp ref="TP3">
+      <value>VCC_EP</value>
+      <footprint>TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm</footprint>
+      <libsource lib="Local" part="EP_TP3" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>ee96a6be-d28f-5e35-ab1e-b046b1e1416b</tstamps>
+    </comp>
+    <comp ref="TP4">
+      <value>VPP</value>
+      <footprint>TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm</footprint>
+      <libsource lib="Local" part="EP_TP4" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>95152320-76cf-5022-badf-786fd1ea7b44</tstamps>
+    </comp>
+    <comp ref="TP5">
+      <value>V_AUX</value>
+      <footprint>TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm</footprint>
+      <libsource lib="Local" part="EP_TP5" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b22d5266-068a-5190-afef-49dcbba58cbd</tstamps>
+    </comp>
+    <comp ref="TP6">
+      <value>VREF</value>
+      <footprint>TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm</footprint>
+      <libsource lib="Local" part="EP_TP6" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>20b0c43a-4249-5c01-997c-aae76f200229</tstamps>
+    </comp>
+    <comp ref="TP7">
+      <value>CE_N</value>
+      <footprint>TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm</footprint>
+      <libsource lib="Local" part="EP_TP7" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2cfded42-e075-57f3-bb6d-d3efef8a4d85</tstamps>
+    </comp>
+    <comp ref="TP8">
+      <value>OE_N</value>
+      <footprint>TestPoint:TestPoint_THTPad_D2.0mm_Drill1.0mm</footprint>
+      <libsource lib="Local" part="EP_TP8" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>2efde56a-2365-5d1c-9062-dbd24c6a6886</tstamps>
+    </comp>
+    <comp ref="U1">
+      <value>ST TS27C256Q / DIP28</value>
+      <footprint>Package_DIP:DIP-28_W15.24mm_LongPads</footprint>
+      <libsource lib="Local" part="EP_U1" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>52de3233-5f7d-516c-a62c-178288ae5b5d</tstamps>
+    </comp>
+    <comp ref="U2">
+      <value>LM339N / DIP14</value>
+      <footprint>Package_DIP:DIP-14_W7.62mm_LongPads</footprint>
+      <libsource lib="Local" part="EP_U2" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>b2498b3d-5b9e-5f76-aeac-0248651d7f38</tstamps>
+    </comp>
+    <comp ref="U3">
+      <value>LM339N / DIP14</value>
+      <footprint>Package_DIP:DIP-14_W7.62mm_LongPads</footprint>
+      <libsource lib="Local" part="EP_U3" description=""/>
+      <property name="Sheetname" value=""/>
+      <property name="Sheetfile" value="eprom27_rev01.kicad_sch"/>
+      <sheetpath names="/" tstamps="/"/>
+      <tstamps>a1fb0219-87bf-5efe-8788-d794f6775545</tstamps>
+    </comp>
+  </components>
+  <libparts>
+    <libpart lib="Local" part="EP_C1">
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">100nF 25V</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_C2">
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">100nF 25V</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VPP" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_C3">
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">100nF 25V</field>
+      </fields>
+      <pins>
+        <pin num="1" name="V_AUX" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_C4">
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">100nF 25V</field>
+      </fields>
+      <pins>
+        <pin num="1" name="V_AUX" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_C5">
+      <fields>
+        <field name="Reference">C</field>
+        <field name="Value">100nF 25V</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VREF" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_J1">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">ENDERECOS - MEGA</field>
+      </fields>
+      <pins>
+        <pin num="1" name="A0" type="passive"/>
+        <pin num="2" name="A1" type="passive"/>
+        <pin num="3" name="A2" type="passive"/>
+        <pin num="4" name="A3" type="passive"/>
+        <pin num="5" name="A4" type="passive"/>
+        <pin num="6" name="A5" type="passive"/>
+        <pin num="7" name="A6" type="passive"/>
+        <pin num="8" name="A7" type="passive"/>
+        <pin num="9" name="A8" type="passive"/>
+        <pin num="10" name="A9" type="passive"/>
+        <pin num="11" name="A10" type="passive"/>
+        <pin num="12" name="A11" type="passive"/>
+        <pin num="13" name="A12" type="passive"/>
+        <pin num="14" name="A13" type="passive"/>
+        <pin num="15" name="A14" type="passive"/>
+        <pin num="16" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_J2">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">LEITURA +5M - MEGA</field>
+      </fields>
+      <pins>
+        <pin num="1" name="RD0" type="passive"/>
+        <pin num="2" name="RD1" type="passive"/>
+        <pin num="3" name="RD2" type="passive"/>
+        <pin num="4" name="RD3" type="passive"/>
+        <pin num="5" name="RD4" type="passive"/>
+        <pin num="6" name="RD5" type="passive"/>
+        <pin num="7" name="RD6" type="passive"/>
+        <pin num="8" name="RD7" type="passive"/>
+        <pin num="9" name="+5M" type="passive"/>
+        <pin num="10" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_J3">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">ESCRITA E CONTROLES - MEGA</field>
+      </fields>
+      <pins>
+        <pin num="1" name="WR0" type="passive"/>
+        <pin num="2" name="WR1" type="passive"/>
+        <pin num="3" name="WR2" type="passive"/>
+        <pin num="4" name="WR3" type="passive"/>
+        <pin num="5" name="WR4" type="passive"/>
+        <pin num="6" name="WR5" type="passive"/>
+        <pin num="7" name="WR6" type="passive"/>
+        <pin num="8" name="WR7" type="passive"/>
+        <pin num="9" name="CE_DRV" type="passive"/>
+        <pin num="10" name="OE_DRV" type="passive"/>
+        <pin num="11" name="GND" type="passive"/>
+        <pin num="12" name="NC" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_J4">
+      <fields>
+        <field name="Reference">J</field>
+        <field name="Value">FONTES EXTERNAS</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+        <pin num="3" name="VPP" type="passive"/>
+        <pin num="4" name="GND" type="passive"/>
+        <pin num="5" name="V_AUX" type="passive"/>
+        <pin num="6" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q1">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G0" type="passive"/>
+        <pin num="3" name="Q0" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q10">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G10" type="passive"/>
+        <pin num="3" name="OE_N" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q2">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G1" type="passive"/>
+        <pin num="3" name="Q1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q3">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G2" type="passive"/>
+        <pin num="3" name="Q2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q4">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G3" type="passive"/>
+        <pin num="3" name="Q3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q5">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G4" type="passive"/>
+        <pin num="3" name="Q4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q6">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G5" type="passive"/>
+        <pin num="3" name="Q5" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q7">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G6" type="passive"/>
+        <pin num="3" name="Q6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q8">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G7" type="passive"/>
+        <pin num="3" name="Q7" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_Q9">
+      <fields>
+        <field name="Reference">Q</field>
+        <field name="Value">2N7000 Microchip TO92 S-G-D</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+        <pin num="2" name="G9" type="passive"/>
+        <pin num="3" name="CE_N" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R1">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="WR0" type="passive"/>
+        <pin num="2" name="G0" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R10">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G1" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R11">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G2" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R12">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G3" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R13">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G4" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R14">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G5" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R15">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G6" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R16">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G7" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R17">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="Q0" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R18">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="Q1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R19">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="Q2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R2">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="WR1" type="passive"/>
+        <pin num="2" name="G1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R20">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="Q3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R21">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="Q4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R22">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="Q5" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R23">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="Q6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R24">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="Q7" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R25">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">4k7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+        <pin num="2" name="RD0" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R26">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">4k7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+        <pin num="2" name="RD1" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R27">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">4k7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+        <pin num="2" name="RD2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R28">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">4k7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+        <pin num="2" name="RD3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R29">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">4k7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+        <pin num="2" name="RD4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R3">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="WR2" type="passive"/>
+        <pin num="2" name="G2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R30">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">4k7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+        <pin num="2" name="RD5" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R31">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">4k7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+        <pin num="2" name="RD6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R32">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">4k7</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+        <pin num="2" name="RD7" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R33">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="CE_DRV" type="passive"/>
+        <pin num="2" name="G9" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R34">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G9" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R35">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="CE_N" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R36">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="OE_DRV" type="passive"/>
+        <pin num="2" name="G10" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R37">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G10" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R38">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+        <pin num="2" name="OE_N" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R39">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">22k 1%</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+        <pin num="2" name="VREF" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R4">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="WR3" type="passive"/>
+        <pin num="2" name="G3" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R40">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">10k 1%</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VREF" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R5">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="WR4" type="passive"/>
+        <pin num="2" name="G4" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R6">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="WR5" type="passive"/>
+        <pin num="2" name="G5" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R7">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="WR6" type="passive"/>
+        <pin num="2" name="G6" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R8">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">220R</field>
+      </fields>
+      <pins>
+        <pin num="1" name="WR7" type="passive"/>
+        <pin num="2" name="G7" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_R9">
+      <fields>
+        <field name="Reference">R</field>
+        <field name="Value">100k</field>
+      </fields>
+      <pins>
+        <pin num="1" name="G0" type="passive"/>
+        <pin num="2" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_TP1">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">GND</field>
+      </fields>
+      <pins>
+        <pin num="1" name="GND" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_TP2">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">+5M</field>
+      </fields>
+      <pins>
+        <pin num="1" name="+5M" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_TP3">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">VCC_EP</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VCC_EP" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_TP4">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">VPP</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VPP" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_TP5">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">V_AUX</field>
+      </fields>
+      <pins>
+        <pin num="1" name="V_AUX" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_TP6">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">VREF</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VREF" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_TP7">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">CE_N</field>
+      </fields>
+      <pins>
+        <pin num="1" name="CE_N" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_TP8">
+      <fields>
+        <field name="Reference">TP</field>
+        <field name="Value">OE_N</field>
+      </fields>
+      <pins>
+        <pin num="1" name="OE_N" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_U1">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">ST TS27C256Q / DIP28</field>
+      </fields>
+      <pins>
+        <pin num="1" name="VPP" type="passive"/>
+        <pin num="2" name="A12" type="passive"/>
+        <pin num="3" name="A7" type="passive"/>
+        <pin num="4" name="A6" type="passive"/>
+        <pin num="5" name="A5" type="passive"/>
+        <pin num="6" name="A4" type="passive"/>
+        <pin num="7" name="A3" type="passive"/>
+        <pin num="8" name="A2" type="passive"/>
+        <pin num="9" name="A1" type="passive"/>
+        <pin num="10" name="A0" type="passive"/>
+        <pin num="11" name="Q0" type="passive"/>
+        <pin num="12" name="Q1" type="passive"/>
+        <pin num="13" name="Q2" type="passive"/>
+        <pin num="14" name="GND" type="passive"/>
+        <pin num="15" name="Q3" type="passive"/>
+        <pin num="16" name="Q4" type="passive"/>
+        <pin num="17" name="Q5" type="passive"/>
+        <pin num="18" name="Q6" type="passive"/>
+        <pin num="19" name="Q7" type="passive"/>
+        <pin num="20" name="CE_N" type="passive"/>
+        <pin num="21" name="A10" type="passive"/>
+        <pin num="22" name="OE_N" type="passive"/>
+        <pin num="23" name="A11" type="passive"/>
+        <pin num="24" name="A9" type="passive"/>
+        <pin num="25" name="A8" type="passive"/>
+        <pin num="26" name="A13" type="passive"/>
+        <pin num="27" name="A14" type="passive"/>
+        <pin num="28" name="VCC_EP" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_U2">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LM339N / DIP14</field>
+      </fields>
+      <pins>
+        <pin num="1" name="RD1" type="passive"/>
+        <pin num="2" name="RD0" type="passive"/>
+        <pin num="3" name="V_AUX" type="passive"/>
+        <pin num="4" name="VREF" type="passive"/>
+        <pin num="5" name="Q0" type="passive"/>
+        <pin num="6" name="VREF" type="passive"/>
+        <pin num="7" name="Q1" type="passive"/>
+        <pin num="8" name="VREF" type="passive"/>
+        <pin num="9" name="Q2" type="passive"/>
+        <pin num="10" name="VREF" type="passive"/>
+        <pin num="11" name="Q3" type="passive"/>
+        <pin num="12" name="GND" type="passive"/>
+        <pin num="13" name="RD3" type="passive"/>
+        <pin num="14" name="RD2" type="passive"/>
+      </pins>
+    </libpart>
+    <libpart lib="Local" part="EP_U3">
+      <fields>
+        <field name="Reference">U</field>
+        <field name="Value">LM339N / DIP14</field>
+      </fields>
+      <pins>
+        <pin num="1" name="RD5" type="passive"/>
+        <pin num="2" name="RD4" type="passive"/>
+        <pin num="3" name="V_AUX" type="passive"/>
+        <pin num="4" name="VREF" type="passive"/>
+        <pin num="5" name="Q4" type="passive"/>
+        <pin num="6" name="VREF" type="passive"/>
+        <pin num="7" name="Q5" type="passive"/>
+        <pin num="8" name="VREF" type="passive"/>
+        <pin num="9" name="Q6" type="passive"/>
+        <pin num="10" name="VREF" type="passive"/>
+        <pin num="11" name="Q7" type="passive"/>
+        <pin num="12" name="GND" type="passive"/>
+        <pin num="13" name="RD7" type="passive"/>
+        <pin num="14" name="RD6" type="passive"/>
+      </pins>
+    </libpart>
+  </libparts>
+  <libraries/>
+  <nets>
+    <net code="1" name="+5M">
+      <node ref="J2" pin="9" pinfunction="+5M" pintype="passive"/>
+      <node ref="R25" pin="1" pinfunction="+5M" pintype="passive"/>
+      <node ref="R26" pin="1" pinfunction="+5M" pintype="passive"/>
+      <node ref="R27" pin="1" pinfunction="+5M" pintype="passive"/>
+      <node ref="R28" pin="1" pinfunction="+5M" pintype="passive"/>
+      <node ref="R29" pin="1" pinfunction="+5M" pintype="passive"/>
+      <node ref="R30" pin="1" pinfunction="+5M" pintype="passive"/>
+      <node ref="R31" pin="1" pinfunction="+5M" pintype="passive"/>
+      <node ref="R32" pin="1" pinfunction="+5M" pintype="passive"/>
+      <node ref="R39" pin="1" pinfunction="+5M" pintype="passive"/>
+      <node ref="TP2" pin="1" pinfunction="+5M" pintype="passive"/>
+    </net>
+    <net code="2" name="A0">
+      <node ref="J1" pin="1" pinfunction="A0" pintype="passive"/>
+      <node ref="U1" pin="10" pinfunction="A0" pintype="passive"/>
+    </net>
+    <net code="3" name="A1">
+      <node ref="J1" pin="2" pinfunction="A1" pintype="passive"/>
+      <node ref="U1" pin="9" pinfunction="A1" pintype="passive"/>
+    </net>
+    <net code="4" name="A2">
+      <node ref="J1" pin="3" pinfunction="A2" pintype="passive"/>
+      <node ref="U1" pin="8" pinfunction="A2" pintype="passive"/>
+    </net>
+    <net code="5" name="A3">
+      <node ref="J1" pin="4" pinfunction="A3" pintype="passive"/>
+      <node ref="U1" pin="7" pinfunction="A3" pintype="passive"/>
+    </net>
+    <net code="6" name="A4">
+      <node ref="J1" pin="5" pinfunction="A4" pintype="passive"/>
+      <node ref="U1" pin="6" pinfunction="A4" pintype="passive"/>
+    </net>
+    <net code="7" name="A5">
+      <node ref="J1" pin="6" pinfunction="A5" pintype="passive"/>
+      <node ref="U1" pin="5" pinfunction="A5" pintype="passive"/>
+    </net>
+    <net code="8" name="A6">
+      <node ref="J1" pin="7" pinfunction="A6" pintype="passive"/>
+      <node ref="U1" pin="4" pinfunction="A6" pintype="passive"/>
+    </net>
+    <net code="9" name="A7">
+      <node ref="J1" pin="8" pinfunction="A7" pintype="passive"/>
+      <node ref="U1" pin="3" pinfunction="A7" pintype="passive"/>
+    </net>
+    <net code="10" name="A8">
+      <node ref="J1" pin="9" pinfunction="A8" pintype="passive"/>
+      <node ref="U1" pin="25" pinfunction="A8" pintype="passive"/>
+    </net>
+    <net code="11" name="A9">
+      <node ref="J1" pin="10" pinfunction="A9" pintype="passive"/>
+      <node ref="U1" pin="24" pinfunction="A9" pintype="passive"/>
+    </net>
+    <net code="12" name="A10">
+      <node ref="J1" pin="11" pinfunction="A10" pintype="passive"/>
+      <node ref="U1" pin="21" pinfunction="A10" pintype="passive"/>
+    </net>
+    <net code="13" name="A11">
+      <node ref="J1" pin="12" pinfunction="A11" pintype="passive"/>
+      <node ref="U1" pin="23" pinfunction="A11" pintype="passive"/>
+    </net>
+    <net code="14" name="A12">
+      <node ref="J1" pin="13" pinfunction="A12" pintype="passive"/>
+      <node ref="U1" pin="2" pinfunction="A12" pintype="passive"/>
+    </net>
+    <net code="15" name="A13">
+      <node ref="J1" pin="14" pinfunction="A13" pintype="passive"/>
+      <node ref="U1" pin="26" pinfunction="A13" pintype="passive"/>
+    </net>
+    <net code="16" name="A14">
+      <node ref="J1" pin="15" pinfunction="A14" pintype="passive"/>
+      <node ref="U1" pin="27" pinfunction="A14" pintype="passive"/>
+    </net>
+    <net code="17" name="CE_DRV">
+      <node ref="J3" pin="9" pinfunction="CE_DRV" pintype="passive"/>
+      <node ref="R33" pin="1" pinfunction="CE_DRV" pintype="passive"/>
+    </net>
+    <net code="18" name="CE_N">
+      <node ref="Q9" pin="3" pinfunction="CE_N" pintype="passive"/>
+      <node ref="R35" pin="2" pinfunction="CE_N" pintype="passive"/>
+      <node ref="TP7" pin="1" pinfunction="CE_N" pintype="passive"/>
+      <node ref="U1" pin="20" pinfunction="CE_N" pintype="passive"/>
+    </net>
+    <net code="19" name="G0">
+      <node ref="Q1" pin="2" pinfunction="G0" pintype="passive"/>
+      <node ref="R1" pin="2" pinfunction="G0" pintype="passive"/>
+      <node ref="R9" pin="1" pinfunction="G0" pintype="passive"/>
+    </net>
+    <net code="20" name="G1">
+      <node ref="Q2" pin="2" pinfunction="G1" pintype="passive"/>
+      <node ref="R10" pin="1" pinfunction="G1" pintype="passive"/>
+      <node ref="R2" pin="2" pinfunction="G1" pintype="passive"/>
+    </net>
+    <net code="21" name="G2">
+      <node ref="Q3" pin="2" pinfunction="G2" pintype="passive"/>
+      <node ref="R11" pin="1" pinfunction="G2" pintype="passive"/>
+      <node ref="R3" pin="2" pinfunction="G2" pintype="passive"/>
+    </net>
+    <net code="22" name="G3">
+      <node ref="Q4" pin="2" pinfunction="G3" pintype="passive"/>
+      <node ref="R12" pin="1" pinfunction="G3" pintype="passive"/>
+      <node ref="R4" pin="2" pinfunction="G3" pintype="passive"/>
+    </net>
+    <net code="23" name="G4">
+      <node ref="Q5" pin="2" pinfunction="G4" pintype="passive"/>
+      <node ref="R13" pin="1" pinfunction="G4" pintype="passive"/>
+      <node ref="R5" pin="2" pinfunction="G4" pintype="passive"/>
+    </net>
+    <net code="24" name="G5">
+      <node ref="Q6" pin="2" pinfunction="G5" pintype="passive"/>
+      <node ref="R14" pin="1" pinfunction="G5" pintype="passive"/>
+      <node ref="R6" pin="2" pinfunction="G5" pintype="passive"/>
+    </net>
+    <net code="25" name="G6">
+      <node ref="Q7" pin="2" pinfunction="G6" pintype="passive"/>
+      <node ref="R15" pin="1" pinfunction="G6" pintype="passive"/>
+      <node ref="R7" pin="2" pinfunction="G6" pintype="passive"/>
+    </net>
+    <net code="26" name="G7">
+      <node ref="Q8" pin="2" pinfunction="G7" pintype="passive"/>
+      <node ref="R16" pin="1" pinfunction="G7" pintype="passive"/>
+      <node ref="R8" pin="2" pinfunction="G7" pintype="passive"/>
+    </net>
+    <net code="27" name="G9">
+      <node ref="Q9" pin="2" pinfunction="G9" pintype="passive"/>
+      <node ref="R33" pin="2" pinfunction="G9" pintype="passive"/>
+      <node ref="R34" pin="1" pinfunction="G9" pintype="passive"/>
+    </net>
+    <net code="28" name="G10">
+      <node ref="Q10" pin="2" pinfunction="G10" pintype="passive"/>
+      <node ref="R36" pin="2" pinfunction="G10" pintype="passive"/>
+      <node ref="R37" pin="1" pinfunction="G10" pintype="passive"/>
+    </net>
+    <net code="29" name="GND">
+      <node ref="C1" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="C2" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="C3" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="C4" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="C5" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="J1" pin="16" pinfunction="GND" pintype="passive"/>
+      <node ref="J2" pin="10" pinfunction="GND" pintype="passive"/>
+      <node ref="J3" pin="11" pinfunction="GND" pintype="passive"/>
+      <node ref="J4" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="J4" pin="4" pinfunction="GND" pintype="passive"/>
+      <node ref="J4" pin="6" pinfunction="GND" pintype="passive"/>
+      <node ref="Q1" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="Q10" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="Q2" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="Q3" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="Q4" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="Q5" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="Q6" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="Q7" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="Q8" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="Q9" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="R10" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R11" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R12" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R13" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R14" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R15" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R16" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R34" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R37" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R40" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="R9" pin="2" pinfunction="GND" pintype="passive"/>
+      <node ref="TP1" pin="1" pinfunction="GND" pintype="passive"/>
+      <node ref="U1" pin="14" pinfunction="GND" pintype="passive"/>
+      <node ref="U2" pin="12" pinfunction="GND" pintype="passive"/>
+      <node ref="U3" pin="12" pinfunction="GND" pintype="passive"/>
+    </net>
+    <net code="30" name="OE_DRV">
+      <node ref="J3" pin="10" pinfunction="OE_DRV" pintype="passive"/>
+      <node ref="R36" pin="1" pinfunction="OE_DRV" pintype="passive"/>
+    </net>
+    <net code="31" name="OE_N">
+      <node ref="Q10" pin="3" pinfunction="OE_N" pintype="passive"/>
+      <node ref="R38" pin="2" pinfunction="OE_N" pintype="passive"/>
+      <node ref="TP8" pin="1" pinfunction="OE_N" pintype="passive"/>
+      <node ref="U1" pin="22" pinfunction="OE_N" pintype="passive"/>
+    </net>
+    <net code="32" name="Q0">
+      <node ref="Q1" pin="3" pinfunction="Q0" pintype="passive"/>
+      <node ref="R17" pin="2" pinfunction="Q0" pintype="passive"/>
+      <node ref="U1" pin="11" pinfunction="Q0" pintype="passive"/>
+      <node ref="U2" pin="5" pinfunction="Q0" pintype="passive"/>
+    </net>
+    <net code="33" name="Q1">
+      <node ref="Q2" pin="3" pinfunction="Q1" pintype="passive"/>
+      <node ref="R18" pin="2" pinfunction="Q1" pintype="passive"/>
+      <node ref="U1" pin="12" pinfunction="Q1" pintype="passive"/>
+      <node ref="U2" pin="7" pinfunction="Q1" pintype="passive"/>
+    </net>
+    <net code="34" name="Q2">
+      <node ref="Q3" pin="3" pinfunction="Q2" pintype="passive"/>
+      <node ref="R19" pin="2" pinfunction="Q2" pintype="passive"/>
+      <node ref="U1" pin="13" pinfunction="Q2" pintype="passive"/>
+      <node ref="U2" pin="9" pinfunction="Q2" pintype="passive"/>
+    </net>
+    <net code="35" name="Q3">
+      <node ref="Q4" pin="3" pinfunction="Q3" pintype="passive"/>
+      <node ref="R20" pin="2" pinfunction="Q3" pintype="passive"/>
+      <node ref="U1" pin="15" pinfunction="Q3" pintype="passive"/>
+      <node ref="U2" pin="11" pinfunction="Q3" pintype="passive"/>
+    </net>
+    <net code="36" name="Q4">
+      <node ref="Q5" pin="3" pinfunction="Q4" pintype="passive"/>
+      <node ref="R21" pin="2" pinfunction="Q4" pintype="passive"/>
+      <node ref="U1" pin="16" pinfunction="Q4" pintype="passive"/>
+      <node ref="U3" pin="5" pinfunction="Q4" pintype="passive"/>
+    </net>
+    <net code="37" name="Q5">
+      <node ref="Q6" pin="3" pinfunction="Q5" pintype="passive"/>
+      <node ref="R22" pin="2" pinfunction="Q5" pintype="passive"/>
+      <node ref="U1" pin="17" pinfunction="Q5" pintype="passive"/>
+      <node ref="U3" pin="7" pinfunction="Q5" pintype="passive"/>
+    </net>
+    <net code="38" name="Q6">
+      <node ref="Q7" pin="3" pinfunction="Q6" pintype="passive"/>
+      <node ref="R23" pin="2" pinfunction="Q6" pintype="passive"/>
+      <node ref="U1" pin="18" pinfunction="Q6" pintype="passive"/>
+      <node ref="U3" pin="9" pinfunction="Q6" pintype="passive"/>
+    </net>
+    <net code="39" name="Q7">
+      <node ref="Q8" pin="3" pinfunction="Q7" pintype="passive"/>
+      <node ref="R24" pin="2" pinfunction="Q7" pintype="passive"/>
+      <node ref="U1" pin="19" pinfunction="Q7" pintype="passive"/>
+      <node ref="U3" pin="11" pinfunction="Q7" pintype="passive"/>
+    </net>
+    <net code="40" name="RD0">
+      <node ref="J2" pin="1" pinfunction="RD0" pintype="passive"/>
+      <node ref="R25" pin="2" pinfunction="RD0" pintype="passive"/>
+      <node ref="U2" pin="2" pinfunction="RD0" pintype="passive"/>
+    </net>
+    <net code="41" name="RD1">
+      <node ref="J2" pin="2" pinfunction="RD1" pintype="passive"/>
+      <node ref="R26" pin="2" pinfunction="RD1" pintype="passive"/>
+      <node ref="U2" pin="1" pinfunction="RD1" pintype="passive"/>
+    </net>
+    <net code="42" name="RD2">
+      <node ref="J2" pin="3" pinfunction="RD2" pintype="passive"/>
+      <node ref="R27" pin="2" pinfunction="RD2" pintype="passive"/>
+      <node ref="U2" pin="14" pinfunction="RD2" pintype="passive"/>
+    </net>
+    <net code="43" name="RD3">
+      <node ref="J2" pin="4" pinfunction="RD3" pintype="passive"/>
+      <node ref="R28" pin="2" pinfunction="RD3" pintype="passive"/>
+      <node ref="U2" pin="13" pinfunction="RD3" pintype="passive"/>
+    </net>
+    <net code="44" name="RD4">
+      <node ref="J2" pin="5" pinfunction="RD4" pintype="passive"/>
+      <node ref="R29" pin="2" pinfunction="RD4" pintype="passive"/>
+      <node ref="U3" pin="2" pinfunction="RD4" pintype="passive"/>
+    </net>
+    <net code="45" name="RD5">
+      <node ref="J2" pin="6" pinfunction="RD5" pintype="passive"/>
+      <node ref="R30" pin="2" pinfunction="RD5" pintype="passive"/>
+      <node ref="U3" pin="1" pinfunction="RD5" pintype="passive"/>
+    </net>
+    <net code="46" name="RD6">
+      <node ref="J2" pin="7" pinfunction="RD6" pintype="passive"/>
+      <node ref="R31" pin="2" pinfunction="RD6" pintype="passive"/>
+      <node ref="U3" pin="14" pinfunction="RD6" pintype="passive"/>
+    </net>
+    <net code="47" name="RD7">
+      <node ref="J2" pin="8" pinfunction="RD7" pintype="passive"/>
+      <node ref="R32" pin="2" pinfunction="RD7" pintype="passive"/>
+      <node ref="U3" pin="13" pinfunction="RD7" pintype="passive"/>
+    </net>
+    <net code="48" name="VCC_EP">
+      <node ref="C1" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="J4" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R17" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R18" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R19" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R20" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R21" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R22" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R23" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R24" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R35" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="R38" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="TP3" pin="1" pinfunction="VCC_EP" pintype="passive"/>
+      <node ref="U1" pin="28" pinfunction="VCC_EP" pintype="passive"/>
+    </net>
+    <net code="49" name="VPP">
+      <node ref="C2" pin="1" pinfunction="VPP" pintype="passive"/>
+      <node ref="J4" pin="3" pinfunction="VPP" pintype="passive"/>
+      <node ref="TP4" pin="1" pinfunction="VPP" pintype="passive"/>
+      <node ref="U1" pin="1" pinfunction="VPP" pintype="passive"/>
+    </net>
+    <net code="50" name="VREF">
+      <node ref="C5" pin="1" pinfunction="VREF" pintype="passive"/>
+      <node ref="R39" pin="2" pinfunction="VREF" pintype="passive"/>
+      <node ref="R40" pin="1" pinfunction="VREF" pintype="passive"/>
+      <node ref="TP6" pin="1" pinfunction="VREF" pintype="passive"/>
+      <node ref="U2" pin="10" pinfunction="VREF" pintype="passive"/>
+      <node ref="U2" pin="4" pinfunction="VREF" pintype="passive"/>
+      <node ref="U2" pin="6" pinfunction="VREF" pintype="passive"/>
+      <node ref="U2" pin="8" pinfunction="VREF" pintype="passive"/>
+      <node ref="U3" pin="10" pinfunction="VREF" pintype="passive"/>
+      <node ref="U3" pin="4" pinfunction="VREF" pintype="passive"/>
+      <node ref="U3" pin="6" pinfunction="VREF" pintype="passive"/>
+      <node ref="U3" pin="8" pinfunction="VREF" pintype="passive"/>
+    </net>
+    <net code="51" name="V_AUX">
+      <node ref="C3" pin="1" pinfunction="V_AUX" pintype="passive"/>
+      <node ref="C4" pin="1" pinfunction="V_AUX" pintype="passive"/>
+      <node ref="J4" pin="5" pinfunction="V_AUX" pintype="passive"/>
+      <node ref="TP5" pin="1" pinfunction="V_AUX" pintype="passive"/>
+      <node ref="U2" pin="3" pinfunction="V_AUX" pintype="passive"/>
+      <node ref="U3" pin="3" pinfunction="V_AUX" pintype="passive"/>
+    </net>
+    <net code="52" name="WR0">
+      <node ref="J3" pin="1" pinfunction="WR0" pintype="passive"/>
+      <node ref="R1" pin="1" pinfunction="WR0" pintype="passive"/>
+    </net>
+    <net code="53" name="WR1">
+      <node ref="J3" pin="2" pinfunction="WR1" pintype="passive"/>
+      <node ref="R2" pin="1" pinfunction="WR1" pintype="passive"/>
+    </net>
+    <net code="54" name="WR2">
+      <node ref="J3" pin="3" pinfunction="WR2" pintype="passive"/>
+      <node ref="R3" pin="1" pinfunction="WR2" pintype="passive"/>
+    </net>
+    <net code="55" name="WR3">
+      <node ref="J3" pin="4" pinfunction="WR3" pintype="passive"/>
+      <node ref="R4" pin="1" pinfunction="WR3" pintype="passive"/>
+    </net>
+    <net code="56" name="WR4">
+      <node ref="J3" pin="5" pinfunction="WR4" pintype="passive"/>
+      <node ref="R5" pin="1" pinfunction="WR4" pintype="passive"/>
+    </net>
+    <net code="57" name="WR5">
+      <node ref="J3" pin="6" pinfunction="WR5" pintype="passive"/>
+      <node ref="R6" pin="1" pinfunction="WR5" pintype="passive"/>
+    </net>
+    <net code="58" name="WR6">
+      <node ref="J3" pin="7" pinfunction="WR6" pintype="passive"/>
+      <node ref="R7" pin="1" pinfunction="WR6" pintype="passive"/>
+    </net>
+    <net code="59" name="WR7">
+      <node ref="J3" pin="8" pinfunction="WR7" pintype="passive"/>
+      <node ref="R8" pin="1" pinfunction="WR7" pintype="passive"/>
+    </net>
+    <net code="60" name="unconnected-(J3-NC-Pad12)">
+      <node ref="J3" pin="12" pinfunction="NC" pintype="passive+no_connect"/>
+    </net>
+  </nets>
+</export>

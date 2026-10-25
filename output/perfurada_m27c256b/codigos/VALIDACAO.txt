@@ -1,0 +1,47 @@
+VALIDAÇÃO DE SOFTWARE — 24/10/2026
+
+NOVOS TESTES, SEM COPIAR O FIRMWARE V1 COMO ALVO
+O test_firmware.cpp inclui diretamente ../eprom27/eprom27.ino com EPROM_HOST_TEST.
+É um modelo novo de sensores, relés, buffers, barramento e memória.
+38/38 testes C++ passaram, incluindo:
+CRC conhecido; reset seguro; VPP presa sem baixar VCC; modo LER rejeitado;
+pulso 100 us nominal sem sobrepulso; sucesso na 25ª tentativa; falha após 25;
+FF sem pulso; rejeição 0→1; chave removida; VIN/5B inválidos; ordem/cobertura;
+CRC, frame parcial, tamanho, sequência e V1 rejeitados; reset e sessão expirada;
+verificação final reprovada não sucesso; diagnóstico ADC em FAULT;
+fault UV detectado retido; handshake malformado ou falho invalida a sessão antiga;
+ciclo integral de 32768 bytes com 256 blocos W e 3×256 blocos V e imagem exata.
+Serviços: K seleciona os quatro alvos sem elevar VPP, mantém UNCALIBRATED
+para ajuste, rejeita chave GRAVAR inclusive durante estabilização, range/pacote
+parcial e VPP presa; Q emite um pulso nominal de 100 us com endereços isolados,
+rejeita fonte fora do alvo/falha não permitida; D sai da calibração com sequência.
+
+17/17 testes Python unittest passaram, incluindo múltiplos casos por teste:
+formato/limites/CRC, leituras parciais, wrapseq, identidade V1, resposta inesperada,
+status erro, CRC inválido, tamanho inválido, envio parcial, handshake,
+leitura binária de 32 KB, comparação exata, ordem das quatro passagens completas,
+erros em cada fase, Ctrl+C e falha de D sem mascarar o erro original.
+Calibração: mapa dos quatro alvos, leituras repetidas até FIM, seleção seguida
+de diagnóstico e pulso único; erro de seleção não emite Q.
+
+COMANDOS REPRODUZÍVEIS (raiz do projeto)
+g++ -std=c++17 -Wall -Wextra -Werror -Wno-misleading-indentation -I output/perfurada_m27c256b/codigos/tests output/perfurada_m27c256b/codigos/tests/test_firmware.cpp -o /tmp/test_m27c256b
+/tmp/test_m27c256b
+python3 -m unittest discover -s output/perfurada_m27c256b/codigos/tests -p 'test_client.py' -v
+
+COMPILAÇÃO REAL MEGA2560
+Arduino CLI 1.5.2-rc.1; core arduino:avr 1.8.7 já instalado; alvo arduino:avr:mega.
+arduino-cli compile --fqbn arduino:avr:mega --build-path /tmp/m27c256b_build output/perfurada_m27c256b/codigos/eprom27
+Resultado: 11286 bytes flash, 771 bytes globais, 7421 bytes SRAM disponíveis para locais.
+CLI temporário usado em /tmp/m27c256b_tools/arduino-cli.
+
+LIMITAÇÕES REAIS
+Nenhuma EPROM foi conectada por esta validação. Não houve upload, apagamento,
+pulso físico, leitura real de ADC nem teste de UV/relés/fontes/buffers.
+O caminho de teste host usa ce()/delayMicroseconds(100); a compilação AVR usa
+Timer1 clock/8 e PORTL bit4 direto, preservando SREG. A duração física no pino 20
+precisa ser medida: faixa 95..105 us, considerando RC do pull-up e fiação.
+A simulação não certifica segurança nem a precisão dos sensores.
+O comparador UV físico não tem latch. A retenção de FAULT foi testada somente
+para eventos detectados pelo firmware; eventos físicos breves entre amostras
+podem não ser detectados e precisam de ensaio real.

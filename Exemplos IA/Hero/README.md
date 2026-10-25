@@ -53,7 +53,8 @@ entrar na galeria **azul**. Nela, destrua a segunda parede, contorne a plataform
 central e encoste no mineiro à direita, junto ao chão. O fundo verde indica
 vitória; vermelho indica derrota.
 
-O herói tem hélice e capacete. Morcegos roxos causam derrota ao contato e podem
+O herói tem hélice clara, capacete amarelo, uniforme azul e botas escuras,
+com uma cor por faixa horizontal do desenho. Morcegos roxos causam derrota ao contato e podem
 ser eliminados pelo laser. A bateria verde recupera energia; o cristal azul soma
 um ao inventário. São dois tipos de coletáveis e há um de cada por caverna.
 

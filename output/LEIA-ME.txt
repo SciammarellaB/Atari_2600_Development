@@ -1,0 +1,14 @@
+PROJETOS EPROM - INDICE - 24/10/2026
+
+REVISAO ATUAL PARA MONTAGEM MANUAL E M27C256B-10F1:
+perfurada_m27c256b/ : duas placas perfuradas, fontes integradas12V e firmwareV2.
+pdf/manual_perfurada_m27c256b.pdf : guia completo com mapas e esquemas.
+perfurada_m27c256b_projeto.zip : pacote completo para extrair.
+
+HISTORICO, PERFIL DIFERENTE:
+pcb_eprom_27c256/ e pcb_eprom_27c256_projeto.zip : PCB2camadasRev0.1,
+fontes manuais, perfil da ST TS27C256Q antiga.
+pdf/manual_eprom_27c256_mega.pdf e codigos_eprom_27c256.zip : manualV1.
+Nao usar firmwareV1/algoritmoTS27C256Q para programar M27C256B.
+
+Todas as revisoes sao prototipos sem ensaio fisico de gravacao.

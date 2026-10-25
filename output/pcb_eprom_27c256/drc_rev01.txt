@@ -1,0 +1,10 @@
+** Drc report for /home/sciammarella/Fontes/Estudos/Atari_2600_Development/output/pcb_eprom_27c256/eprom27_rev01.kicad_pcb **
+** Created on 2026-10-24 15:54:43 **
+
+** Found 0 DRC violations **
+
+** Found 0 unconnected pads **
+
+** Found 0 Footprint errors **
+
+** End of Report **

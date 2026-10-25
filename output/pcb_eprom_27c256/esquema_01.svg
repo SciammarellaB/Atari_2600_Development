@@ -1,0 +1,795 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="420mm" height="297mm" viewBox="0 0 1680 1188">
+<rect width="1680" height="1188" fill="white"/>
+<style>text{font-family:DejaVu Sans,sans-serif;fill:#142231;font-size:15px}.wire{fill:none;stroke:#23654d;stroke-width:2}.sym{fill:white;stroke:#142231;stroke-width:2}.pin{font-size:11px;fill:#536272}.small{font-size:12px}.title{font-size:25px;font-weight:bold}.panel{fill:#f8fafc;stroke:#c7d0db;stroke-width:1}</style>
+<text x="35" y="42" class="title" text-anchor="start">LEITOR / GRAVADOR ST TS27C256Q — EPROM, conexões e controles</text>
+<text x="35" y="71" class="" text-anchor="start">REVISÃO 0.1 • PROTÓTIPO • folha 1/3 • PROGRAMMER_HARDWARE=1 • pinos físicos numerados</text>
+<path d="M30,90 L1650,90" class="sym"/>
+<path d="M30,1130 L1650,1130" class="sym"/>
+<text x="35" y="1154" class="small" text-anchor="start">Mesmo nome de rede = conexão elétrica, inclusive entre folhas. J1/J2/J3: cabos ponto a ponto ao Mega; não é shield.</text>
+<text x="35" y="1174" class="small" text-anchor="start">Fontes externas ajustadas manualmente. SEM proteção contra polaridade invertida. Circuito não ensaiado fisicamente.</text>
+<rect x="180" y="125" width="210" height="510" class="sym"/>
+<text x="285.0" y="147" class="" text-anchor="middle">U1</text>
+<text x="285.0" y="170" class="small" text-anchor="middle">TS27C256Q</text>
+<g data-ref="U1" data-pin="1" data-net="VPP">
+<text x="184" y="183" class="pin" text-anchor="start">1</text>
+<path d="M180,190 L140,190" class="wire"/>
+<text x="135" y="185" class="small" text-anchor="end">VPP</text>
+</g>
+<g data-ref="U1" data-pin="2" data-net="A12">
+<text x="184" y="213" class="pin" text-anchor="start">2</text>
+<path d="M180,220 L140,220" class="wire"/>
+<text x="135" y="215" class="small" text-anchor="end">A12</text>
+</g>
+<g data-ref="U1" data-pin="3" data-net="A7">
+<text x="184" y="243" class="pin" text-anchor="start">3</text>
+<path d="M180,250 L140,250" class="wire"/>
+<text x="135" y="245" class="small" text-anchor="end">A7</text>
+</g>
+<g data-ref="U1" data-pin="4" data-net="A6">
+<text x="184" y="273" class="pin" text-anchor="start">4</text>
+<path d="M180,280 L140,280" class="wire"/>
+<text x="135" y="275" class="small" text-anchor="end">A6</text>
+</g>
+<g data-ref="U1" data-pin="5" data-net="A5">
+<text x="184" y="303" class="pin" text-anchor="start">5</text>
+<path d="M180,310 L140,310" class="wire"/>
+<text x="135" y="305" class="small" text-anchor="end">A5</text>
+</g>
+<g data-ref="U1" data-pin="6" data-net="A4">
+<text x="184" y="333" class="pin" text-anchor="start">6</text>
+<path d="M180,340 L140,340" class="wire"/>
+<text x="135" y="335" class="small" text-anchor="end">A4</text>
+</g>
+<g data-ref="U1" data-pin="7" data-net="A3">
+<text x="184" y="363" class="pin" text-anchor="start">7</text>
+<path d="M180,370 L140,370" class="wire"/>
+<text x="135" y="365" class="small" text-anchor="end">A3</text>
+</g>
+<g data-ref="U1" data-pin="8" data-net="A2">
+<text x="184" y="393" class="pin" text-anchor="start">8</text>
+<path d="M180,400 L140,400" class="wire"/>
+<text x="135" y="395" class="small" text-anchor="end">A2</text>
+</g>
+<g data-ref="U1" data-pin="9" data-net="A1">
+<text x="184" y="423" class="pin" text-anchor="start">9</text>
+<path d="M180,430 L140,430" class="wire"/>
+<text x="135" y="425" class="small" text-anchor="end">A1</text>
+</g>
+<g data-ref="U1" data-pin="10" data-net="A0">
+<text x="184" y="453" class="pin" text-anchor="start">10</text>
+<path d="M180,460 L140,460" class="wire"/>
+<text x="135" y="455" class="small" text-anchor="end">A0</text>
+</g>
+<g data-ref="U1" data-pin="11" data-net="Q0">
+<text x="184" y="483" class="pin" text-anchor="start">11</text>
+<path d="M180,490 L140,490" class="wire"/>
+<text x="135" y="485" class="small" text-anchor="end">Q0</text>
+</g>
+<g data-ref="U1" data-pin="12" data-net="Q1">
+<text x="184" y="513" class="pin" text-anchor="start">12</text>
+<path d="M180,520 L140,520" class="wire"/>
+<text x="135" y="515" class="small" text-anchor="end">Q1</text>
+</g>
+<g data-ref="U1" data-pin="13" data-net="Q2">
+<text x="184" y="543" class="pin" text-anchor="start">13</text>
+<path d="M180,550 L140,550" class="wire"/>
+<text x="135" y="545" class="small" text-anchor="end">Q2</text>
+</g>
+<g data-ref="U1" data-pin="14" data-net="GND">
+<text x="184" y="573" class="pin" text-anchor="start">14</text>
+<path d="M180,580 L140,580" class="wire"/>
+<text x="135" y="575" class="small" text-anchor="end">GND</text>
+</g>
+<g data-ref="U1" data-pin="15" data-net="Q3">
+<text x="394" y="573" class="pin" text-anchor="start">15</text>
+<path d="M390,580 L430,580" class="wire"/>
+<text x="435" y="575" class="small" text-anchor="start">Q3</text>
+</g>
+<g data-ref="U1" data-pin="16" data-net="Q4">
+<text x="394" y="543" class="pin" text-anchor="start">16</text>
+<path d="M390,550 L430,550" class="wire"/>
+<text x="435" y="545" class="small" text-anchor="start">Q4</text>
+</g>
+<g data-ref="U1" data-pin="17" data-net="Q5">
+<text x="394" y="513" class="pin" text-anchor="start">17</text>
+<path d="M390,520 L430,520" class="wire"/>
+<text x="435" y="515" class="small" text-anchor="start">Q5</text>
+</g>
+<g data-ref="U1" data-pin="18" data-net="Q6">
+<text x="394" y="483" class="pin" text-anchor="start">18</text>
+<path d="M390,490 L430,490" class="wire"/>
+<text x="435" y="485" class="small" text-anchor="start">Q6</text>
+</g>
+<g data-ref="U1" data-pin="19" data-net="Q7">
+<text x="394" y="453" class="pin" text-anchor="start">19</text>
+<path d="M390,460 L430,460" class="wire"/>
+<text x="435" y="455" class="small" text-anchor="start">Q7</text>
+</g>
+<g data-ref="U1" data-pin="20" data-net="CE_N">
+<text x="394" y="423" class="pin" text-anchor="start">20</text>
+<path d="M390,430 L430,430" class="wire"/>
+<text x="435" y="425" class="small" text-anchor="start">CE_N</text>
+</g>
+<g data-ref="U1" data-pin="21" data-net="A10">
+<text x="394" y="393" class="pin" text-anchor="start">21</text>
+<path d="M390,400 L430,400" class="wire"/>
+<text x="435" y="395" class="small" text-anchor="start">A10</text>
+</g>
+<g data-ref="U1" data-pin="22" data-net="OE_N">
+<text x="394" y="363" class="pin" text-anchor="start">22</text>
+<path d="M390,370 L430,370" class="wire"/>
+<text x="435" y="365" class="small" text-anchor="start">OE_N</text>
+</g>
+<g data-ref="U1" data-pin="23" data-net="A11">
+<text x="394" y="333" class="pin" text-anchor="start">23</text>
+<path d="M390,340 L430,340" class="wire"/>
+<text x="435" y="335" class="small" text-anchor="start">A11</text>
+</g>
+<g data-ref="U1" data-pin="24" data-net="A9">
+<text x="394" y="303" class="pin" text-anchor="start">24</text>
+<path d="M390,310 L430,310" class="wire"/>
+<text x="435" y="305" class="small" text-anchor="start">A9</text>
+</g>
+<g data-ref="U1" data-pin="25" data-net="A8">
+<text x="394" y="273" class="pin" text-anchor="start">25</text>
+<path d="M390,280 L430,280" class="wire"/>
+<text x="435" y="275" class="small" text-anchor="start">A8</text>
+</g>
+<g data-ref="U1" data-pin="26" data-net="A13">
+<text x="394" y="243" class="pin" text-anchor="start">26</text>
+<path d="M390,250 L430,250" class="wire"/>
+<text x="435" y="245" class="small" text-anchor="start">A13</text>
+</g>
+<g data-ref="U1" data-pin="27" data-net="A14">
+<text x="394" y="213" class="pin" text-anchor="start">27</text>
+<path d="M390,220 L430,220" class="wire"/>
+<text x="435" y="215" class="small" text-anchor="start">A14</text>
+</g>
+<g data-ref="U1" data-pin="28" data-net="VCC_EP">
+<text x="394" y="183" class="pin" text-anchor="start">28</text>
+<path d="M390,190 L430,190" class="wire"/>
+<text x="435" y="185" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<text x="285.0" y="629" class="small" text-anchor="middle">DIP-28 • vista superior</text>
+<text x="590" y="115" class="small" text-anchor="start">J1 ENDERECOS - MEGA</text>
+<rect x="590" y="125" width="36" height="445" class="sym"/>
+<rect x="601" y="151" width="8" height="8" class="sym"/>
+<path d="M609,155 L626,155" class="wire"/>
+<g data-ref="J1" data-pin="1" data-net="A0">
+<text x="630" y="148" class="pin" text-anchor="start">1</text>
+<path d="M626,155 L666,155" class="wire"/>
+<text x="671" y="150" class="small" text-anchor="start">A0</text>
+</g>
+<text x="737" y="160" class="small" text-anchor="start">Mega D22</text>
+<rect x="601" y="176" width="8" height="8" class="sym"/>
+<path d="M609,180 L626,180" class="wire"/>
+<g data-ref="J1" data-pin="2" data-net="A1">
+<text x="630" y="173" class="pin" text-anchor="start">2</text>
+<path d="M626,180 L666,180" class="wire"/>
+<text x="671" y="175" class="small" text-anchor="start">A1</text>
+</g>
+<text x="737" y="185" class="small" text-anchor="start">Mega D23</text>
+<rect x="601" y="201" width="8" height="8" class="sym"/>
+<path d="M609,205 L626,205" class="wire"/>
+<g data-ref="J1" data-pin="3" data-net="A2">
+<text x="630" y="198" class="pin" text-anchor="start">3</text>
+<path d="M626,205 L666,205" class="wire"/>
+<text x="671" y="200" class="small" text-anchor="start">A2</text>
+</g>
+<text x="737" y="210" class="small" text-anchor="start">Mega D24</text>
+<rect x="601" y="226" width="8" height="8" class="sym"/>
+<path d="M609,230 L626,230" class="wire"/>
+<g data-ref="J1" data-pin="4" data-net="A3">
+<text x="630" y="223" class="pin" text-anchor="start">4</text>
+<path d="M626,230 L666,230" class="wire"/>
+<text x="671" y="225" class="small" text-anchor="start">A3</text>
+</g>
+<text x="737" y="235" class="small" text-anchor="start">Mega D25</text>
+<rect x="601" y="251" width="8" height="8" class="sym"/>
+<path d="M609,255 L626,255" class="wire"/>
+<g data-ref="J1" data-pin="5" data-net="A4">
+<text x="630" y="248" class="pin" text-anchor="start">5</text>
+<path d="M626,255 L666,255" class="wire"/>
+<text x="671" y="250" class="small" text-anchor="start">A4</text>
+</g>
+<text x="737" y="260" class="small" text-anchor="start">Mega D26</text>
+<rect x="601" y="276" width="8" height="8" class="sym"/>
+<path d="M609,280 L626,280" class="wire"/>
+<g data-ref="J1" data-pin="6" data-net="A5">
+<text x="630" y="273" class="pin" text-anchor="start">6</text>
+<path d="M626,280 L666,280" class="wire"/>
+<text x="671" y="275" class="small" text-anchor="start">A5</text>
+</g>
+<text x="737" y="285" class="small" text-anchor="start">Mega D27</text>
+<rect x="601" y="301" width="8" height="8" class="sym"/>
+<path d="M609,305 L626,305" class="wire"/>
+<g data-ref="J1" data-pin="7" data-net="A6">
+<text x="630" y="298" class="pin" text-anchor="start">7</text>
+<path d="M626,305 L666,305" class="wire"/>
+<text x="671" y="300" class="small" text-anchor="start">A6</text>
+</g>
+<text x="737" y="310" class="small" text-anchor="start">Mega D28</text>
+<rect x="601" y="326" width="8" height="8" class="sym"/>
+<path d="M609,330 L626,330" class="wire"/>
+<g data-ref="J1" data-pin="8" data-net="A7">
+<text x="630" y="323" class="pin" text-anchor="start">8</text>
+<path d="M626,330 L666,330" class="wire"/>
+<text x="671" y="325" class="small" text-anchor="start">A7</text>
+</g>
+<text x="737" y="335" class="small" text-anchor="start">Mega D29</text>
+<rect x="601" y="351" width="8" height="8" class="sym"/>
+<path d="M609,355 L626,355" class="wire"/>
+<g data-ref="J1" data-pin="9" data-net="A8">
+<text x="630" y="348" class="pin" text-anchor="start">9</text>
+<path d="M626,355 L666,355" class="wire"/>
+<text x="671" y="350" class="small" text-anchor="start">A8</text>
+</g>
+<text x="737" y="360" class="small" text-anchor="start">Mega D30</text>
+<rect x="601" y="376" width="8" height="8" class="sym"/>
+<path d="M609,380 L626,380" class="wire"/>
+<g data-ref="J1" data-pin="10" data-net="A9">
+<text x="630" y="373" class="pin" text-anchor="start">10</text>
+<path d="M626,380 L666,380" class="wire"/>
+<text x="671" y="375" class="small" text-anchor="start">A9</text>
+</g>
+<text x="737" y="385" class="small" text-anchor="start">Mega D31</text>
+<rect x="601" y="401" width="8" height="8" class="sym"/>
+<path d="M609,405 L626,405" class="wire"/>
+<g data-ref="J1" data-pin="11" data-net="A10">
+<text x="630" y="398" class="pin" text-anchor="start">11</text>
+<path d="M626,405 L666,405" class="wire"/>
+<text x="671" y="400" class="small" text-anchor="start">A10</text>
+</g>
+<text x="737" y="410" class="small" text-anchor="start">Mega D32</text>
+<rect x="601" y="426" width="8" height="8" class="sym"/>
+<path d="M609,430 L626,430" class="wire"/>
+<g data-ref="J1" data-pin="12" data-net="A11">
+<text x="630" y="423" class="pin" text-anchor="start">12</text>
+<path d="M626,430 L666,430" class="wire"/>
+<text x="671" y="425" class="small" text-anchor="start">A11</text>
+</g>
+<text x="737" y="435" class="small" text-anchor="start">Mega D33</text>
+<rect x="601" y="451" width="8" height="8" class="sym"/>
+<path d="M609,455 L626,455" class="wire"/>
+<g data-ref="J1" data-pin="13" data-net="A12">
+<text x="630" y="448" class="pin" text-anchor="start">13</text>
+<path d="M626,455 L666,455" class="wire"/>
+<text x="671" y="450" class="small" text-anchor="start">A12</text>
+</g>
+<text x="737" y="460" class="small" text-anchor="start">Mega D34</text>
+<rect x="601" y="476" width="8" height="8" class="sym"/>
+<path d="M609,480 L626,480" class="wire"/>
+<g data-ref="J1" data-pin="14" data-net="A13">
+<text x="630" y="473" class="pin" text-anchor="start">14</text>
+<path d="M626,480 L666,480" class="wire"/>
+<text x="671" y="475" class="small" text-anchor="start">A13</text>
+</g>
+<text x="737" y="485" class="small" text-anchor="start">Mega D35</text>
+<rect x="601" y="501" width="8" height="8" class="sym"/>
+<path d="M609,505 L626,505" class="wire"/>
+<g data-ref="J1" data-pin="15" data-net="A14">
+<text x="630" y="498" class="pin" text-anchor="start">15</text>
+<path d="M626,505 L666,505" class="wire"/>
+<text x="671" y="500" class="small" text-anchor="start">A14</text>
+</g>
+<text x="737" y="510" class="small" text-anchor="start">Mega D36</text>
+<rect x="601" y="526" width="8" height="8" class="sym"/>
+<path d="M609,530 L626,530" class="wire"/>
+<g data-ref="J1" data-pin="16" data-net="GND">
+<text x="630" y="523" class="pin" text-anchor="start">16</text>
+<path d="M626,530 L666,530" class="wire"/>
+<text x="671" y="525" class="small" text-anchor="start">GND</text>
+</g>
+<text x="737" y="535" class="small" text-anchor="start">Mega GND</text>
+<text x="940" y="115" class="small" text-anchor="start">J2 LEITURA +5M - MEGA</text>
+<rect x="940" y="125" width="36" height="295" class="sym"/>
+<rect x="951" y="151" width="8" height="8" class="sym"/>
+<path d="M959,155 L976,155" class="wire"/>
+<g data-ref="J2" data-pin="1" data-net="RD0">
+<text x="980" y="148" class="pin" text-anchor="start">1</text>
+<path d="M976,155 L1016,155" class="wire"/>
+<text x="1021" y="150" class="small" text-anchor="start">RD0</text>
+</g>
+<text x="1087" y="160" class="small" text-anchor="start">Mega D47</text>
+<rect x="951" y="176" width="8" height="8" class="sym"/>
+<path d="M959,180 L976,180" class="wire"/>
+<g data-ref="J2" data-pin="2" data-net="RD1">
+<text x="980" y="173" class="pin" text-anchor="start">2</text>
+<path d="M976,180 L1016,180" class="wire"/>
+<text x="1021" y="175" class="small" text-anchor="start">RD1</text>
+</g>
+<text x="1087" y="185" class="small" text-anchor="start">Mega D38</text>
+<rect x="951" y="201" width="8" height="8" class="sym"/>
+<path d="M959,205 L976,205" class="wire"/>
+<g data-ref="J2" data-pin="3" data-net="RD2">
+<text x="980" y="198" class="pin" text-anchor="start">3</text>
+<path d="M976,205 L1016,205" class="wire"/>
+<text x="1021" y="200" class="small" text-anchor="start">RD2</text>
+</g>
+<text x="1087" y="210" class="small" text-anchor="start">Mega D37</text>
+<rect x="951" y="226" width="8" height="8" class="sym"/>
+<path d="M959,230 L976,230" class="wire"/>
+<g data-ref="J2" data-pin="4" data-net="RD3">
+<text x="980" y="223" class="pin" text-anchor="start">4</text>
+<path d="M976,230 L1016,230" class="wire"/>
+<text x="1021" y="225" class="small" text-anchor="start">RD3</text>
+</g>
+<text x="1087" y="235" class="small" text-anchor="start">Mega D40</text>
+<rect x="951" y="251" width="8" height="8" class="sym"/>
+<path d="M959,255 L976,255" class="wire"/>
+<g data-ref="J2" data-pin="5" data-net="RD4">
+<text x="980" y="248" class="pin" text-anchor="start">5</text>
+<path d="M976,255 L1016,255" class="wire"/>
+<text x="1021" y="250" class="small" text-anchor="start">RD4</text>
+</g>
+<text x="1087" y="260" class="small" text-anchor="start">Mega D41</text>
+<rect x="951" y="276" width="8" height="8" class="sym"/>
+<path d="M959,280 L976,280" class="wire"/>
+<g data-ref="J2" data-pin="6" data-net="RD5">
+<text x="980" y="273" class="pin" text-anchor="start">6</text>
+<path d="M976,280 L1016,280" class="wire"/>
+<text x="1021" y="275" class="small" text-anchor="start">RD5</text>
+</g>
+<text x="1087" y="285" class="small" text-anchor="start">Mega D42</text>
+<rect x="951" y="301" width="8" height="8" class="sym"/>
+<path d="M959,305 L976,305" class="wire"/>
+<g data-ref="J2" data-pin="7" data-net="RD6">
+<text x="980" y="298" class="pin" text-anchor="start">7</text>
+<path d="M976,305 L1016,305" class="wire"/>
+<text x="1021" y="300" class="small" text-anchor="start">RD6</text>
+</g>
+<text x="1087" y="310" class="small" text-anchor="start">Mega D43</text>
+<rect x="951" y="326" width="8" height="8" class="sym"/>
+<path d="M959,330 L976,330" class="wire"/>
+<g data-ref="J2" data-pin="8" data-net="RD7">
+<text x="980" y="323" class="pin" text-anchor="start">8</text>
+<path d="M976,330 L1016,330" class="wire"/>
+<text x="1021" y="325" class="small" text-anchor="start">RD7</text>
+</g>
+<text x="1087" y="335" class="small" text-anchor="start">Mega D44</text>
+<rect x="951" y="351" width="8" height="8" class="sym"/>
+<path d="M959,355 L976,355" class="wire"/>
+<g data-ref="J2" data-pin="9" data-net="+5M">
+<text x="980" y="348" class="pin" text-anchor="start">9</text>
+<path d="M976,355 L1016,355" class="wire"/>
+<text x="1021" y="350" class="small" text-anchor="start">+5M</text>
+</g>
+<text x="1087" y="360" class="small" text-anchor="start">Mega 5V</text>
+<rect x="951" y="376" width="8" height="8" class="sym"/>
+<path d="M959,380 L976,380" class="wire"/>
+<g data-ref="J2" data-pin="10" data-net="GND">
+<text x="980" y="373" class="pin" text-anchor="start">10</text>
+<path d="M976,380 L1016,380" class="wire"/>
+<text x="1021" y="375" class="small" text-anchor="start">GND</text>
+</g>
+<text x="1087" y="385" class="small" text-anchor="start">Mega GND</text>
+<text x="1280" y="115" class="small" text-anchor="start">J3 ESCRITA E CONTROLES - MEGA</text>
+<rect x="1280" y="125" width="36" height="345" class="sym"/>
+<rect x="1291" y="151" width="8" height="8" class="sym"/>
+<path d="M1299,155 L1316,155" class="wire"/>
+<g data-ref="J3" data-pin="1" data-net="WR0">
+<text x="1320" y="148" class="pin" text-anchor="start">1</text>
+<path d="M1316,155 L1356,155" class="wire"/>
+<text x="1361" y="150" class="small" text-anchor="start">WR0</text>
+</g>
+<text x="1427" y="160" class="small" text-anchor="start">Mega D2</text>
+<rect x="1291" y="176" width="8" height="8" class="sym"/>
+<path d="M1299,180 L1316,180" class="wire"/>
+<g data-ref="J3" data-pin="2" data-net="WR1">
+<text x="1320" y="173" class="pin" text-anchor="start">2</text>
+<path d="M1316,180 L1356,180" class="wire"/>
+<text x="1361" y="175" class="small" text-anchor="start">WR1</text>
+</g>
+<text x="1427" y="185" class="small" text-anchor="start">Mega D3</text>
+<rect x="1291" y="201" width="8" height="8" class="sym"/>
+<path d="M1299,205 L1316,205" class="wire"/>
+<g data-ref="J3" data-pin="3" data-net="WR2">
+<text x="1320" y="198" class="pin" text-anchor="start">3</text>
+<path d="M1316,205 L1356,205" class="wire"/>
+<text x="1361" y="200" class="small" text-anchor="start">WR2</text>
+</g>
+<text x="1427" y="210" class="small" text-anchor="start">Mega D4</text>
+<rect x="1291" y="226" width="8" height="8" class="sym"/>
+<path d="M1299,230 L1316,230" class="wire"/>
+<g data-ref="J3" data-pin="4" data-net="WR3">
+<text x="1320" y="223" class="pin" text-anchor="start">4</text>
+<path d="M1316,230 L1356,230" class="wire"/>
+<text x="1361" y="225" class="small" text-anchor="start">WR3</text>
+</g>
+<text x="1427" y="235" class="small" text-anchor="start">Mega D5</text>
+<rect x="1291" y="251" width="8" height="8" class="sym"/>
+<path d="M1299,255 L1316,255" class="wire"/>
+<g data-ref="J3" data-pin="5" data-net="WR4">
+<text x="1320" y="248" class="pin" text-anchor="start">5</text>
+<path d="M1316,255 L1356,255" class="wire"/>
+<text x="1361" y="250" class="small" text-anchor="start">WR4</text>
+</g>
+<text x="1427" y="260" class="small" text-anchor="start">Mega D6</text>
+<rect x="1291" y="276" width="8" height="8" class="sym"/>
+<path d="M1299,280 L1316,280" class="wire"/>
+<g data-ref="J3" data-pin="6" data-net="WR5">
+<text x="1320" y="273" class="pin" text-anchor="start">6</text>
+<path d="M1316,280 L1356,280" class="wire"/>
+<text x="1361" y="275" class="small" text-anchor="start">WR5</text>
+</g>
+<text x="1427" y="285" class="small" text-anchor="start">Mega D7</text>
+<rect x="1291" y="301" width="8" height="8" class="sym"/>
+<path d="M1299,305 L1316,305" class="wire"/>
+<g data-ref="J3" data-pin="7" data-net="WR6">
+<text x="1320" y="298" class="pin" text-anchor="start">7</text>
+<path d="M1316,305 L1356,305" class="wire"/>
+<text x="1361" y="300" class="small" text-anchor="start">WR6</text>
+</g>
+<text x="1427" y="310" class="small" text-anchor="start">Mega D8</text>
+<rect x="1291" y="326" width="8" height="8" class="sym"/>
+<path d="M1299,330 L1316,330" class="wire"/>
+<g data-ref="J3" data-pin="8" data-net="WR7">
+<text x="1320" y="323" class="pin" text-anchor="start">8</text>
+<path d="M1316,330 L1356,330" class="wire"/>
+<text x="1361" y="325" class="small" text-anchor="start">WR7</text>
+</g>
+<text x="1427" y="335" class="small" text-anchor="start">Mega D9</text>
+<rect x="1291" y="351" width="8" height="8" class="sym"/>
+<path d="M1299,355 L1316,355" class="wire"/>
+<g data-ref="J3" data-pin="9" data-net="CE_DRV">
+<text x="1320" y="348" class="pin" text-anchor="start">9</text>
+<path d="M1316,355 L1356,355" class="wire"/>
+<text x="1361" y="350" class="small" text-anchor="start">CE_DRV</text>
+</g>
+<text x="1427" y="360" class="small" text-anchor="start">Mega D45</text>
+<rect x="1291" y="376" width="8" height="8" class="sym"/>
+<path d="M1299,380 L1316,380" class="wire"/>
+<g data-ref="J3" data-pin="10" data-net="OE_DRV">
+<text x="1320" y="373" class="pin" text-anchor="start">10</text>
+<path d="M1316,380 L1356,380" class="wire"/>
+<text x="1361" y="375" class="small" text-anchor="start">OE_DRV</text>
+</g>
+<text x="1427" y="385" class="small" text-anchor="start">Mega D46</text>
+<rect x="1291" y="401" width="8" height="8" class="sym"/>
+<path d="M1299,405 L1316,405" class="wire"/>
+<g data-ref="J3" data-pin="11" data-net="GND">
+<text x="1320" y="398" class="pin" text-anchor="start">11</text>
+<path d="M1316,405 L1356,405" class="wire"/>
+<text x="1361" y="400" class="small" text-anchor="start">GND</text>
+</g>
+<text x="1427" y="410" class="small" text-anchor="start">Mega GND</text>
+<rect x="1291" y="426" width="8" height="8" class="sym"/>
+<path d="M1299,430 L1316,430" class="wire"/>
+<g data-ref="J3" data-pin="12" data-net="NC">
+<text x="1320" y="423" class="pin" text-anchor="start">12</text>
+<path d="M1316,430 L1356,430" class="wire"/>
+<text x="1361" y="425" class="small" text-anchor="start">NC</text>
+</g>
+<text x="1427" y="435" class="small" text-anchor="start">sem ligação</text>
+<text x="940" y="460" class="small" text-anchor="start">J4 FONTES EXTERNAS</text>
+<rect x="940" y="470" width="36" height="195" class="sym"/>
+<rect x="951" y="496" width="8" height="8" class="sym"/>
+<path d="M959,500 L976,500" class="wire"/>
+<g data-ref="J4" data-pin="1" data-net="VCC_EP">
+<text x="980" y="493" class="pin" text-anchor="start">1</text>
+<path d="M976,500 L1016,500" class="wire"/>
+<text x="1021" y="495" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<text x="1087" y="505" class="small" text-anchor="start">5V / 6V</text>
+<rect x="951" y="521" width="8" height="8" class="sym"/>
+<path d="M959,525 L976,525" class="wire"/>
+<g data-ref="J4" data-pin="2" data-net="GND">
+<text x="980" y="518" class="pin" text-anchor="start">2</text>
+<path d="M976,525 L1016,525" class="wire"/>
+<text x="1021" y="520" class="small" text-anchor="start">GND</text>
+</g>
+<text x="1087" y="530" class="small" text-anchor="start">comum</text>
+<rect x="951" y="546" width="8" height="8" class="sym"/>
+<path d="M959,550 L976,550" class="wire"/>
+<g data-ref="J4" data-pin="3" data-net="VPP">
+<text x="980" y="543" class="pin" text-anchor="start">3</text>
+<path d="M976,550 L1016,550" class="wire"/>
+<text x="1021" y="545" class="small" text-anchor="start">VPP</text>
+</g>
+<text x="1087" y="555" class="small" text-anchor="start">5V / 12,5V</text>
+<rect x="951" y="571" width="8" height="8" class="sym"/>
+<path d="M959,575 L976,575" class="wire"/>
+<g data-ref="J4" data-pin="4" data-net="GND">
+<text x="980" y="568" class="pin" text-anchor="start">4</text>
+<path d="M976,575 L1016,575" class="wire"/>
+<text x="1021" y="570" class="small" text-anchor="start">GND</text>
+</g>
+<text x="1087" y="580" class="small" text-anchor="start">comum</text>
+<rect x="951" y="596" width="8" height="8" class="sym"/>
+<path d="M959,600 L976,600" class="wire"/>
+<g data-ref="J4" data-pin="5" data-net="V_AUX">
+<text x="980" y="593" class="pin" text-anchor="start">5</text>
+<path d="M976,600 L1016,600" class="wire"/>
+<text x="1021" y="595" class="small" text-anchor="start">V_AUX</text>
+</g>
+<text x="1087" y="605" class="small" text-anchor="start">9 a 15V</text>
+<rect x="951" y="621" width="8" height="8" class="sym"/>
+<path d="M959,625 L976,625" class="wire"/>
+<g data-ref="J4" data-pin="6" data-net="GND">
+<text x="980" y="618" class="pin" text-anchor="start">6</text>
+<path d="M976,625 L1016,625" class="wire"/>
+<text x="1021" y="620" class="small" text-anchor="start">GND</text>
+</g>
+<text x="1087" y="630" class="small" text-anchor="start">comum</text>
+<text x="1260" y="525" class="small" text-anchor="start">FONTES MANUAIS — conferir antes de ligar</text>
+<text x="1260" y="550" class="small" text-anchor="start">VCC_EP: leitura 5 V; programação 6 V</text>
+<text x="1260" y="575" class="small" text-anchor="start">VPP: leitura 5 V; programação 12,5 V</text>
+<text x="1260" y="600" class="small" text-anchor="start">+5M: somente os 5 V do Mega</text>
+<text x="1260" y="625" class="small" text-anchor="start">V_AUX: LM339; GND comum em todo circuito</text>
+<text x="118" y="703" class="small" text-anchor="start">C1 100 nF / 25 V</text>
+<path d="M100,685 L100,710" class="wire"/>
+<path d="M87,710 L113,710" class="sym"/>
+<path d="M87,720 L113,720" class="sym"/>
+<path d="M100,720 L100,745" class="wire"/>
+<g data-ref="C1" data-pin="1" data-net="VCC_EP">
+<text x="104" y="678" class="pin" text-anchor="start">1</text>
+<path d="M100,685 L140,685" class="wire"/>
+<text x="145" y="680" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<g data-ref="C1" data-pin="2" data-net="GND">
+<text x="104" y="738" class="pin" text-anchor="start">2</text>
+<path d="M100,745 L140,745" class="wire"/>
+<text x="145" y="740" class="small" text-anchor="start">GND</text>
+</g>
+<text x="368" y="703" class="small" text-anchor="start">C2 100 nF / 25 V</text>
+<path d="M350,685 L350,710" class="wire"/>
+<path d="M337,710 L363,710" class="sym"/>
+<path d="M337,720 L363,720" class="sym"/>
+<path d="M350,720 L350,745" class="wire"/>
+<g data-ref="C2" data-pin="1" data-net="VPP">
+<text x="354" y="678" class="pin" text-anchor="start">1</text>
+<path d="M350,685 L390,685" class="wire"/>
+<text x="395" y="680" class="small" text-anchor="start">VPP</text>
+</g>
+<g data-ref="C2" data-pin="2" data-net="GND">
+<text x="354" y="738" class="pin" text-anchor="start">2</text>
+<path d="M350,745 L390,745" class="wire"/>
+<text x="395" y="740" class="small" text-anchor="start">GND</text>
+</g>
+<circle cx="650" cy="690" r="6" class="sym"/>
+<text x="632" y="675" class="small" text-anchor="start">TP1</text>
+<g data-ref="TP1" data-pin="1" data-net="GND">
+<text x="654" y="683" class="pin" text-anchor="start">1</text>
+<path d="M650,690 L690,690" class="wire"/>
+<text x="695" y="685" class="small" text-anchor="start">GND</text>
+</g>
+<circle cx="890" cy="690" r="6" class="sym"/>
+<text x="872" y="675" class="small" text-anchor="start">TP2</text>
+<g data-ref="TP2" data-pin="1" data-net="+5M">
+<text x="894" y="683" class="pin" text-anchor="start">1</text>
+<path d="M890,690 L930,690" class="wire"/>
+<text x="935" y="685" class="small" text-anchor="start">+5M</text>
+</g>
+<circle cx="1130" cy="690" r="6" class="sym"/>
+<text x="1112" y="675" class="small" text-anchor="start">TP3</text>
+<g data-ref="TP3" data-pin="1" data-net="VCC_EP">
+<text x="1134" y="683" class="pin" text-anchor="start">1</text>
+<path d="M1130,690 L1170,690" class="wire"/>
+<text x="1175" y="685" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<circle cx="1370" cy="690" r="6" class="sym"/>
+<text x="1352" y="675" class="small" text-anchor="start">TP4</text>
+<g data-ref="TP4" data-pin="1" data-net="VPP">
+<text x="1374" y="683" class="pin" text-anchor="start">1</text>
+<path d="M1370,690 L1410,690" class="wire"/>
+<text x="1415" y="685" class="small" text-anchor="start">VPP</text>
+</g>
+<circle cx="650" cy="770" r="6" class="sym"/>
+<text x="632" y="755" class="small" text-anchor="start">TP5</text>
+<g data-ref="TP5" data-pin="1" data-net="V_AUX">
+<text x="654" y="763" class="pin" text-anchor="start">1</text>
+<path d="M650,770 L690,770" class="wire"/>
+<text x="695" y="765" class="small" text-anchor="start">V_AUX</text>
+</g>
+<circle cx="890" cy="770" r="6" class="sym"/>
+<text x="872" y="755" class="small" text-anchor="start">TP6</text>
+<g data-ref="TP6" data-pin="1" data-net="VREF">
+<text x="894" y="763" class="pin" text-anchor="start">1</text>
+<path d="M890,770 L930,770" class="wire"/>
+<text x="935" y="765" class="small" text-anchor="start">VREF</text>
+</g>
+<circle cx="1130" cy="770" r="6" class="sym"/>
+<text x="1112" y="755" class="small" text-anchor="start">TP7</text>
+<g data-ref="TP7" data-pin="1" data-net="CE_N">
+<text x="1134" y="763" class="pin" text-anchor="start">1</text>
+<path d="M1130,770 L1170,770" class="wire"/>
+<text x="1175" y="765" class="small" text-anchor="start">CE_N</text>
+</g>
+<circle cx="1370" cy="770" r="6" class="sym"/>
+<text x="1352" y="755" class="small" text-anchor="start">TP8</text>
+<g data-ref="TP8" data-pin="1" data-net="OE_N">
+<text x="1374" y="763" class="pin" text-anchor="start">1</text>
+<path d="M1370,770 L1410,770" class="wire"/>
+<text x="1415" y="765" class="small" text-anchor="start">OE_N</text>
+</g>
+<rect x="35" y="850" width="500" height="250" class="panel"/>
+<text x="50" y="877" class="" text-anchor="start">/CE: CE_DRV alto ativa CE_N baixo</text>
+<text x="203" y="983" class="small" text-anchor="start">R33 220R</text>
+<path d="M135,995 L160,995" class="wire"/>
+<rect x="160" y="987" width="50" height="16" class="sym"/>
+<path d="M210,995 L235,995" class="wire"/>
+<g data-ref="R33" data-pin="1" data-net="CE_DRV">
+<text x="139" y="988" class="pin" text-anchor="start">1</text>
+<path d="M135,995 L95,995" class="wire"/>
+<text x="90" y="990" class="small" text-anchor="end">CE_DRV</text>
+</g>
+<g data-ref="R33" data-pin="2" data-net="G9">
+<text x="239" y="988" class="pin" text-anchor="start">2</text>
+</g>
+<circle cx="355" cy="995" r="31" class="sym"/>
+<path d="M342,976 L342,1014" class="sym"/>
+<path d="M350,975 L350,983" class="sym"/>
+<path d="M350,991 L350,999" class="sym"/>
+<path d="M350,1007 L350,1015" class="sym"/>
+<path d="M350,979 L369,979" class="sym"/>
+<path d="M369,979 L369,945" class="wire"/>
+<path d="M350,1011 L369,1011" class="sym"/>
+<path d="M369,1011 L369,1045" class="wire"/>
+<path d="M300,995 L342,995" class="wire"/>
+<path d="M369,1011 L369,995" class="sym"/>
+<path d="M369,995 L350,995" class="sym"/>
+<polygon points="351,995 358,991 358,999" class="sym"/>
+<text x="393" y="985" class="small" text-anchor="start">Q9 2N7000</text>
+<g data-ref="Q9" data-pin="1" data-net="GND">
+<text x="373" y="1038" class="pin" text-anchor="start">1</text>
+<path d="M369,1045 L409,1045" class="wire"/>
+<text x="414" y="1040" class="small" text-anchor="start">GND</text>
+</g>
+<g data-ref="Q9" data-pin="2" data-net="G9">
+<text x="304" y="988" class="pin" text-anchor="start">2</text>
+<path d="M300,995 L260,995" class="wire"/>
+<text x="255" y="990" class="small" text-anchor="end">G9</text>
+</g>
+<g data-ref="Q9" data-pin="3" data-net="CE_N">
+<text x="373" y="938" class="pin" text-anchor="start">3</text>
+<path d="M369,945 L409,945" class="wire"/>
+<text x="414" y="940" class="small" text-anchor="start">CE_N</text>
+</g>
+<path d="M235,995 L300,995" class="wire"/>
+<text x="203" y="1043" class="small" text-anchor="start">R34 100k</text>
+<path d="M185,1019 L185,1035" class="wire"/>
+<rect x="177" y="1035" width="16" height="40" class="sym"/>
+<path d="M185,1075 L185,1091" class="wire"/>
+<g data-ref="R34" data-pin="1" data-net="G9">
+<text x="189" y="1012" class="pin" text-anchor="start">1</text>
+<path d="M185,1019 L225,1019" class="wire"/>
+<text x="230" y="1014" class="small" text-anchor="start">G9</text>
+</g>
+<g data-ref="R34" data-pin="2" data-net="GND">
+<text x="189" y="1084" class="pin" text-anchor="start">2</text>
+<path d="M185,1091 L225,1091" class="wire"/>
+<text x="230" y="1086" class="small" text-anchor="start">GND</text>
+</g>
+<text x="373" y="913" class="small" text-anchor="start">R35 10k</text>
+<path d="M355,889 L355,905" class="wire"/>
+<rect x="347" y="905" width="16" height="40" class="sym"/>
+<path d="M355,945 L355,961" class="wire"/>
+<g data-ref="R35" data-pin="1" data-net="VCC_EP">
+<text x="359" y="882" class="pin" text-anchor="start">1</text>
+<path d="M355,889 L395,889" class="wire"/>
+<text x="400" y="884" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<g data-ref="R35" data-pin="2" data-net="CE_N">
+<text x="359" y="954" class="pin" text-anchor="start">2</text>
+<path d="M355,961 L395,961" class="wire"/>
+<text x="400" y="956" class="small" text-anchor="start">CE_N</text>
+</g>
+<rect x="555" y="850" width="500" height="250" class="panel"/>
+<text x="570" y="877" class="" text-anchor="start">/OE: OE_DRV alto ativa OE_N baixo</text>
+<text x="723" y="983" class="small" text-anchor="start">R36 220R</text>
+<path d="M655,995 L680,995" class="wire"/>
+<rect x="680" y="987" width="50" height="16" class="sym"/>
+<path d="M730,995 L755,995" class="wire"/>
+<g data-ref="R36" data-pin="1" data-net="OE_DRV">
+<text x="659" y="988" class="pin" text-anchor="start">1</text>
+<path d="M655,995 L615,995" class="wire"/>
+<text x="610" y="990" class="small" text-anchor="end">OE_DRV</text>
+</g>
+<g data-ref="R36" data-pin="2" data-net="G10">
+<text x="759" y="988" class="pin" text-anchor="start">2</text>
+</g>
+<circle cx="875" cy="995" r="31" class="sym"/>
+<path d="M862,976 L862,1014" class="sym"/>
+<path d="M870,975 L870,983" class="sym"/>
+<path d="M870,991 L870,999" class="sym"/>
+<path d="M870,1007 L870,1015" class="sym"/>
+<path d="M870,979 L889,979" class="sym"/>
+<path d="M889,979 L889,945" class="wire"/>
+<path d="M870,1011 L889,1011" class="sym"/>
+<path d="M889,1011 L889,1045" class="wire"/>
+<path d="M820,995 L862,995" class="wire"/>
+<path d="M889,1011 L889,995" class="sym"/>
+<path d="M889,995 L870,995" class="sym"/>
+<polygon points="871,995 878,991 878,999" class="sym"/>
+<text x="913" y="985" class="small" text-anchor="start">Q10 2N7000</text>
+<g data-ref="Q10" data-pin="1" data-net="GND">
+<text x="893" y="1038" class="pin" text-anchor="start">1</text>
+<path d="M889,1045 L929,1045" class="wire"/>
+<text x="934" y="1040" class="small" text-anchor="start">GND</text>
+</g>
+<g data-ref="Q10" data-pin="2" data-net="G10">
+<text x="824" y="988" class="pin" text-anchor="start">2</text>
+<path d="M820,995 L780,995" class="wire"/>
+<text x="775" y="990" class="small" text-anchor="end">G10</text>
+</g>
+<g data-ref="Q10" data-pin="3" data-net="OE_N">
+<text x="893" y="938" class="pin" text-anchor="start">3</text>
+<path d="M889,945 L929,945" class="wire"/>
+<text x="934" y="940" class="small" text-anchor="start">OE_N</text>
+</g>
+<path d="M755,995 L820,995" class="wire"/>
+<text x="723" y="1043" class="small" text-anchor="start">R37 100k</text>
+<path d="M705,1019 L705,1035" class="wire"/>
+<rect x="697" y="1035" width="16" height="40" class="sym"/>
+<path d="M705,1075 L705,1091" class="wire"/>
+<g data-ref="R37" data-pin="1" data-net="G10">
+<text x="709" y="1012" class="pin" text-anchor="start">1</text>
+<path d="M705,1019 L745,1019" class="wire"/>
+<text x="750" y="1014" class="small" text-anchor="start">G10</text>
+</g>
+<g data-ref="R37" data-pin="2" data-net="GND">
+<text x="709" y="1084" class="pin" text-anchor="start">2</text>
+<path d="M705,1091 L745,1091" class="wire"/>
+<text x="750" y="1086" class="small" text-anchor="start">GND</text>
+</g>
+<text x="893" y="913" class="small" text-anchor="start">R38 10k</text>
+<path d="M875,889 L875,905" class="wire"/>
+<rect x="867" y="905" width="16" height="40" class="sym"/>
+<path d="M875,945 L875,961" class="wire"/>
+<g data-ref="R38" data-pin="1" data-net="VCC_EP">
+<text x="879" y="882" class="pin" text-anchor="start">1</text>
+<path d="M875,889 L915,889" class="wire"/>
+<text x="920" y="884" class="small" text-anchor="start">VCC_EP</text>
+</g>
+<g data-ref="R38" data-pin="2" data-net="OE_N">
+<text x="879" y="954" class="pin" text-anchor="start">2</text>
+<path d="M875,961 L915,961" class="wire"/>
+<text x="920" y="956" class="small" text-anchor="start">OE_N</text>
+</g>
+<rect x="1090" y="850" width="555" height="250" class="panel"/>
+<text x="1105" y="877" class="" text-anchor="start">Referência para os comparadores</text>
+<text x="1218" y="928" class="small" text-anchor="start">R39 22k 1%</text>
+<path d="M1200,904 L1200,920" class="wire"/>
+<rect x="1192" y="920" width="16" height="40" class="sym"/>
+<path d="M1200,960 L1200,976" class="wire"/>
+<g data-ref="R39" data-pin="1" data-net="+5M">
+<text x="1204" y="897" class="pin" text-anchor="start">1</text>
+<path d="M1200,904 L1240,904" class="wire"/>
+<text x="1245" y="899" class="small" text-anchor="start">+5M</text>
+</g>
+<g data-ref="R39" data-pin="2" data-net="VREF">
+<text x="1204" y="969" class="pin" text-anchor="start">2</text>
+<path d="M1200,976 L1240,976" class="wire"/>
+<text x="1245" y="971" class="small" text-anchor="start">VREF</text>
+</g>
+<text x="1218" y="1023" class="small" text-anchor="start">R40 10k 1%</text>
+<path d="M1200,999 L1200,1015" class="wire"/>
+<rect x="1192" y="1015" width="16" height="40" class="sym"/>
+<path d="M1200,1055 L1200,1071" class="wire"/>
+<g data-ref="R40" data-pin="1" data-net="VREF">
+<text x="1204" y="992" class="pin" text-anchor="start">1</text>
+<path d="M1200,999 L1240,999" class="wire"/>
+<text x="1245" y="994" class="small" text-anchor="start">VREF</text>
+</g>
+<g data-ref="R40" data-pin="2" data-net="GND">
+<text x="1204" y="1064" class="pin" text-anchor="start">2</text>
+<path d="M1200,1071 L1240,1071" class="wire"/>
+<text x="1245" y="1066" class="small" text-anchor="start">GND</text>
+</g>
+<text x="1483" y="983" class="small" text-anchor="start">C5 100 nF / 25 V</text>
+<path d="M1465,965 L1465,990" class="wire"/>
+<path d="M1452,990 L1478,990" class="sym"/>
+<path d="M1452,1000 L1478,1000" class="sym"/>
+<path d="M1465,1000 L1465,1025" class="wire"/>
+<g data-ref="C5" data-pin="1" data-net="VREF">
+<text x="1469" y="958" class="pin" text-anchor="start">1</text>
+<path d="M1465,965 L1505,965" class="wire"/>
+<text x="1510" y="960" class="small" text-anchor="start">VREF</text>
+</g>
+<g data-ref="C5" data-pin="2" data-net="GND">
+<text x="1469" y="1018" class="pin" text-anchor="start">2</text>
+<path d="M1465,1025 L1505,1025" class="wire"/>
+<text x="1510" y="1020" class="small" text-anchor="start">GND</text>
+</g>
+<text x="1105" y="1090" class="small" text-anchor="start">VREF = +5M × 10k / (22k + 10k) ≈ 1,56 V</text>
+</svg>

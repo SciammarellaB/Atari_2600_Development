@@ -131,6 +131,14 @@ acende um pixel na cor do objeto. `REFP0=8` espelha o herói quando olha para a
 esquerda. `PrepareGraphics` alterna o primeiro byte da hélice a cada quatro
 quadros; os demais bytes do corpo permanecem iguais.
 
+`HeroColors` fornece uma cor NTSC por linha do bitmap: hélice clara, eixo
+cinza, capacete amarelo, rosto, uniforme azul e botas escuras. O kernel escreve
+`COLUP0` antes dos pixels e conserva a cor nas duas linhas físicas do par.
+`NextHeroRow` guarda o índice 0..7; o índice 8 seleciona uma linha transparente
+e a cor padrão do laser. P0 e M0 compartilham `COLUP0`: quando o laser está na
+mesma altura de uma parte do herói, recebe a cor daquela faixa. Cada linha do
+personagem continua usando uma única cor; não há cores diferentes lado a lado.
+
 ## Quadro e orçamento de ciclos
 
 `Frame` gera três linhas de VSYNC e usa o RIOT para completar 37 linhas de
@@ -141,12 +149,14 @@ da caverna e assume suas cores/margens. O kernel desenha 88 pares, totalizando
 `3 + 37 + 16 + 176 + 30 = 262` linhas por quadro NTSC.
 
 Cada linha tem **76 ciclos de CPU**. A linha A escreve P0 até o ciclo 6, M0
-até 18, PF1 até 24, PF2 até 30 e P1 até 36. P1 só usa X>=56, deixando seus
-primeiros pixels posteriores à escrita. A próxima linha do herói é calculada
-em A; em B se prepara P1 e, quando necessário, a banda seguinte do mapa.
-`NextHero` é lido antes do WSYNC de B para economizar três ciclos de A.
+até 13, a cor de P0 até 20, PF1 até 26, PF2 até 32 e P1 até 38. PF1 começa
+em X=16, no ciclo 28; P1 só usa X>=56, com seus primeiros pixels depois do
+ciclo 41. A próxima linha do herói é calculada em A. Em B se prepara P1 e
+se consulta `MapRows`, que fornece X/8 sem deslocamentos, para carregar a banda
+do mapa. O bitmap de P0 e o Carry que habilita o laser são preparados antes
+do WSYNC; Y conserva o índice usado para consultar a cor no começo de A.
 
-Os caminhos mais longos de A cabem em 73 ciclos. Os caminhos de B, inclusive
+Os caminhos mais longos de A cabem em 75 ciclos. Os caminhos de B, inclusive
 reposicionamento, cabem em 76. Os desvios e tabelas críticos não cruzam páginas.
 Alterar a ordem de instruções na janela de posicionamento pode mudar X, mesmo
 que o valor de HMP1 e o total de linhas pareçam corretos.
@@ -154,7 +164,9 @@ que o valor de HMP1 e o total de linhas pareçam corretos.
 `PositionObject` divide X por quinze: cada iteração custa cinco ciclos,
 equivalentes a quinze pixels do TIA. O resto produz o ajuste fino. As escritas
 indexadas têm custos diferentes das diretas de `PositionActor`; a agenda já
-compensa essa diferença e o custo do despacho com `X_alvo-30`.
+compensa essa diferença, o despacho e a preparação de P0 com `X_alvo-114`
+para bateria/mineiro e `X_alvo-54` para o cristal. A preparação dos atores fica
+no VBLANK para liberar ciclos nas janelas de reposicionamento.
 
 TIM64T usa o primeiro decremento um ciclo após a escrita e os demais a cada
 sessenta e quatro ciclos. Os valores 44 no VBLANK e 36 no overscan colocam a

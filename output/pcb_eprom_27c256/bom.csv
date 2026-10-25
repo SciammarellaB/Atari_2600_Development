@@ -1,0 +1,75 @@
+Referencia,Valor,Tipo,Biblioteca,Footprint
+U1,ST TS27C256Q / DIP28,dip28,Package_DIP,DIP-28_W15.24mm_LongPads
+U2,LM339N / DIP14,dip14,Package_DIP,DIP-14_W7.62mm_LongPads
+U3,LM339N / DIP14,dip14,Package_DIP,DIP-14_W7.62mm_LongPads
+J1,ENDERECOS - MEGA,header16,Connector_PinHeader_2.54mm,PinHeader_1x16_P2.54mm_Vertical
+J2,LEITURA +5M - MEGA,header10,Connector_PinHeader_2.54mm,PinHeader_1x10_P2.54mm_Vertical
+J3,ESCRITA E CONTROLES - MEGA,header12,Connector_PinHeader_2.54mm,PinHeader_1x12_P2.54mm_Vertical
+J4,FONTES EXTERNAS,terminal6,TerminalBlock_Phoenix,"TerminalBlock_Phoenix_MKDS-1,5-6-5.08_1x06_P5.08mm_Horizontal"
+Q1,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R1,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R9,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R17,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R25,4k7,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+Q2,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R2,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R10,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R18,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R26,4k7,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+Q3,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R3,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R11,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R19,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R27,4k7,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+Q4,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R4,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R12,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R20,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R28,4k7,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+Q5,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R5,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R13,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R21,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R29,4k7,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+Q6,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R6,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R14,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R22,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R30,4k7,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+Q7,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R7,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R15,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R23,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R31,4k7,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+Q8,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R8,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R16,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R24,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R32,4k7,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+Q9,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R33,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R34,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R35,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+Q10,2N7000 Microchip TO92 S-G-D,mos,Package_TO_SOT_THT,TO-92_Inline_Wide
+R36,220R,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R37,100k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R38,10k,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R39,22k 1%,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+R40,10k 1%,res,Resistor_THT,R_Axial_DIN0207_L6.3mm_D2.5mm_P7.62mm_Horizontal
+C1,100nF 25V,cap,Capacitor_THT,C_Disc_D5.0mm_W2.5mm_P2.50mm
+C2,100nF 25V,cap,Capacitor_THT,C_Disc_D5.0mm_W2.5mm_P2.50mm
+C3,100nF 25V,cap,Capacitor_THT,C_Disc_D5.0mm_W2.5mm_P2.50mm
+C4,100nF 25V,cap,Capacitor_THT,C_Disc_D5.0mm_W2.5mm_P2.50mm
+C5,100nF 25V,cap,Capacitor_THT,C_Disc_D5.0mm_W2.5mm_P2.50mm
+TP1,GND,test,TestPoint,TestPoint_THTPad_D2.0mm_Drill1.0mm
+TP2,+5M,test,TestPoint,TestPoint_THTPad_D2.0mm_Drill1.0mm
+TP3,VCC_EP,test,TestPoint,TestPoint_THTPad_D2.0mm_Drill1.0mm
+TP4,VPP,test,TestPoint,TestPoint_THTPad_D2.0mm_Drill1.0mm
+TP5,V_AUX,test,TestPoint,TestPoint_THTPad_D2.0mm_Drill1.0mm
+TP6,VREF,test,TestPoint,TestPoint_THTPad_D2.0mm_Drill1.0mm
+TP7,CE_N,test,TestPoint,TestPoint_THTPad_D2.0mm_Drill1.0mm
+TP8,OE_N,test,TestPoint,TestPoint_THTPad_D2.0mm_Drill1.0mm
+H1,M3 NPTH,hole,MountingHole,MountingHole_3.2mm_M3
+H2,M3 NPTH,hole,MountingHole,MountingHole_3.2mm_M3
+H3,M3 NPTH,hole,MountingHole,MountingHole_3.2mm_M3
+H4,M3 NPTH,hole,MountingHole,MountingHole_3.2mm_M3
