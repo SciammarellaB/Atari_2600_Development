@@ -7,6 +7,8 @@ PYTHONPATH=.tools/python python3 scripts/check_music.py
 
 from collections import defaultdict
 from pathlib import Path
+import json
+from math import log2
 import re
 
 from py65.devices.mpu6502 import MPU
@@ -123,10 +125,12 @@ def check_timing():
     machine = Machine()
     machine.frame()
     # Percorre a frase completa, inclusive transicoes de nota e retorno.
-    for track, frames in ((2, 960), (1, 315), (0, 60)):
+    for track, frames in ((3, 6507), (2, 960), (1, 315), (0, 60)):
         machine.set("Track", track)
-        machine.set("MusicStep", 0)
-        machine.set("MusicClock", 0)
+        for label, value in (("MusicStep", 0), ("MusicClock", 0), ("HeartBar", 0),
+                             ("HeartPhase", 136), ("HeartLength", 7),
+                             ("HeartAge0", 255), ("HeartAge1", 255)):
+            machine.set(label, value)
         for frame in range(frames):
             before = machine.cpu.processorCycles
             machine.frame()
@@ -162,12 +166,12 @@ def check_timing():
         before = machine.cpu.processorCycles
         machine.frame()
         assert machine.cpu.processorCycles - before == 262 * 76
-    print("OK: 1341 quadros NTSC de 262 linhas; 3+37+192+30; playfield 48 x 4")
+    print("OK: 7848 quadros NTSC de 262 linhas; 3+37+192+30; playfield 48 x 4")
 
 
 def check_controls():
     m = Machine()
-    assert m.get("Track") == 2
+    assert m.get("Track") == 3
 
     def release():
         m.bus.switches = m.bus.joystick = 0xFF
@@ -177,11 +181,13 @@ def check_controls():
     def assert_restart(track):
         assert m.get("Track") == track
         assert (m.get("MusicStep"), m.get("MusicClock")) == (0, 0)
+        assert (m.get("HeartBar"), m.get("HeartPhase"), m.get("HeartLength")) == (0, 136, 7)
+        assert (m.get("HeartAge0"), m.get("HeartAge1")) == (255, 255)
         assert {(r, v) for _, r, v in m.bus.events} >= {(0x19, 0), (0x1A, 0)}
 
     for joystick, delta in ((0x7F, 1), (0xDF, 1), (0xBF, -1), (0xEF, -1),
                             (0x5F, 1), (0xAF, -1)):
-        for start in (0, 1, 2):
+        for start in range(4):
             release()
             m.set("Track", start)
             m.set("MusicStep", 7)
@@ -189,32 +195,32 @@ def check_controls():
             m.bus.events.clear()
             m.bus.joystick = joystick
             m.call("UpdateMenu")
-            assert_restart((start + delta) % 3)
+            assert_restart((start + delta) % 4)
             m.set("MusicClock", 7)
             for _ in range(3):
                 m.call("UpdateMenu")
-                assert m.get("Track") == (start + delta) % 3
+                assert m.get("Track") == (start + delta) % 4
                 assert m.get("MusicClock") == 7
-    for track in (0, 1, 2):
+    for track in range(4):
         for joystick in (0xFF, 0x3F, 0xCF, 0x0F, 0x6F, 0x9F):
             release()
             m.set("Track", track)
             m.bus.joystick = joystick
             m.call("UpdateMenu")
             assert m.get("Track") == track
-    for start in (0, 1, 2):
+    for start in range(4):
         release()
         m.set("Track", start)
         m.bus.switches = 0xFD
         m.bus.events.clear()
         m.call("UpdateMenu")
-        assert_restart((start + 1) % 3)
+        assert_restart((start + 1) % 4)
         m.set("MusicClock", 7)
         for _ in range(10):
             m.call("UpdateMenu")
             assert m.get("MusicClock") == 7
-            assert m.get("Track") == (start + 1) % 3
-    for track in (0, 1, 2):
+            assert m.get("Track") == (start + 1) % 4
+    for track in range(4):
         release()
         m.set("Track", track)
         m.set("MusicStep", 7)
@@ -227,14 +233,14 @@ def check_controls():
         for _ in range(10):
             m.call("UpdateMenu")
             assert m.get("MusicClock") == 7
-    # Reset ganha de Select, joystick e Fire simultaneos; sempre volta a 2.
+    # Reset ganha de Select, joystick e Fire simultaneos; sempre volta a 3.
     release()
     m.bus.switches = 0xFC
     m.bus.joystick = 0x7F
     m.bus.fire = 0
     m.bus.events.clear()
     m.call("UpdateMenu")
-    assert_restart(2)
+    assert_restart(3)
     m.set("MusicClock", 7)
     m.call("UpdateMenu")
     assert m.get("MusicClock") == 7
@@ -248,7 +254,33 @@ def check_controls():
     assert m.get("Track") == 1
     assert (m.get("MusicStep"), m.get("MusicClock")) == (0, 1)
     assert all(v == 0 for _, r, v in m.bus.events if r == 0x1A)
-    print("OK: tres opcoes, navegacao circular por pressao, prioridades e troca entre canais")
+    # Exercita todos os caminhos de origem/destino pelo menu, inclusive
+    # a troca no ultimo compasso/passo de Heartache e o reinicio por Fire.
+    for start in range(4):
+        for destination in range(4):
+            m.set("Track", start)
+            for _ in range((destination - start) % 4 or 1):
+                release()
+                for label, value in (("MusicStep", 11), ("MusicClock", 7),
+                                     ("HeartBar", 71), ("HeartPhase", 255),
+                                     ("HeartLength", 8), ("HeartAge0", 15),
+                                     ("HeartAge1", 9)):
+                    m.set(label, value)
+                expected = m.get("Track")
+                if start == destination:
+                    m.bus.fire = 0
+                else:
+                    m.bus.switches = 0xFD
+                    expected = (expected + 1) % 4
+                m.bus.events.clear()
+                m.call("UpdateMenu")
+                assert_restart(expected)
+            assert m.get("Track") == destination
+            m.bus.events.clear()
+            m.call("UpdateMusic")
+            assert all(0 <= value <= 15 for _, reg, value in m.bus.events
+                       if reg in (0x19, 0x1A))
+    print("OK: quatro opcoes, navegacao circular, prioridades e reinicio em toda transicao")
 
 
 def check_music():
@@ -289,6 +321,7 @@ def check_music():
 
 def check_tension():
     m = Machine()
+    m.set("Track", 2)
     loops = []
     for _ in range(2):
         frames = []
@@ -325,10 +358,101 @@ def check_tension():
     print("OK: cromatismo, pausas, baixo, percussao, envelopes e duas voltas identicas")
 
 
+
+def check_heartache():
+    """Compara a ROM com a partitura e um relogio/envelope independentes."""
+    data = json.loads((ROOT / "music/heartache.json").read_text())
+    assert (data["bar_count"], data["steps_per_bar"], data["tempo_us"]) == (72, 12, 251077)
+    envelope = [6, 6, 5, 4, 4, 3, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2]
+    m = Machine()
+    assert [m.bus[SYMBOLS["HeartEnvelope"] + i] for i in range(16)] == envelope
+
+    def token(note):
+        if note is None:
+            return 255
+        if note == -1:
+            return 254
+        # Avalia todos os tons legais do TIA contra a frequencia MIDI alvo.
+        # Nao importa o gerador: erros nas tabelas de pitch devem aparecer aqui.
+        target = 440 * 2 ** ((note - 69) / 12)
+        return min(range(64), key=lambda value: (
+            abs(1200 * log2((31400 / ((6 if value & 32 else 2) *
+                                     ((value & 31) + 1))) / target)), value))
+
+    voices = []
+    crossing = False
+    for voice in ("lead", "bass"):
+        prefix = "Heart" + voice.title()
+        patterns, order = data[f"{voice}_patterns"], data[f"{voice}_order"]
+        assert len(order) == 72
+        assert len(patterns) == (37 if voice == "lead" else 31)
+        assert all(len(pattern) == 12 for pattern in patterns)
+        assert all(0 <= index < len(patterns) for index in order)
+        assert [m.bus[SYMBOLS[prefix + "Order"] + i] for i in range(72)] == order
+        for index, pattern in enumerate(patterns):
+            pointer = (m.bus[SYMBOLS[prefix + "Lo"] + index] |
+                       m.bus[SYMBOLS[prefix + "Hi"] + index] << 8)
+            assert pointer == SYMBOLS[prefix + f"Pattern{index}"]
+            assert [m.bus[pointer + i] for i in range(12)] == list(map(token, pattern))
+            crossing |= pointer // 256 != (pointer + 11) // 256
+        voices.append([note for index in order for note in patterns[index]])
+    assert crossing, "Exercitar tambem o enderecamento indireto ao cruzar pagina"
+    assert all(any(note is None for note in voice) and -1 in voice for voice in voices)
+
+    loops = []
+    lengths = []
+    for loop in range(2):
+        # O segundo loop prossegue naturalmente; nao reinicia o player.
+        assert (m.get("HeartBar"), m.get("MusicStep"), m.get("MusicClock")) == (0, 0, 0)
+        assert (m.get("HeartPhase"), m.get("HeartLength")) == (136, 7)
+        ages = [255, 255] if not loop else ages
+        phase, length = 136, 7
+        frames = []
+        for step in range(864):
+            bar, in_bar = divmod(step, 12)
+            lengths.append(length)
+            for clock in range(length):
+                assert (m.get("HeartBar"), m.get("MusicStep"), m.get("MusicClock")) == (bar, in_bar, clock)
+                assert (m.get("HeartPhase"), m.get("HeartLength")) == (phase, length)
+                expected = {}
+                for channel, notes in enumerate(voices):
+                    note = notes[step]
+                    if clock == 0 and note != -1:
+                        ages[channel] = 255 if note is None else 0
+                        if note is not None:
+                            value = token(note)
+                            expected[0x17 + channel] = value & 31
+                            expected[0x15 + channel] = 12 if value & 32 else 4
+                    age = ages[channel]
+                    expected[0x19 + channel] = 0 if age == 255 else envelope[age] >> channel
+                    if age != 255:
+                        ages[channel] = min(age + 1, 15)
+                m.bus.events.clear()
+                m.call("UpdateMusic")
+                actual = {reg: value for _, reg, value in m.bus.events}
+                assert actual == expected, (loop, bar, in_bar, clock, actual, expected)
+                assert len(m.bus.events) == len(actual), "Escritas de audio duplicadas"
+                assert (m.get("HeartAge0"), m.get("HeartAge1")) == tuple(ages)
+                assert all(0 <= value <= 31 for reg, value in actual.items() if reg in (0x17, 0x18))
+                assert all(0 <= value <= 15 for reg, value in actual.items() if reg in (0x19, 0x1A))
+                assert all(value in (4, 12) for reg, value in actual.items() if reg in (0x15, 0x16))
+                frames.append(actual)
+            next_phase = phase + 136
+            length, phase = 7 + (next_phase // 256), next_phase % 256
+        assert len(frames) == 6507
+        loops.append(frames)
+    assert loops[0] == loops[1], "Heartache nao repete o mesmo estado sonoro"
+    assert set(lengths) == {7, 8}
+    assert (m.get("HeartBar"), m.get("MusicStep"), m.get("MusicClock")) == (0, 0, 0)
+    assert (m.get("HeartPhase"), m.get("HeartLength")) == (136, 7)
+    print("OK: Heartache completa, 72 compassos/864 passos, duas voltas de 6507 quadros")
+    print("OK: partitura, afinacao TIA, ponteiros entre paginas, sustains, pausas e envelopes")
+
+
 def check_cursor():
     m = Machine()
     positions = []
-    for track in (1, 2, 0):
+    for track in (1, 2, 3, 0):
         m.set("Track", track)
         m.set("MusicStep", 0)
         m.set("MusicClock", 0)
@@ -337,9 +461,13 @@ def check_cursor():
         assert len({c // 76 for c, _ in cursor}) == 20
         positions.append([c // 76 - next(c // 76 for c, r, v in m.bus.events
                                        if r == 1 and v == 0) for c, _ in cursor])
-    assert positions[1] == [line + 44 for line in positions[0]]
-    assert positions[2] == [line + 44 for line in positions[1]]
-    print("OK: indicador visivel nas tres linhas, sem alterar o timing do kernel")
+    assert positions[1] == [line + 40 for line in positions[0]]
+    assert positions[2] == [line + 40 for line in positions[1]]
+    assert positions[3] == [line + 40 for line in positions[2]]
+    masks = SYMBOLS["CursorMasks"]
+    assert masks // 256 == (masks + 191) // 256, "Mascaras cruzam pagina do kernel"
+    assert [m.bus[SYMBOLS["CursorLastRow"] + i] for i in range(4)] == [191, 47, 95, 143]
+    print("OK: indicador nas quatro linhas, mascaras na mesma pagina e kernel preservado")
 
 
 if __name__ == "__main__":
@@ -347,4 +475,5 @@ if __name__ == "__main__":
     check_controls()
     check_music()
     check_tension()
+    check_heartache()
     check_cursor()

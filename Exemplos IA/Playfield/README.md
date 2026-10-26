@@ -1,17 +1,18 @@
-# Mansão de nove salas — Atari 2600
+# Mansão — 15 salas em três andares / Atari 2600
 
-Protótipo em Assembly 6507 de exploração **vista de cima**, inspirado na
-estrutura de uma mansão de survival horror: fundo preto, paredes e móveis
-claros, portas fechadas, objetos coletáveis e dois puzzles. O personagem
-começa no **Vestíbulo (sala 1), desarmado, com 00 balas e 3 pontos de vida**.
-Não há inimigos nem dano nesta etapa.
+Protótipo de exploração vista de cima, em Assembly 6507: subsolo com quatro
+salas, térreo com cinco salas em L e andar superior com seis salas. O jogador
+começa no **Saguão (T1), desarmado, com 0 balas e 3 corações**. A partida
+termina ao conseguir a chave dourada e atravessar a saída do Saguão.
 
-A ROM usa **F4 de 32 KB**, com oito bancos de 4 KB, e vídeo **NTSC**. O cenário
-tem rolagem vertical dentro de cada sala e um painel inferior fixo.
+Esta etapa implementa a planta, escadas, exploração, coletas, switches,
+chaves coloridas, portas e encerramento. Inimigos, dano e notas com texto
+ficam para as próximas etapas. É possível usar a arma e gastar munição,
+mas ainda não há alvos.
 
 ## Executar
 
-Requer Python 3, Make, DASM e Stella instalados:
+Requer Python 3, Make, DASM e Stella:
 
 ```sh
 cd "/home/sciammarella/Fontes/Estudos/Atari_2600_Development/Exemplos IA/Playfield"
@@ -19,310 +20,296 @@ make build
 make run
 ```
 
-`make build` gera `build/main.bin` com 32.768 bytes. `make check` também monta
-e verifica a ROM. `make run` abre o Stella com cartucho F4, formato NTSC e
-áudio habilitado. Para ver alterações em uma ROM já aberta, recarregue-a.
-Os caminhos dos executáveis podem ser definidos com `DASM` e `STELLA`;
-as configurações locais do emulador ficam em `.tools/stella/`.
+A ROM `build/main.bin` tem **32.768 bytes**, cartucho **F4**, vídeo **NTSC**.
+`make check` também monta e verifica o cartucho. `make run` abre o Stella
+com áudio; uma ROM que já estava aberta precisa ser recarregada. Os
+executáveis podem ser definidos por `DASM` e `STELLA`; as configurações do
+emulador ficam em `.tools/stella/`.
 
-O build monta cada banco separadamente em `build/bank0/` até
-`build/bank7/`, com `main.bin`, `main.lst`, `main.sym` e `rooms.inc` próprios.
-Também gera `build/rooms-bank0.inc` até `rooms-bank7.inc`, a fonte comum
-`build/hud.inc` e cópias da listagem e dos símbolos do banco 0 em
-`build/main.lst` e `build/main.sym`. Os arquivos gerados não devem ser
-editados manualmente.
+## Controles
 
-## Controles e navegação
-
-| Ação | Atari / teclado padrão do Stella |
+| Ação | Atari / Stella |
 | --- | --- |
-| Andar | Joystick 1 / setas |
-| Atirar, após encontrar arma e balas | Botão do joystick 1 / espaço |
-| Recolher objeto ou ativar switch | Passar sobre ele |
-| Abrir porta azul com a chave | Aproximar-se da porta |
-| Reiniciar jogo, recursos, puzzles e música | Game Reset / F2 |
+| Andar em oito direções | Joystick 1 / setas |
+| Atirar, com arma e munição | Fire / espaço |
+| Recolher item ou ativar switch | Passar sobre ele |
+| Abrir porta com a chave correspondente | Aproximar-se da porta |
+| Subir ou descer uma escada | Atravessar a abertura com degraus |
+| Reiniciar tudo | Game Reset / F2 |
 | Visitar a próxima sala, para depuração | Game Select / F1 |
 
-O personagem anda em **oito direções**. Combine duas setas para andar na
-diagonal; direções opostas no mesmo eixo são ignoradas. É possível andar
-e atirar ao mesmo tempo. O segundo controle não tem função. Reset tem
-prioridade sobre Select, e ambos exigem soltar antes de uma nova ativação.
+Reset tem prioridade sobre Select. Ambos precisam ser soltos antes de uma
+nova ativação. Select percorre as 15 salas, preservando recursos e puzzles;
+é um atalho de depuração que ignora a progressão. Depois da fuga, movimento,
+Fire e Select ficam inativos; Reset inicia outra partida.
 
-A troca de sala acontece ao **atravessar uma abertura**. O corpo inteiro
-precisa caber no vão; paredes, móveis e portas fechadas bloqueiam o
-movimento. Ao atravessar, o jogador entra pelo lado oposto e preserva a
-coordenada transversal. As aberturas laterais ocupam as linhas lógicas
-20–27; as superiores e inferiores ficam nas colunas 18–21.
+## Planta e progressão
 
-O mapa abaixo mostra todas as conexões. Linhas comuns são passagens livres;
-as ligações marcadas dependem dos puzzles. Não há ligação vertical entre
-Enfermaria e Biblioteca nem entre Biblioteca e Quarto: isso impede
-contornar as portas fechadas.
+Os códigos identificam salas lógicas, não bancos do cartucho.
 
 ```text
-[6 Galeria: balas] ----- [7 Escritório] ---- AZUL ---- [8 Quarto: vida]
-        |                     |
-[3 Jantar: arma] ------- [4 Hall] ------- VERMELHA -- [5 Biblioteca: chave]
-        |                     |
-[0 Cozinha: switch] ---- [1 Vestíbulo: início] ------- [2 Enfermaria: balas]
+SUBSOLO
+[B1 Depósito] ----- [B2 Serviço / escada para T3]
+      |
+[B3 Despensa] -- VERDE -- [B4 Gerador]
+
+TÉRREO EM L
+                                      [T5 Escadaria para A4]
+                                               |
+                                        [T4 Biblioteca]
+                                           VERMELHA
+                                               |
+SAÍDA -- DOURADA -- [T1 Saguão] -- [T2 Galeria] -- [T3 Hall / escada para B2]
+
+ANDAR SUPERIOR
+[A1 Quarto] -- [A2 Enfermaria] -- AZUL -- [A3 Escritório]
+     |
+[A4 Patamar / escada para T5] -- [A5 Retratos] -- ROXA -- [A6 Suíte]
 ```
 
-`F1` visita as nove salas em sequência, com uma posição inicial segura,
-preservando recursos e puzzles. Esse é um atalho de depuração que ignora
-a progressão da exploração; para jogar o percurso, use as passagens.
-`F2` volta ao Vestíbulo, restaura a vida, remove arma e munição, devolve os
-objetos às salas e fecha as duas portas.
+B2 é a sala superior direita do conjunto de quatro do subsolo. As duas
+ligações entre andares são **B2 ↔ T3** e **T5 ↔ A4**. Os degraus pertencem
+ao playfield decorativo e são atravessáveis. A subida usa a abertura
+superior; a descida, a inferior. Não é necessário apertar Fire.
 
-## Coletas e puzzles
+O Gerador só tem entrada pela Despensa; o Escritório só pela Enfermaria;
+a Suíte só pela sala de Retratos. Isso impede contornar as portas fechadas.
 
-Há no máximo um objeto em cada sala. Todos ficam em **x=32..39 pixels TIA,
-y=34..37 linhas lógicas**, na parte inferior esquerda do mapa. A coleta
-acontece quando o centro do jogador (`PlayerX+4`, `PlayerY+2`) entra nessa
-área, sem botão de interação. Os objetos não bloqueiam o movimento nem os
-tiros. Uma coleta permanece registrada ao sair da sala e voltar.
+Um percurso completo:
 
-| Sala | Objeto | Efeito |
+1. Do Saguão, chegar ao Hall e descer para B2. Explorar o Depósito para
+   encontrar a arma e a Despensa para ativar o switch vermelho.
+2. Voltar ao Hall: a passagem para a Biblioteca está aberta. Subir pela
+   Escadaria e encontrar a chave verde na Enfermaria.
+3. Retornar ao subsolo. A chave verde abre o Gerador, onde está a chave azul.
+4. Voltar à Enfermaria e usar a chave azul para entrar no Escritório.
+   O switch roxo abre a Suíte.
+5. Buscar a chave dourada na Suíte e voltar ao Saguão. Abrir a porta
+   dourada e atravessar para fora conclui a partida.
+
+A arma e as balas não são requisitos dos puzzles. Não há condição que
+obrigue gastar munição para conseguir a saída.
+
+| Índice | Sala | Objeto |
 | --- | --- | --- |
-| 0 — Cozinha | Switch vermelho | Abre permanentemente a passagem 4 ↔ 5 |
-| 1 — Vestíbulo | Nenhum | Sala inicial |
-| 2 — Enfermaria | Balas | Soma 12, limitado a 99 |
-| 3 — Jantar | Arma | Habilita o tiro quando houver munição |
-| 4 — Hall | Nenhum | Dá acesso à porta vermelha |
-| 5 — Biblioteca | Chave azul | Fica no inventário até abrir a porta azul |
-| 6 — Galeria | Balas | Soma 12, limitado a 99 |
-| 7 — Escritório | Nenhum | Dá acesso à porta azul |
-| 8 — Quarto | Vida | Restaura a vida para 3 |
+| 0 | B1 — Depósito | Arma |
+| 1 | B2 — Sala de serviço | Nenhum |
+| 2 | B3 — Despensa | Switch vermelho |
+| 3 | B4 — Gerador | Chave azul |
+| 4 | T1 — Saguão | Nenhum; saída final |
+| 5 | T2 — Galeria | Nenhum |
+| 6 | T3 — Hall | Nenhum |
+| 7 | T4 — Biblioteca | Balas |
+| 8 | T5 — Escadaria | Vida |
+| 9 | A1 — Quarto | Balas |
+| 10 | A2 — Enfermaria | Chave verde |
+| 11 | A3 — Escritório | Switch roxo |
+| 12 | A4 — Patamar | Nenhum |
+| 13 | A5 — Sala de retratos | Nenhum |
+| 14 | A6 — Suíte | Chave dourada |
 
-O switch da Cozinha abre a porta vermelha entre Hall e Biblioteca. Ele
-continua vermelho, mas passa de preenchido para um desenho vazado
-(`ObjectMask=$81`), indicando que já foi ativado. Pisar novamente não fecha
-a porta e não repete a ação.
+Os itens ficam em x32..39 pixels TIA, y34..37 linhas lógicas, em recantos
+acessíveis. O centro do corpo (`PlayerX+4`, `PlayerY+2`) ativa a coleta.
+Cada objeto só pode ser recolhido uma vez por partida. Balas somam 12,
+limitadas a 99; vida restaura três corações, mesmo se já estiver cheia.
 
-A chave da Biblioteca abre a porta azul entre Escritório e Quarto quando
-o jogador se aproxima do vão. A abertura **consome a chave**, e a porta
-continua aberta até Reset. O acesso é reconhecido dos dois lados. A arma
-é permanente até Reset; munição e vida desaparecem ao serem recolhidas.
-O item de vida é consumido mesmo com a vida cheia. Como ainda não há dano,
-a exploração mantém os três pontos iniciais.
+Chaves verde, azul e dourada são consumidas ao abrir suas portas. As portas
+permanecem abertas; os switches também são permanentes e ficam vazados
+após o uso. A arma permanece no inventário. Ao escapar, a cena fica dourada
+e o painel mostra corações dourados e uma coroa. Não há texto no final.
 
-Um percurso possível é explorar a Cozinha, encontrar a arma no Jantar e
-as balas na Galeria ou Enfermaria, entrar na Biblioteca pela porta vermelha
-e levar a chave até a porta azul do Escritório. Não há tela de vitória ou
-condição de derrota nesta etapa.
+## Cenário, câmera e movimento
 
-## Painel e câmera
+Cada sala tem **40 × 48 células**, com quatro pixels TIA horizontais e
+quatro scanlines por célula. A janela exibe 40 linhas lógicas: **160
+scanlines de cenário**, mais **32 scanlines de painel fixo**. `CameraY`
+varia de 0 a 8, acompanha o jogador e para nas bordas. A troca de sala ocorre
+nas aberturas do mapa, não ao sair da janela da câmera.
 
-A área visível tem **160 scanlines de cenário + 32 de painel**. O painel
-mostra coração e até três segmentos de vida, quantidade de balas em dois
-dígitos e ícones da arma e da chave carregadas. Ele usa somente o playfield;
-seus glifos são montados depois do cenário, reutilizando os buffers em RAM.
-`scripts/hud.py` gera os números 3×5, coração, barras e ícones.
+O corpo usa oito pixels TIA por 16 scanlines; `PlayerX` varia de 0 a 152,
+`PlayerY` de 0 a 44. Um passo desloca dois pixels horizontais e/ou uma linha
+lógica vertical. Um acumulador soma 77 por quadro nas retas ou 54 nas
+diagonais e tenta o passo quando passa de 255: aproximadamente 18 e 12,7
+passos por segundo. Isso deixa a caminhada reta cerca de 40% mais lenta
+que a versão original, com a diagonal compensada em aproximadamente 1/√2.
 
-Cada sala tem **40 colunas × 48 linhas lógicas**. Uma célula equivale a
-quatro pixels horizontais do TIA por quatro scanlines. A janela mostra 40
-linhas; `CameraY` varia de 0 a 8, permitindo acessar as oito linhas que
-ficam fora dela. A câmera acompanha quando o jogador passa das linhas 8
-ou 28 dentro da janela e para nas bordas da sala. A rolagem avança em
-passos de quatro scanlines.
+A fase persiste ao parar, trocar direção, colidir ou atravessar salas.
+Entradas neutras ou opostas não avançam o acumulador; tocar repetidamente
+o controle não acelera o jogador. Uma colisão interrompe os dois eixos,
+sem deslizamento automático. A orientação horizontal prevalece na diagonal,
+mas a mira preserva os dois componentes. A animação alterna a cada quatro
+movimentos bem-sucedidos.
 
-Jogador, objetos, portas, tiros e colisões continuam em coordenadas da
-sala inteira. O desenho usa `RowStart+CameraY`; a altura do personagem é
-`PlayerY-CameraY`. `ShotViewY` recorta o projétil na janela, inclusive quando
-só aparecem três scanlines no topo ou uma no rodapé. Sair da janela não
-troca de sala: a passagem depende dos limites e aberturas do mapa. Todos
-os objetos são desligados antes de desenhar o painel.
+`scripts/mansion.py` define mobiliário, pisos e paletas. Tapetes, juntas e
+degraus são decorativos. A colisão usa os volumes inteiros de paredes e
+móveis, independentemente dos pixels vazados do desenho. O cenário usa
+playfield assimétrico (`CTRLPF=0`), com uma cor de primeiro plano por sala
+e tons de fundo por linha lógica. A cor de fundo muda no HBLANK da segunda
+scanline; a primeira ainda mantém o tom anterior.
 
-## Recursos gráficos e animação
+Os interiores incluem caixas e máquinas no subsolo; colunas, bancos e
+biblioteca no térreo; quartos, biombos, escritório e suíte no superior.
+T2 e A5 reutilizam o mesmo desenho, piso e colisão de galeria, com cor de
+primeiro plano e estado de porta próprios. São **15 salas lógicas e 14
+templates gráficos**, mantendo o cartucho de 32 KB.
 
-| Recurso do TIA | Função |
+## Sprites, portas e tiros
+
+| Recurso do TIA | Cenário |
 | --- | --- |
-| Playfield | Paredes, móveis, aberturas e painel |
-| P1 | Personagem azul/ciano, 8 pixels × 16 scanlines |
-| P0 | Objeto da sala, 8 pixels × 16 scanlines |
-| M0 | Porta vermelha ou azul, 4 pixels × 32 scanlines |
-| M1 | Projétil azul/ciano, 2 pixels × 4 scanlines |
+| Playfield | Paredes, móveis, chão e degraus |
+| P1 | Personagem |
+| P0 | Item ou switch da sala |
+| M0 | Porta fechada |
+| M1 | Projétil |
 | Bola | Disponível |
 
-O personagem tem **oito linhas de oito bits**, cada byte repetido por
-**duas scanlines**. O desenho é uma matriz 8×8 exibida em 8 pixels TIA × 16
-scanlines; oito linhas de desenho não significam oito scanlines físicas.
-Os pixels horizontais e as scanlines têm proporções diferentes no sinal
-de TV, portanto essas medidas não correspondem a uma grade de pixels
-quadrados modernos.
+O personagem tem 20 poses, cinco para cada direção: parado, dois passos,
+disparo e recuo. Cada pose usa oito bytes binários, repetidos por duas
+scanlines, formando 8×16. Os objetos P0 usam quatro bytes de oito bits,
+repetidos por quatro scanlines. A proporção de pixels TIA e linhas de TV
+não equivale a pixels quadrados modernos.
 
-Há cinco poses para cada uma das quatro direções: parado, passo A, passo B,
-disparo e recuo. São 20 poses e 160 bytes em `PlayerGraphics`, escritos em
-binário. Cada `1` acende um pixel e cada `0` deixa aparecer o cenário. Por
-exemplo, a pose parada olhando para baixo é:
+Portas laterais usam M0 com oito pixels × 32 scanlines em x0 ou x152.
+Portas superiores/inferiores usam oito pixels × quatro scanlines em x76,
+no centro da abertura; o corpo não cabe nos quatro pixels restantes de
+cada lado. A colisão acompanha exatamente esses retângulos. Porta e objeto
+compartilham `COLUP0`, com cores por linha em `GateRows`; o bit0 indica
+quando habilitar M0 e não altera a cor NTSC.
 
-```asm
-DownIdle
-        byte %00111100
-        byte %01111110
-        byte %01011010
-        byte %00111100
-        byte %01111110
-        byte %10111101
-        byte %00100100
-        byte %01100110
-```
+A bala exige arma e munição. Há um projétil por vez; manter Fire repete o
+disparo depois do recuo. Cada tiro consome uma bala. `Ammo` usa BCD00..99;
+modo decimal é desligado após a soma/subtração. O projétil anda dois pixels
+horizontais e/ou uma linha lógica vertical por quadro e é removido por
+paredes, móveis, portas, limites ou mudança de sala. Não coleta itens nem
+atravessa para outra sala. `ShotBlocked` verifica as duas linhas lógicas
+tocadas pelo míssil numa única caixa, percorrendo a mobília uma vez.
 
-Os objetos P0 usam **quatro bytes de oito bits**, repetidos por quatro
-scanlines cada. Assim também ocupam 8×16, com definição vertical menor que
-a do jogador. `ObjectRows` contém os glifos; `ObjectMask=0` esconde um item
-recolhido, `$FF` o mostra inteiro e `$81` modifica o switch ativado.
+## Painel com chaves coloridas
 
-P0 e M0 compartilham `COLUP0`. Para usar uma cor nos objetos e outra nas
-portas, `GateRows` contém **cores por linha**, atualizadas antes dos pixels
-dos objetos.
-O bit 0, ignorado pela cor NTSC, indica a faixa da porta: `$47` (vermelho)
-ou `$87` (azul). Deslocar esse bit e aplicar `GateMask` fornece o valor 2
-para `ENAM0` quando a porta está fechada. Fora da faixa, a cor-base `$46`
-ou `$86` é preservada, sem habilitar o míssil. As linhas dos objetos usam
-outras cores com bit 0 desligado. Porta e objeto
-ocupam alturas diferentes, permitindo compartilhar o registrador sem
-recolorir as paredes. P1 e M1 compartilham a cor azul/ciano de `COLUP1`.
+Três corações ficam à esquerda; bala × quantidade, no centro; arma e
+chaves, à direita. A quantidade omite o zero inicial. Corações e números
+continuam com nove linhas de desenho, cada uma repetida duas vezes.
 
-## Movimento, colisão e tiro
+O inventário tem **18 scanlines independentes**: arma nas seis primeiras,
+chave verde nas quatro seguintes, depois azul e dourada, quatro linhas
+cada. Todas podem aparecer simultaneamente, sem alternância de quadros.
+Na vitória, a coroa substitui o inventário.
 
-`PlayerX` varia de 0 a 152 pixels TIA e `PlayerY` de 0 a 44 linhas lógicas.
-A cada dois quadros, o jogador tenta andar dois pixels horizontais e/ou
-uma linha lógica vertical. A diagonal move os dois eixos no mesmo passo,
-sem normalização de velocidade. Se a posição candidata colidir, ambos
-param; não há deslizamento automático pela parede.
-
-`CanStand` consulta todas as células ocupadas pelo corpo 8×16, usando as
-mesmas tabelas PF do desenho e `CollisionPages/CollisionMasks`. São quatro
-linhas e duas ou três colunas, conforme o alinhamento. Testar apenas os
-cantos permitiria atravessar uma parede fina no meio do corpo. As portas
-fechadas acrescentam a barreira da passagem. A interação com objetos usa
-o centro do jogador e não os registradores de colisão do TIA.
-
-A caminhada alterna os passos a cada quatro movimentos bem-sucedidos.
-Parar ou encontrar uma parede retorna à pose parada. Nas diagonais, a
-orientação horizontal tem prioridade para a pose, mas o movimento e a
-mira preservam a diagonal. `Aim` guarda a última direção válida; ao atirar,
-ela é copiada para `ShotDir`, sem curvar uma bala já lançada.
-
-O tiro exige o bit de arma em `Weapon` e pelo menos uma bala em `Ammo`.
-Há **um projétil por vez**. Segurar Fire repete o disparo quando o projétil
-anterior termina e o recuo acaba. Cada novo ataque consome uma bala,
-inclusive contra uma parede. `Ammo` usa BCD de `00` a `99`; o código entra
-em modo decimal para soma e subtração e o desliga em seguida.
-
-O projétil anda a cada quadro: dois pixels horizontais e/ou uma linha
-lógica vertical. Paredes, portas fechadas e limites da sala o removem. Ele
-não coleta itens, aciona switches nem atravessa para outra sala. Trocar de
-sala também remove a bala. `AttackTimer` mantém seis quadros de disparo e
-seis de recuo, usando o mesmo P1 e a mesma colisão do personagem.
+P0 tem três cópias em x12/28/44; P1 mostra bala em x72, números em x88/x104
+e inventário em x136. `NUSIZ1` muda de3 para6 no ciclo61. `COLUP1` volta
+para branco no ciclo8 e recebe a cor do inventário no ciclo64; `GRP1` muda
+nos ciclos21/50/56/67. Assim, as cores das chaves não atingem os números.
+`GRP0` muda nos ciclos14/30/36. Cada linha usa 75 ciclos incluindo a espera
+seguinte; não há HMOVE ou reposicionamento durante os glifos.
 
 ## Música e efeitos
 
-A trilha **Tensão** toca automaticamente em dois canais durante a
-exploração: 64 passos, 15 quadros por passo e aproximadamente 16 segundos
-por volta em NTSC a 60 Hz. O canal 0 toca a melodia cromática em onda
-quadrada; o canal 1 intercala baixo pulsante e percussão de ruído. A música
-usa metade do volume dos envelopes, arredondando para baixo. A cópia fica
-neste projeto e compila sem depender do exemplo `Musica`.
+A trilha Tensão toca em dois canais: 64 passos, 15 quadros por passo, cerca
+de 16 segundos por volta a 60Hz. O volume usa metade dos envelopes. Tiros
+usam seis quadros de ruído; coletas, switches, portas e fuga usam dois tons
+durante 12 quadros. A ação tem prioridade sobre o tiro; ambos usam o canal1
+sem reiniciar o sequenciador. Salas e Select preservam a trilha; Reset
+reinicia música e efeitos. Os dados estão nesta ROM, sem dependência do
+projeto irmão de música.
 
-Cada tiro inicia seis quadros de ruído descendente. Coletas, ativação do
-switch e abertura da porta azul chamam `PlayActionSound`, com dois tons
-ascendentes durante 12 quadros. Os efeitos usam temporariamente o canal 1;
-a melodia e o sequenciador continuam. A ação tem prioridade sobre o tiro,
-e uma nova ação reinicia o próprio efeito. Não há fila. Ao terminar, o
-canal 1 retorna à posição atual da música. Passagens e Select preservam a
-trilha; Reset reinicia música e efeitos junto com o jogo.
+## Bancos, RAM e temporização
 
-## ROM, RAM e temporização
+F4 seleciona oito bancos por `$FFF4..$FFFB`. Os bancos0..6 compartilham
+código e metadados, com dois templates por banco. `RoomStarts`, `RoomEnds`
+e `RoomSolidStarts/RoomSolidEnds` selecionam os dados do template. O banco7
+é exclusivo do painel.
 
-F4 seleciona um dos oito bancos de 4 KB por acessos a `$FFF4..$FFFB`.
-`LoadRoom` lê `RoomBanks` e troca de banco antes de consultar os dados da
-sala. Código, rotinas comuns e vetores ocupam os mesmos endereços em todos
-os bancos, de modo que a próxima instrução continua válida após a troca.
-Cada banco comporta até duas salas: bancos 0–3 têm duas, banco 4 tem a sala
-8 e um slot vazio, e bancos 5–7 não têm salas. Mesmo esses bancos incluem
-Reset, que seleciona o banco da sala inicial.
+`RoomBanks` ocupa `$FFD0..$FFDE` nos oito bancos e mapeia as 15 salas
+lógicas. Tanto `LoadRoom` quanto o retorno do painel usam essa tabela;
+o banco não é mais calculado por `Room >> 1`. Os trampolins em `$FFE0`
+e `$FFE6` preservam a execução ao trocar bancos. Reset começa com cinco
+bytes iguais, selecionando o banco0 antes de inicializar a partida.
 
-A ROM maior permite os nove mapas, mas replica o código comum em cada
-banco e exige um cartucho compatível com F4. Ela não aumenta a RAM nem o
-tempo disponível por scanline. O build verifica o tamanho de cada banco,
-os vetores e a igualdade dos endereços dos símbolos. Guardas de montagem
-impedem que blocos invadam páginas ou alcancem a área dos hotspots.
+As seis tabelas PF, `ObjectRows` e `GateRows` são alinhadas em páginas,
+com 96 bytes por par de templates; `GateRows` inclui uma sentinela extra.
+`FloorColors` tem96bytes e `SolidRects` reserva160bytes. O primeiro retângulo
+de cada template é a porta dinâmica; `CollisionBox` o ignora quando aberto.
+As galerias compartilhadas usam o mesmo retângulo físico, mas `GateMask`
+permite que só A5 tenha a porta da Suíte. Caudas das páginas recebem rotinas
+e metadados. O build protege tamanhos, alinhamentos, vetores e trampolins.
 
-`rooms.py` converte `#` e `.` em seis tabelas PF alinhadas em páginas de
-256 bytes. Cada tabela tem 96 bytes para os dois slots de sala; as caudas
-das páginas recebem rotinas e dados de áudio, HUD e mundo. `ObjectRows`
-tem o mesmo tamanho; `GateRows` acrescenta uma sentinela zero. `EXITS`
-continua separado do desenho. Os três registradores `PF0/PF1/PF2` são
-reescritos no meio da linha para desenhar metades independentes, com
-`CTRLPF=0`; o cenário não é espelhado.
-
-| Endereços RAM | Uso |
+| RAM | Uso |
 | --- | --- |
-| `$80..$99` | Estado de sala, jogador, tiro, câmera e recursos |
-| `$9A..$C1` | Buffer das primeiras duas scanlines de P1 por linha lógica |
-| `$C2` | `ObjectGraphic`, reutiliza a sentinela superior |
-| `$C3..$EA` | Buffer das últimas duas scanlines de P1 por linha lógica |
-| `$EB` | `NextColor`, reutiliza a sentinela inferior |
-| `$EC..$EE` | Passo e relógio da música, estado do efeito |
-| `$EF..$F2` | Puzzles, dois bytes de coletas e máscara do objeto |
-| `$F3..$FF` | 13 bytes reservados à pilha |
+| `$80..$99` | Sala, jogador, movimento, tiro, câmera, vida, munição e inventário |
+| `$9A..$C1` | Primeiras duas scanlines de P1 por linha lógica |
+| `$C2` | `ObjectGraphic`, sentinela superior |
+| `$C3..$EA` | Últimas duas scanlines de P1 por linha lógica |
+| `$EB` | `NextColor`, sentinela inferior |
+| `$EC..$EE` | Música e efeito sonoro |
+| `$EF` | Puzzles e vitória |
+| `$F0..$F1` | Quinze bits de coletas |
+| `$F2` | Máscara do objeto |
+| `$F3..$FF` | Pilha |
 
-Entrada e colisão reutilizam `$9A..$A4` fora do desenho. No overscan,
-`UpdateShot` e `UpdateWorld` rodam antes de `ClearSpriteRows`, que limpa os
-82 bytes dos buffers; a música é atualizada em seguida. No VBLANK,
-`BuildSpriteRows` limpa os temporários e prepara a pose relativa à câmera.
-Após o cenário, `BuildHud` reutiliza esses buffers para glifos e ponteiros
-do painel. Novas variáveis ou chamadas aninhadas precisam respeitar a
-separação entre buffers, estado persistente e pilha.
+O painel reutiliza os buffers: cinco glifos variáveis de nove bytes,
+inventário em `$D0..$E1`, temporário `$E2` e cores `$E3..$E6`. A bala estática
+é lida da ROM. Não altera os estados persistentes a partir de `$EC`.
 
-O quadro é composto por **3 scanlines de VSYNC + 37 de VBLANK + 160 de
-cenário + 32 de painel + 30 de overscan = 262 scanlines**. Os temporizadores
-usam `TIM64T=43` no preparo do cenário, `9` no preparo do painel e `35` no
-overscan. O painel tem oito linhas de preparo, cinco linhas de glifos
-repetidas quatro vezes e quatro linhas de rodapé. A sequência de escritas
-no TIA é sensível a ciclos; mudar o kernel exige conferir novamente a
-posição dos objetos, o playfield e o número de linhas do quadro.
+O quadro usa **3 VSYNC + 37 VBLANK + 160 cenário + 32 painel + 30 overscan
+= 262 scanlines**. `TIM64T` usa43 no preparo do cenário,13 no painel e35 no
+overscan. O painel reserva12linhas de preparo,18de glifos e2de rodapé.
+A velocidade da caminhada não altera a frequência do vídeo, dos tiros ou
+da música.
 
-## Arquivos e verificação
+## Fontes e validação
 
 | Arquivo | Responsabilidade |
 | --- | --- |
-| `main.asm` | Kernel, jogador, tiro, colisão, transições e música |
-| `include/world.h` | Coletas, persistência e puzzles |
-| `include/hud_kernel.h` | Câmera, preparação e desenho do painel |
-| `include/sound_effects.h` | Efeitos e prioridade entre tiro e ação |
-| `include/hardware.h` | Registradores TIA/RIOT |
-| `scripts/rooms.py` | Nove mapas, conexões, objetos e dados de cada banco |
-| `scripts/hud.py` | Fonte e ícones codificados para o playfield |
-| `scripts/lab.py` | Montagem F4, validação estrutural e lançamento do Stella |
-| `scripts/check_playfield.py` | Verificações executando instruções da ROM no py65 |
-
-Os testes usam uma dependência instalada apenas nesta pasta:
+| `scripts/world.py` | Planta, IDs, conexões, escadas, itens, chaves e portas |
+| `scripts/mansion.py` | Arte, paletas e volumes estáticos |
+| `scripts/rooms.py` | Empacotamento de templates e metadados |
+| `main.asm` | Kernel, personagem, movimento, tiro, navegação e trilha |
+| `include/world.h` | Coletas, abertura de portas e puzzles |
+| `include/collision.h` | Colisão de caixas com volumes e portas |
+| `include/hud_kernel.h` | Câmera e entrada no painel |
+| `hud.asm` | Kernel do painel no banco7 |
+| `scripts/hud.py` | Glifos, inventários coloridos e coroa |
+| `include/hud_bank_switch.h` | Trocas entre cenário e painel |
+| `include/sound_effects.h` | Efeitos e prioridade do áudio |
+| `scripts/lab.py` | Montagem e verificações estruturais da ROM |
+| `scripts/check_playfield.py` | Regressões executando a ROM no py65 |
 
 ```sh
 python3 -m pip install --target .tools/python py65==1.2.0
 make test
 ```
 
-O modelo py65 permite verificar lógica, RAM, bancos e ciclos das instruções,
-mas não reproduz integralmente os pixels e o comportamento do TIA/RIOT.
-A verificação no Stella complementa os testes com navegação, coletas,
-cores, recorte dos objetos e estabilidade do painel. Não houve teste em
-Atari físico.
+Os arquivos de `build/` são gerados, incluindo `bank0/` até `bank7/`,
+`bank-map.inc`, `hud.inc`, `hud_link.inc`, listagens e símbolos. Não devem
+ser editados manualmente. `.tools/` guarda dependências e configurações
+locais; não integra o cartucho.
 
-`make test` passou com um percurso de 1.024 passos pelas nove salas,
-coletas e puzzles, 54 quadros de renderização e dois loops completos da
-música. As regressões conferem as janelas de escrita do PF, inclusive a
-primeira scanline das paredes. Capturas nativas em
-`build/screenshots/mansion/` confirmaram as portas completas nos dois lados,
-suas aberturas, coleta da chave e da arma e consumo de munição. A visão
-das nove salas está em `build/screenshots/mansion/planta-mansao.png`.
+O py65 confere instruções, RAM, bancos, lógica e ciclos, mas não reproduz
+integralmente o TIA/RIOT. As capturas nativas do Stella complementam a
+validação de pixels, cores, portas e estabilidade. Não houve teste em
+Atari físico. As capturas desta versão ficam em
+`build/screenshots/mansion15/`.
 
-Edite cenários, conexões e glifos dos objetos em `scripts/rooms.py`, poses
-em `PlayerGraphics`, regras de coleta em `include/world.h` e ícones do
-painel em `scripts/hud.py`. Mantenha passagens recíprocas, rotas acessíveis
-ao corpo inteiro e espaço livre nas posições dos objetos.
+Validação desta versão: `make test` passou com um percurso físico de
+2.816 passos até a fuga; o grafo de 230 estados de progressão não contém
+becos sem saída. Foram conferidas 29.900 posições livres sem ilhas, 5.430
+caixas de colisão, 7.916 diagonais, 28 passagens incluindo quatro travessias
+de escadas, 9.600 colisões de tiros e 6.464 combinações do painel. Os 90
+quadros de salas/câmeras, 512 quadros de movimento e dois loops completos
+da trilha preservaram 262 scanlines. Os maiores custos medidos foram
+1.813 ciclos no preparo do cenário e 1.632 no overscan, dentro dos budgets.
+
+No Stella, 45 estados foram capturados e as três imagens finais de cada
+estado foram idênticas: todas as salas nas câmeras0/8, inventário nas três
+cores, vitória e portas abertas/fechadas, inclusive verticais. As posições
+das portas coincidiram com seus retângulos físicos. Foram comparadas
+189.168 amostras do playfield e 61.440 pixels do painel com os desenhos,
+cores e posições esperados, sem diferenças.
+
+`mansao-15-salas.png` reúne os ambientes completos combinando duas posições
+de rolagem; o jogo exibe uma janela por vez. `inventario-chaves.png` mostra
+arma, chaves, posse simultânea e vitória.
 
 Referências: [manual original da Atari](https://www.atariage.com/2600/programming/2600_101/docs/stella.html)
 e [manual do Stella](https://stella-emu.github.io/docs/index.html).

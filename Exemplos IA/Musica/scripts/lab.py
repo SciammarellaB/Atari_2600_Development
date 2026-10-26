@@ -8,6 +8,7 @@ import subprocess
 import sys
 
 from graphics import generate
+from heartache import generate as generate_heartache
 
 ROOT = Path(__file__).resolve().parents[1]
 OUTPUT = ROOT / "build"
@@ -28,6 +29,7 @@ def executable(variable, name):
 def build():
     OUTPUT.mkdir(exist_ok=True)
     generate(OUTPUT / "menu.inc")
+    generate_heartache(OUTPUT / "heartache.inc")
     rom = OUTPUT / "main.bin"
     subprocess.run([
         executable("DASM", "dasm"), str(ROOT / "main.asm"), "-f3",

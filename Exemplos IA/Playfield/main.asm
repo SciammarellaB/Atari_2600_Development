@@ -1,10 +1,10 @@
-; Mansao de nove salas com trilha Tensao. DASM / F4 32K / NTSC.
+; Mansao de quinze salas em tres andares. DASM / F4 32K / NTSC.
         processor 6502
         include "hardware.h"
         include "sound_effects.h"
-        include "hud.inc"
         include "hud_kernel.h"
         include "world.h"
+        include "collision.h"
 
 Room          = $80
 RowStart      = $81
@@ -14,7 +14,7 @@ ResetReady    = $84
 GateMask      = $85       ; porta da sala: 2 fechada, 0 aberta
 PlayerX       = $86       ; pixels TIA, 0..152; passo de dois pixels
 PlayerY       = $87       ; linhas logicas, 0..44; quatro scanlines por linha
-StepClock     = $88       ; movimento a cada dois quadros (30 Hz)
+StepClock     = $88       ; fase fracionaria: carry agenda um passo, sem mudar o video
 Facing        = $89       ; 0 baixo, 1 cima, 2 esquerda, 3 direita
 WalkFrame     = $8A       ; 0 parado, 1/2 passos alternados
 AnimClock     = $8B       ; quatro movimentos bem-sucedidos por pose
@@ -31,7 +31,7 @@ CameraY       = $95       ; linhas logicas 0..8: janela vertical de 40 das 48
 ShotViewY     = $96       ; altura do tiro relativa a camera; $FF = corte no topo
 Health        = $97       ; 0..3 segmentos
 Ammo          = $98       ; BCD 00..99; decrementa somente ao disparar
-Weapon        = $99       ; bit 0 arma; bit 1 chave azul
+Weapon        = $99       ; bits: arma1, chave verde2, azul4, dourada8
 SpriteRows    = $9A       ; 40 linhas visiveis + sentinela
 SpriteTopRows = SpriteRows
 SpriteBottomRows = $C3   ; 41 bytes, ate $EB
@@ -39,9 +39,9 @@ MusicStep     = $EC
 MusicClock    = $ED
 SfxState      = $EE       ; pilha em $F3..$FF, separada dos buffers e estado do mundo
 
-PuzzleFlags   = $EF       ; bit 1 switch vermelho; bit 2 porta azul aberta
+PuzzleFlags   = $EF       ; vermelho1,verde2,azul4,suite8,saida16,vitoria128
 PickedLo      = $F0       ; objetos recolhidos nas salas 0..7
-PickedHi      = $F1       ; objeto da sala 8
+PickedHi      = $F1       ; objetos recolhidos nas salas 8..14
 ObjectGraphic = SpriteRows+40 ; sentinelas reutilizadas durante o desenho
 NextColor     = SpriteBottomRows+40
 ObjectMask    = $F2       ; $FF visivel, 0 recolhido; pilha em $F3..$FF
@@ -59,18 +59,15 @@ ScanCol       = $A1
 CollisionPtr  = $A2
 MoveExit      = $A4
 
-; Depois do cenario, os mesmos buffers guardam os 30 bytes do painel.
-HudLeft0      = SpriteRows
-HudLeft1      = SpriteRows+5
-HudLeft2      = SpriteRows+10
-HudRight0     = SpriteRows+15
-HudRight1     = SpriteRows+20
-HudRight2     = SpriteRows+25
-HudHealthPtr  = SpriteBottomRows
-HudTensPtr    = SpriteBottomRows+2
-HudOnesPtr    = SpriteBottomRows+4
-HudWeaponPtr  = SpriteBottomRows+6
-HudIndex      = SpriteBottomRows+8
+; Depois do cenario, o banco 7 reutiliza os buffers para sete glifos.
+HudHeart0     = SpriteRows
+HudHeart1     = SpriteRows+9
+HudHeart2     = SpriteRows+18
+HudAmmoIcon   = SpriteRows+27
+HudAmmoTens   = SpriteRows+36
+HudAmmoOnes   = SpriteRows+45
+HudInventoryRows = SpriteRows+54
+HudTemp       = $E2
 
 ; Intervalos antes da metade direita evitam sobrescrever o PF ainda visivel.
 ; Os atrasos dependem dos ciclos gastos em objetos no inicio da scanline.
@@ -119,7 +116,7 @@ NoiseEnvelope
         byte 2,2,1,0,0,0,0,0,0,0,0,0,0,0,0
         ENDM
 
-; Mesmo PF branco nas quatro scanlines; P0/M0 tem cor propria por linha.
+; Mesmo PF nas quatro scanlines; P0/M0 tem cor propria por linha.
         MAC DRAW_FIRST
         lda LeftPF0,x
         sta PF0
@@ -141,6 +138,7 @@ NoiseEnvelope
 Reset
         sei
         cld
+        bit $FFF4        ; Reset tambem pode iniciar no banco exclusivo do HUD
         ldx #$FF
         txs
         lda #0
@@ -159,8 +157,8 @@ ClearMemory
         sta COLUP0       ; cor do missil M0; P0 continua disponivel
         lda #$9C
         sta COLUP1       ; personagem azul/ciano, independente da porta
-        lda #$20
-        sta NUSIZ0       ; M0 com quatro pixels
+        lda #$30
+        sta NUSIZ0       ; M0 com oito pixels
         lda #$10
         sta NUSIZ1       ; M1 com dois pixels, P1 sem copias
         lda #1
@@ -184,6 +182,19 @@ Frame
         jsr UpdateGame
         jsr UpdateCamera
         jsr BuildSpriteRows
+        ldx Room
+        lda RoomPFColors,x
+        bit PuzzleFlags
+        bpl SceneColorReady
+        lda #$1E         ; a saida concluida deixa a mansao dourada
+SceneColorReady
+        sta COLUPF
+        lda RowStart
+        clc
+        adc CameraY
+        tax
+        lda FloorColors,x
+        sta COLUBK
         ldx Room
         lda GateCoordinates,x
         jsr PositionGate
@@ -260,6 +271,8 @@ DrawLine
         and GateMask
         sta NextGate
         sta WSYNC
+        lda FloorColors,x
+        sta COLUBK        ; faixas do piso, antes dos pixels da segunda scanline
         DRAW_PF
         lda #0
         cpy ShotViewY
@@ -302,6 +315,12 @@ EndVisible
         sta GRP1
         sta GRP0
         sta ENAM1
+        lda #$30
+        sta NUSIZ0
+        lda #$10
+        sta NUSIZ1
+        lda #$9C
+        sta COLUP1
         lda #35
         sta TIM64T
         jsr UpdateShot
@@ -317,7 +336,7 @@ WaitOverscan
         jmp Frame
 
 InitGame
-        lda #1
+        lda #START_ROOM
         sta Room
         lda #0
         sta StepClock
@@ -382,6 +401,10 @@ DoReset
 ResetReleased
         lda #1
         sta ResetReady
+        bit PuzzleFlags
+        bpl CheckSelect
+        rts              ; depois da fuga, somente Reset reinicia a partida
+CheckSelect
         lda SWCHB
         and #2
         bne SelectReleased
@@ -403,9 +426,6 @@ PreviewReady
 SelectReleased
         lda #1
         sta SelectReady
-        lda StepClock
-        eor #1
-        sta StepClock
         lda SWCHA
         eor #$FF
         and #$F0
@@ -450,8 +470,25 @@ SetFacing
         sta Facing
         jsr StopWalking
 FacingReady
-        lda StepClock
-        beq MovementDue
+        ; Ritmo de exploracao: 77/256 passos por quadro nos eixos;
+        ; 54/256 na diagonal aproxima 77/sqrt(2), sem correr pelos cantos.
+        ; A fase persiste ao trocar direcao ou soltar, evitando acelerar
+        ; por toques. Colisao e animacao continuam sendo avaliadas por passo.
+        lda InputBits
+        and #$C0
+        beq CardinalPace
+        lda InputBits
+        and #$30
+        beq CardinalPace
+        lda #54
+        bne AdvancePace
+CardinalPace
+        lda #77
+AdvancePace
+        clc
+        adc StepClock
+        sta StepClock
+        bcs MovementDue
         rts
 MovementDue
         lda #0
@@ -547,6 +584,8 @@ GameDone
 ExitToLeft
         ldx Room
         lda ExitLeft,x
+        cmp #$FE
+        beq EscapeMansion
         cmp #$FF
         beq GameDone
         sta Room
@@ -554,6 +593,19 @@ ExitToLeft
         sta CandX
         jsr LoadRoom
         jmp CommitMove
+EscapeMansion
+        lda PuzzleFlags
+        and #16
+        beq GameDone
+        lda PuzzleFlags
+        ora #128
+        sta PuzzleFlags
+        lda #128
+        sta ShotY
+        lda #0
+        sta AttackTimer
+        jsr PlayActionSound
+        jmp StopWalking
 ExitToRight
         ldx Room
         lda ExitRight,x
@@ -614,12 +666,9 @@ CountStep
 AnimationDone
         rts
 
-; C=1 bloqueado; C=0 livre. Verificar todas as celulas do retangulo 8x16,
-; inclusive as linhas do meio: testar apenas os cantos deixaria atravessar
-; paredes horizontais finas. Objetos de P0 nao participam do PF solido.
+; A caixa do corpo inteiro e testada contra footprints solidos, sem consultar
+; os pixels decorativos do playfield. Todos os limites de celula sao inclusivos.
 CanStand
-        lda #0
-        sta CollisionPtr
         lda CandX
         cmp #153
         bcs StandBlocked
@@ -637,60 +686,22 @@ CanStand
         bcs StandBlocked
         sta ScanRow
         clc
-        adc #4
+        adc #3
         sta BottomRow
-SolidRow
-        lda LeftCol
-        sta ScanCol
-SolidPoint
-        jsr IsWall
-        bcs StandBlocked
-        lda ScanCol
-        cmp RightCol
-        beq NextSolidRow
-        inc ScanCol
-        jmp SolidPoint
-NextSolidRow
-        inc ScanRow
-        lda ScanRow
-        cmp BottomRow
-        bne SolidRow
-        clc
-        rts
+        jmp CollisionBox
 StandBlocked
         sec
         rts
 
+; Ponto usado pelo projetil. ScanCol e ScanRow sao preservados para a segunda
+; linha logica tocada pela bala, enquanto o mesmo teste de caixas e reutilizado.
 IsWall
-        ldx ScanCol
-        lda GateMask
-        beq ReadMap
+        lda ScanCol
+        sta LeftCol
+        sta RightCol
         lda ScanRow
-        cmp #20
-        bcc ReadMap
-        cmp #28
-        bcs ReadMap
-        ldy Room
-        txa
-        cmp GateColumns,y
-        beq PointBlocked
-
-ReadMap
-        lda CollisionPages,x
-        sta CollisionPtr+1
-        lda RowStart
-        clc
-        adc ScanRow
-        tay
-        lda (CollisionPtr),y
-        and CollisionMasks,x
-        beq PointClear
-PointBlocked
-        sec
-        rts
-PointClear
-        clc
-        rts
+        sta BottomRow
+        jmp CollisionBox
 
 ; Limpeza completa no overscan, depois que UpdateShot termina de usar o
 ; scratch. Assim a colisao mais cara, com a porta fechada, cabe no VBLANK.
@@ -882,6 +893,10 @@ MusicDone
 ; Uma bala por vez. Segurar Fire repete depois que a bala termina e o
 ; recuo acaba. Executado no overscan, antes de montar os buffers seguintes.
 UpdateShot
+        bit PuzzleFlags
+        bpl ActiveShots
+        rts
+ActiveShots
         lda AttackTimer
         beq AttackCounted
         dec AttackTimer
@@ -966,24 +981,24 @@ ShotDone
         rts
 
 ; M1 comeca na quarta scanline de ShotY e ocupa quatro scanlines; testar
-; as duas linhas logicas tocadas. X e par: os dois pixels cabem numa coluna.
+; as duas linhas logicas tocadas em uma unica caixa, poupando uma varredura
+; de moveis. X e par: os dois pixels cabem numa coluna.
 ShotBlocked
         lda ShotX
         cmp #159
         bcs BulletBlocked
         lsr
         lsr
-        sta ScanCol
+        sta LeftCol
+        sta RightCol
         lda ShotY
         cmp #47
         bcs BulletBlocked
         sta ScanRow
-        lda #0
-        sta CollisionPtr
-        jsr IsWall
-        bcs BulletBlocked
-        inc ScanRow
-        jmp IsWall
+        clc
+        adc #1
+        sta BottomRow
+        jmp CollisionBox
 BulletBlocked
         sec
         rts
@@ -1185,8 +1200,12 @@ TensionBass
         byte 11,$FF,11,$80,11,$FF,11,$80,9,$FF,9,$80,9,$FF,9,$80
         byte 7,$FF,7,$80,9,$FF,9,$80,7,$FF,9,$80,7,$FF,$FF,$FF
 MusicDataEnd
-        if MusicDataEnd > $FFF4
+        if MusicDataEnd > $FFD0
         err             ; preservar os hotspots F4 e os vetores
         endif
+        org $FFD0
+        include "bank-map.inc"
+        org $FFE0
+        include "hud_bank_switch.h"
         org $FFFA
         word Reset,Reset,Reset

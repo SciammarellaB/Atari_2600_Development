@@ -1,6 +1,10 @@
-; Coletas e puzzles persistem ate Reset. Macros ocupam as folgas dos mapas.
+; Estado de quinze salas: coletas, chaves, switches e saida final.
         MAC WORLD_COLLECT
 UpdateWorld
+        bit PuzzleFlags
+        bpl WorldActive
+        rts
+WorldActive
         lda PlayerX
         clc
         adc #4
@@ -40,26 +44,22 @@ CollectedObject
         lda ObjectTypes,x
         jmp ApplyObject
 WorldDone
-        jmp CheckBlueDoor
+        jmp CheckDoor
         ENDM
 
         MAC WORLD_EFFECTS
 ApplyObject
-        cmp #1
-        beq CollectWeapon
         cmp #2
         beq CollectAmmo
         cmp #3
         beq CollectHealth
         cmp #4
         beq CollectSwitch
-        lda Weapon
-        ora #2
-        sta Weapon
-        jmp WorldAction
-CollectWeapon
-        lda Weapon
-        ora #1
+        cmp #8
+        beq CollectSuiteSwitch
+        tax
+        lda ItemWeaponBits,x
+        ora Weapon
         sta Weapon
         jmp WorldAction
 CollectAmmo
@@ -78,10 +78,16 @@ CollectHealth
         sta Health
         jmp WorldAction
 CollectSwitch
-        lda PuzzleFlags
-        ora #2
+        lda #1
+        bne StoreSwitch
+CollectSuiteSwitch
+        lda #8
+StoreSwitch
+        ora PuzzleFlags
         sta PuzzleFlags
         jmp WorldAction
+ItemWeaponBits
+        byte 0,1,0,0,0,2,4,8,0
         ENDM
 
         MAC WORLD_PREPARE
@@ -99,16 +105,6 @@ StoreWorldGate
         sta GateMask
         lda #$FF
         sta ObjectMask
-        lda ObjectTypes,x
-        cmp #4
-        bne PreparePickup
-        lda PuzzleFlags
-        and #2
-        beq ColorWorldObject
-        lda #$81
-        sta ObjectMask
-        bne ColorWorldObject
-PreparePickup
         lda RoomPickMasks,x
         sta InputBits
         lda PickedLo
@@ -117,48 +113,76 @@ PreparePickup
         lda PickedHi
 WorldPickupByte
         and InputBits
-        beq ColorWorldObject
+        beq WorldPrepared
+        lda ObjectTypes,x
+        cmp #4
+        beq UsedSwitch
+        cmp #8
+        beq UsedSwitch
         lda #0
+        beq StoreObjectMask
+UsedSwitch
+        lda #$81
+StoreObjectMask
         sta ObjectMask
-ColorWorldObject
+WorldPrepared
         rts
         ENDM
 
         MAC WORLD_SWITCH
-CheckBlueDoor
+CheckDoor
         lda GateMask
-        beq WorldPrepared
-        lda Weapon
-        and #2
-        beq WorldPrepared
+        beq WorldPrepare
         ldx Room
-        lda GateBits,x
-        cmp #4
-        bne WorldPrepared
+        lda GateKeys,x
+        and Weapon
+        beq WorldPrepare
+        lda GateDirections,x
+        cmp #2
+        bcs CheckVerticalDoor
         lda PlayerY
         cmp #17
-        bcc WorldPrepared
+        bcc WorldPrepare
         cmp #28
-        bcs WorldPrepared
-        lda GateColumns,x
-        beq BlueDoorLeft
+        bcs WorldPrepare
+        lda GateDirections,x
+        beq DoorLeft
         lda PlayerX
-        cmp #144
-        bcc WorldPrepared
-        bcs UnlockBlueDoor
-BlueDoorLeft
+        cmp #140
+        bcc WorldPrepare
+        bcs UnlockDoor
+DoorLeft
         lda PlayerX
-        cmp #8
-        bcs WorldPrepared
-UnlockBlueDoor
-        lda PuzzleFlags
-        ora #4
+        cmp #9
+        bcs WorldPrepare
+        bcc UnlockDoor
+CheckVerticalDoor
+        lda PlayerX
+        cmp #64
+        bcc WorldPrepare
+        cmp #85
+        bcs WorldPrepare
+        lda GateDirections,x
+        cmp #2
+        bne DoorDown
+        lda PlayerY
+        cmp #3
+        bcs WorldPrepare
+        bcc UnlockDoor
+DoorDown
+        lda PlayerY
+        cmp #41
+        bcc WorldPrepare
+UnlockDoor
+        lda GateBits,x
+        ora PuzzleFlags
         sta PuzzleFlags
-        lda Weapon
-        and #$FD
+        lda GateKeys,x
+        eor #$FF
+        and Weapon
         sta Weapon
         jmp WorldAction
-WorldPrepared
+WorldPrepare
         jmp PrepareWorld
         ENDM
 
@@ -167,5 +191,5 @@ WorldAction
         jsr PlayActionSound
         jmp PrepareWorld
 RoomPickMasks
-        byte 1,2,4,8,16,32,64,128,1
+        byte 1,2,4,8,16,32,64,128,1,2,4,8,16,32,64
         ENDM

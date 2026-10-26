@@ -1,125 +1,134 @@
-"""Gera as tabelas compactas do HUD para o playfield assimetrico.
+"""Gera os glifos de nove linhas do painel desenhado com P0/P1.
 
-Os desenhos abaixo usam bits em ordem visual, da esquerda para a direita.
-``hud_data`` converte cada linha para a ordem eletrica real de PF0/PF1/PF2,
-de modo que o Assembly apenas leia bytes prontos para escrever no TIA.
+Corações e dígitos repetem cada linha em duas scanlines; o inventário usa
+as 18 scanlines individualmente. Os bits seguem a ordem visual dos
+sprites do TIA: bit 7 à esquerda e bit 0 à direita. Os dígitos ocupam seis
+pixels e têm versões alinhadas para cada lado do par de sprites.
 """
 
 from pathlib import Path
 
 
-HUD_ROWS = 5
+HUD_ROWS = 9
+HUD_INVENTORY_ROWS = 18
 
-# Fonte 3x5 dos digitos, em ordem visual. Cada inteiro representa uma linha.
+# Fonte 6x9: cada inteiro representa uma linha, da esquerda para a direita.
 DIGIT_GLYPHS = (
-    (0b111, 0b101, 0b101, 0b101, 0b111),  # 0
-    (0b010, 0b110, 0b010, 0b010, 0b111),  # 1
-    (0b111, 0b001, 0b111, 0b100, 0b111),  # 2
-    (0b111, 0b001, 0b111, 0b001, 0b111),  # 3
-    (0b101, 0b101, 0b111, 0b001, 0b001),  # 4
-    (0b111, 0b100, 0b111, 0b001, 0b111),  # 5
-    (0b111, 0b100, 0b111, 0b101, 0b111),  # 6
-    (0b111, 0b001, 0b010, 0b010, 0b010),  # 7
-    (0b111, 0b101, 0b111, 0b101, 0b111),  # 8
-    (0b111, 0b101, 0b111, 0b001, 0b111),  # 9
+    (0b011110, 0b110011, 0b110011, 0b110111, 0b111011,
+     0b110011, 0b110011, 0b110011, 0b011110),  # 0
+    (0b001100, 0b011100, 0b001100, 0b001100, 0b001100,
+     0b001100, 0b001100, 0b001100, 0b111111),  # 1
+    (0b011110, 0b110011, 0b000011, 0b000011, 0b000110,
+     0b001100, 0b011000, 0b110000, 0b111111),  # 2
+    (0b011110, 0b110011, 0b000011, 0b000110, 0b001110,
+     0b000011, 0b000011, 0b110011, 0b011110),  # 3
+    (0b000110, 0b001110, 0b011110, 0b110110, 0b110110,
+     0b111111, 0b000110, 0b000110, 0b000110),  # 4
+    (0b111111, 0b110000, 0b110000, 0b111110, 0b000011,
+     0b000011, 0b000011, 0b110011, 0b011110),  # 5
+    (0b001110, 0b011000, 0b110000, 0b110000, 0b111110,
+     0b110011, 0b110011, 0b110011, 0b011110),  # 6
+    (0b111111, 0b000011, 0b000110, 0b000110, 0b001100,
+     0b001100, 0b011000, 0b011000, 0b011000),  # 7
+    (0b011110, 0b110011, 0b110011, 0b110011, 0b011110,
+     0b110011, 0b110011, 0b110011, 0b011110),  # 8
+    (0b011110, 0b110011, 0b110011, 0b110011, 0b011111,
+     0b000011, 0b000011, 0b000110, 0b011100),  # 9
 )
 
-HEART_GLYPH = (0b101, 0b111, 0b111, 0b111, 0b010)
-BULLET_GLYPH = (0b01, 0b11, 0b11, 0b11, 0b01)
-WEAPON_GLYPH = (0b00000, 0b01111, 0b11110, 0b00100, 0b00100)
+HEART_EMPTY_GLYPH = (
+    0b01100110,
+    0b10011001,
+    0b10000001,
+    0b10000001,
+    0b01000010,
+    0b01000010,
+    0b00100100,
+    0b00011000,
+    0b00011000,
+)
+HEART_FULL_GLYPH = (
+    0b01100110,
+    0b11111111,
+    0b11111111,
+    0b11111111,
+    0b01111110,
+    0b01111110,
+    0b00111100,
+    0b00011000,
+    0b00011000,
+)
+BULLET_GLYPH = (
+    0b010, 0b111, 0b101, 0b101, 0b101, 0b101, 0b111, 0b111, 0b000,
+)
+TIMES_GLYPH = (
+    0b000, 0b000, 0b000, 0b101, 0b010, 0b101, 0b000, 0b000, 0b000,
+)
+# O inventario usa as 18 scanlines individualmente: arma com seis linhas e
+# tres chaves com quatro linhas cada, em posicoes e cores independentes.
+WEAPON_GLYPH = (0b11111111, 0b11111111, 0b11111110,
+                0b11111110, 0b00111000, 0b01110000)
+KEY_GLYPH = (0b01100000, 0b10011111, 0b01100101, 0b00000101)
+CROWN_GLYPH = (0b10011001, 0b11011011, 0b11111111,
+               0b01111110, 0b01111110, 0b01111110)
 
 
-def _visual_bits(value, width):
-    if not 0 <= value < 1 << width:
-        raise ValueError(f"Linha {value!r} nao cabe em {width} bits")
-    return [(value >> (width - 1 - column)) & 1 for column in range(width)]
-
-
-def encode_pf(register, start_column, value, width):
-    """Codifica um fragmento visual nas posicoes reais do registrador PF."""
-    if register not in (0, 1, 2):
-        raise ValueError("Registrador PF deve ser 0, 1 ou 2")
-    half_column = start_column % 20
-    limits = ((0, 4), (4, 12), (12, 20))[register]
-    if not limits[0] <= half_column or half_column + width > limits[1]:
-        raise ValueError("Glifo cruza o limite do registrador PF")
-    result = 0
-    for column, bit in enumerate(_visual_bits(value, width), half_column):
-        if not bit:
-            continue
-        if register == 0:
-            result |= 1 << (4 + column)
-        elif register == 1:
-            result |= 1 << (7 - (column - 4))
-        else:
-            result |= 1 << (column - 12)
-    return result
-
-
-def _encode_glyph(glyph, width, start_column, register):
-    if len(glyph) != HUD_ROWS:
-        raise ValueError(f"Glifo deve ter {HUD_ROWS} linhas")
-    return [encode_pf(register, start_column, row, width) for row in glyph]
+def _validate_glyph(glyph, width, rows=HUD_ROWS):
+    if len(glyph) != rows:
+        raise ValueError(f"Glifo deve ter {rows} linhas")
+    if any(not 0 <= row < 1 << width for row in glyph):
+        raise ValueError(f"Glifo deve conter linhas de {width} bits")
 
 
 def hud_data():
-    """Retorna as tabelas finais, prontas para PF0/PF1/PF2."""
-    tens = [value for glyph in DIGIT_GLYPHS
-            for value in _encode_glyph(glyph, 3, 20, 0)]
-    ones = [value for glyph in DIGIT_GLYPHS
-            for value in _encode_glyph(glyph, 3, 24, 1)]
-    heart = _encode_glyph(HEART_GLYPH, 3, 0, 0)
-    bullet = _encode_glyph(BULLET_GLYPH, 2, 15, 2)
+    """Retorna os bytes dos sprites; índice zero dos dígitos fica em branco.
 
-    health = []
-    for segments in range(4):
-        row = 0
-        for start in (4, 7, 10)[:segments]:
-            row |= encode_pf(1, start, 0b11, 2)
-        health.extend((0, row, row, row, 0))
+    Os offsets de cada dígito são ``(digito + 1) * HUD_ROWS``. Dezenas usam
+    bits 5..0; unidades usam os mesmos desenhos deslocados para bits 7..2.
+    Corações têm contorno/cheio. Inventário usa arma=1, verde=2, azul=4, ouro=8.
+    Suas 18 linhas usam uma scanline por linha, sem alternar os objetos.
+    """
+    for glyph in DIGIT_GLYPHS:
+        _validate_glyph(glyph, 6)
+    for glyph in (HEART_EMPTY_GLYPH, HEART_FULL_GLYPH):
+        _validate_glyph(glyph, 8)
+    _validate_glyph(WEAPON_GLYPH, 8, 6)
+    _validate_glyph(KEY_GLYPH, 8, 4)
+    _validate_glyph(CROWN_GLYPH, 8, 6)
+    for glyph in (BULLET_GLYPH, TIMES_GLYPH):
+        _validate_glyph(glyph, 3)
 
-    weapon = []
-    key = (0b11, 0b11, 0b01, 0b01, 0b01)
-    for inventory in range(4):
-        gun_rows = (_encode_glyph(WEAPON_GLYPH, 5, 34, 2)
-                    if inventory & 1 else [0] * HUD_ROWS)
-        key_rows = (_encode_glyph(key, 2, 32, 2)
-                    if inventory & 2 else [0] * HUD_ROWS)
-        weapon.extend(gun | carried for gun, carried in zip(gun_rows, key_rows))
+    digits = [0] * HUD_ROWS + [row for glyph in DIGIT_GLYPHS for row in glyph]
+    inventory = [row for state in range(16)
+                 for row in ((list(WEAPON_GLYPH) if state & 1 else [0] * 6) +
+                             [row for bit in (2, 4, 8)
+                              for row in (KEY_GLYPH if state & bit else [0] * 4)])]
     data = {
-        "HudTens": tens,
-        "HudOnes": ones,
-        "HudHeart": heart,
-        "HudBullet": bullet,
-        "HudHealth": health,
-        "HudWeapon": weapon,
+        "HudHearts": list(HEART_EMPTY_GLYPH + HEART_FULL_GLYPH),
+        "HudDigitsTens": digits,
+        "HudDigitsOnes": [row << 2 for row in digits],
+        "HudBulletTimes": [(bullet << 5) | times
+                           for bullet, times in zip(BULLET_GLYPH, TIMES_GLYPH)],
+        "HudInventoryLow": inventory[:8 * HUD_INVENTORY_ROWS],
+        "HudInventoryHigh": inventory[8 * HUD_INVENTORY_ROWS:],
+        "HudVictory": list(CROWN_GLYPH) + [0] * 12,
     }
     expected = {
-        "HudTens": 50, "HudOnes": 50, "HudHeart": 5,
-        "HudBullet": 5, "HudHealth": 20, "HudWeapon": 20,
+        "HudHearts": 18, "HudDigitsTens": 99, "HudDigitsOnes": 99,
+        "HudBulletTimes": 9, "HudInventoryLow": 144,
+        "HudInventoryHigh": 144, "HudVictory": 18,
     }
     if {name: len(values) for name, values in data.items()} != expected:
         raise AssertionError("Tamanho inesperado nas tabelas do HUD")
     return data
 
 
-def _emit_table(lines, name, values):
-    lines.append(name)
-    for offset in range(0, len(values), 10):
-        chunk = values[offset:offset + 10]
-        lines.append("        byte " + ",".join(f"${value:02X}" for value in chunk))
-
-
 def generate(destination):
-    """Escreve ``hud.inc`` com as duas macros DASM do HUD."""
-    data = hud_data()
-    lines = ["; Gerado por scripts/hud.py; nao editar.", "        MAC HUD_DIGITS"]
-    for name in ("HudTens", "HudOnes"):
-        _emit_table(lines, name, data[name])
-    lines.append("        ENDM")
-    lines.append("        MAC HUD_STATUS")
-    for name in ("HudHeart", "HudBullet", "HudHealth", "HudWeapon"):
-        _emit_table(lines, name, data[name])
-    lines.append("        ENDM")
+    """Escreve tabelas DASM diretas, cada uma alinhada em uma página."""
+    lines = ["; Gerado por scripts/hud.py; nao editar."]
+    for name, values in hud_data().items():
+        lines.extend(("        align 256", name))
+        for offset in range(0, len(values), HUD_ROWS):
+            chunk = values[offset:offset + HUD_ROWS]
+            lines.append("        byte " + ",".join(f"%{value:08b}" for value in chunk))
     Path(destination).write_text("\n".join(lines) + "\n")
-

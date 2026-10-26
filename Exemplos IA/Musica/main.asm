@@ -1,9 +1,9 @@
-; Laboratorio de musica: escala, tensao em duas vozes e silencio.
+; Laboratorio de musica: escala, tensao, Heartache/Toriel e silencio.
 ; DASM / 6507 / cartucho 4K / NTSC, 262 linhas por quadro.
         processor 6502
         include "hardware.h"
 
-Track       = $80       ; 0 = silencio; 1 = escala; 2 = tensao (inicial).
+Track       = $80       ; 0 silencio; 1 escala; 2 tensao; 3 Heartache (inicial).
 SelectReady = $81
 ResetReady  = $82
 MusicStep   = $83       ; indice na trilha selecionada
@@ -11,6 +11,12 @@ MusicClock  = $84       ; quadros decorridos no passo atual
 InputBits   = $85
 FireReady   = $86
 JoyReady    = $87       ; uma mudanca por pressao; soltar para navegar de novo
+HeartBar    = $88       ; compasso 0..71 da reducao de Heartache
+HeartPhase  = $89       ; fracao de quadro acumulada, para manter o andamento
+HeartLength = $8A       ; passo atual de sete ou oito quadros
+HeartAge0   = $8B       ; 0..15 envelope; $FF = voz silenciosa
+HeartAge1   = $8C
+HeartPtr    = $8D       ; ponteiro de dois bytes para o motivo musical
 CursorRows  = $A0       ; 48 bytes ate $CF; longe da pilha no topo da RAM
 
         org $F000
@@ -31,7 +37,7 @@ ClearMemory
         sta COLUPF
         lda #$2E
         sta COLUP0
-        lda #2
+        lda #3
         sta Track
         lda #1
         sta SelectReady
@@ -64,7 +70,7 @@ CopyCursor
         dey
         dex
         bpl CopyCursor
-        lda #23         ; indicador a esquerda das tres linhas do menu
+        lda #23         ; indicador a esquerda das quatro linhas do menu
         jsr PositionCursor
         sta WSYNC
         sta HMOVE
@@ -128,11 +134,19 @@ RestartAudio
         lda #0
         sta MusicStep
         sta MusicClock
+        sta HeartBar
         sta AUDV0
         sta AUDV1
+        lda #$FF
+        sta HeartAge0
+        sta HeartAge1
+        lda #136
+        sta HeartPhase
+        lda #7
+        sta HeartLength
         rts
 
-; Cima/esquerda = anterior; baixo/direita/Select = proxima (1,2,0).
+; Cima/esquerda = anterior; baixo/direita/Select = proxima (1,2,3,0).
 ; Uma pressao por mudanca. Direcoes opostas sao ignoradas.
 ; Prioridade: Reset, Select, joystick, Fire. Botoes exigem nova pressao.
 UpdateMenu
@@ -145,7 +159,7 @@ UpdateMenu
 DoReset
         lda #0
         sta ResetReady
-        lda #2
+        lda #3
         sta Track
         jmp RestartAudio
 ResetReleased
@@ -179,7 +193,7 @@ SelectReleased
         bne CheckFire
         lda Track
         bne PreviousTrack
-        lda #3
+        lda #4
 PreviousTrack
         sec
         sbc #1
@@ -193,7 +207,7 @@ NextTrack
         lda Track
         clc
         adc #1
-        cmp #3
+        cmp #4
         bcc ApplyTrack
         lda #0
 ApplyTrack
@@ -221,6 +235,10 @@ MenuDone
 ; Do4 Re4 Mi4 Fa4 | Mi4 Re4 Do4 Sib3 | pausa. Cada nota tem release.
 UpdateMusic
         lda Track
+        cmp #3
+        bne CheckTension
+        jmp PlayHeartache
+CheckTension
         cmp #2
         bne CheckScale
         jmp PlayTension
@@ -319,6 +337,107 @@ BassVolume
 TensionDone
         rts
 
+; Heartache (Toby Fox), reducao em duas vozes da sequencia MIDI de Revle.
+; Motivos de 12 passos reutilizados por 72 compassos; ordem completa da faixa.
+; 7 + 136/256 quadros por passo: 6507 quadros, cerca de 108,45 segundos.
+PlayHeartache
+        ldx HeartBar
+        lda HeartLeadOrder,x
+        tay
+        lda HeartLeadLo,y
+        sta HeartPtr
+        lda HeartLeadHi,y
+        sta HeartPtr+1
+        ldy MusicStep
+        lda (HeartPtr),y
+        ldx #0
+        jsr HeartVoice
+        ldx HeartBar
+        lda HeartBassOrder,x
+        tay
+        lda HeartBassLo,y
+        sta HeartPtr
+        lda HeartBassHi,y
+        sta HeartPtr+1
+        ldy MusicStep
+        lda (HeartPtr),y
+        ldx #1
+        jsr HeartVoice
+        inc MusicClock
+        lda MusicClock
+        cmp HeartLength
+        bcc HeartDone
+        lda #0
+        sta MusicClock
+        clc
+        lda HeartPhase
+        adc #HEART_FRACTION
+        sta HeartPhase
+        lda #7
+        adc #0          ; carry da fracao acrescenta um quadro quando preciso
+        sta HeartLength
+        inc MusicStep
+        lda MusicStep
+        cmp #HEART_STEPS
+        bcc HeartDone
+        lda #0
+        sta MusicStep
+        inc HeartBar
+        lda HeartBar
+        cmp #HEART_BARS
+        bcc HeartDone
+        lda #0
+        sta HeartBar
+HeartDone
+        rts
+
+; A = token, X = canal. $FE sustenta; $FF silencia; bit 5 escolhe AUDC12.
+; Decodificar apenas no primeiro quadro preserva o ataque e as notas longas.
+HeartVoice
+        tay
+        lda MusicClock
+        bne HeartLevel
+        tya
+        cmp #$FE
+        beq HeartLevel
+        cmp #$FF
+        beq HeartRest
+        and #31
+        sta AUDF0,x
+        tya
+        and #32
+        beq HeartSquare
+        lda #12
+        bne HeartControl
+HeartSquare
+        lda #4
+HeartControl
+        sta AUDC0,x
+        lda #0
+        sta HeartAge0,x
+        beq HeartLevel
+HeartRest
+        lda #$FF
+        sta HeartAge0,x
+HeartLevel
+        lda HeartAge0,x
+        bmi HeartMute
+        tay
+        lda HeartEnvelope,y
+        cpx #0
+        beq HeartVolume
+        lsr             ; acompanhamento mais baixo que a melodia
+HeartVolume
+        sta AUDV0,x
+        cpy #15
+        bcs HeartDone
+        inc HeartAge0,x
+        rts
+HeartMute
+        lda #0
+        sta AUDV0,x
+        rts
+
 PositionCursor
         sec
         sta WSYNC
@@ -335,7 +454,7 @@ Divide15
         rts
 
 CursorLastRow
-        byte 143,47,95 ; ultimo indice do cursor: mudo, escala, tensao
+        byte 191,47,95,143 ; mudo, escala, tensao, Heartache
 Melody
         byte 19,17,15,14,15,17,19,21,21
 Duration
@@ -364,6 +483,11 @@ BassEnvelope
 NoiseEnvelope
         byte 2,2,1,0,0,0,0,0,0,0,0,0,0,0,0
 
+        include "heartache.inc"
         include "menu.inc"
+MusicRomEnd
+        if MusicRomEnd > $FFFA
+        err             ; dados e graficos nao podem sobrescrever os vetores
+        endif
         org $FFFA
         word Reset,Reset,Reset

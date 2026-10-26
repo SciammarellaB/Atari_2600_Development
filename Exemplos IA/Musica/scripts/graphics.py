@@ -26,6 +26,7 @@ FONT = {
     "0": ("111", "101", "101", "101", "111"),
     "1": ("010", "110", "010", "010", "111"),
     "2": ("111", "001", "111", "100", "111"),
+    "3": ("111", "001", "111", "001", "111"),
 }
 
 
@@ -44,9 +45,10 @@ def layout():
             x += len(glyph[0]) + 1
 
     text("MUSICA", 3)
-    text("1 ESCALA", 13, x=7)
-    text("2 TENSAO", 24, x=7)
-    text("0 MUDO", 35, x=7)
+    text("1 ESCALA", 11, x=7)
+    text("2 TENSAO", 21, x=7)
+    text("3 TORIEL", 31, x=7)
+    text("0 MUDO", 41, x=7)
     return pixels
 
 
@@ -58,10 +60,10 @@ def generate(destination):
             data[f"{side}PF0"].append(sum(bits[i] << (4 + i) for i in range(4)))
             data[f"{side}PF1"].append(sum(bits[4 + i] << (7 - i) for i in range(8)))
             data[f"{side}PF2"].append(sum(bits[12 + i] << i for i in range(8)))
-    # Tres mascaras de 48 linhas; VBLANK copia a selecionada para RAM.
+    # Quatro mascaras de 48 linhas; VBLANK copia a selecionada para RAM.
     # Uma seta aponta para a linha que corresponde ao audio corrente.
     data["CursorMasks"] = []
-    for start in (13, 24, 35):
+    for start in (11, 21, 31, 41):
         data["CursorMasks"].extend(
             (0x80, 0xC0, 0xE0, 0xC0, 0x80)[y - start]
             if start <= y < start + 5 else 0 for y in range(48))
