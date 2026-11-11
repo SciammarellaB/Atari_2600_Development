@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1800" height="1410" viewBox="0 0 1800 1410">
+<rect width="100%" height="100%" fill="#f4f7fb"/>
+<text x="65" y="77" font-family="DejaVu Sans,sans-serif" font-size="42" font-weight="700" fill="#17283c">27C256 • substituir o 74LS04 por um transistor</text>
+<text x="65" y="127" font-family="DejaVu Sans,sans-serif" font-size="27" font-weight="400" fill="#17283c">P3, P4, P7 e P14 = antigos pontos do 74LS04, depois de retirar o CI.</text>
+<rect x="65" y="160" width="1670" height="695" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="95" y="203" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="400" fill="#52637a">ESQUEMA ELÉTRICO — as posições abaixo não representam os furos da placa.</text>
+<text x="105" y="268" font-family="DejaVu Sans,sans-serif" font-size="28" font-weight="700" fill="#b94136">P14: +5 V</text>
+<polyline points="315,260 1120,260 1120,295" fill="none" stroke="#b94136" stroke-width="5" stroke-linejoin="round"/>
+<circle cx="315" cy="260" r="7" fill="#b94136"/>
+<rect x="1098" y="295" width="44" height="70" fill="#fff4e9" stroke="#b94136" stroke-width="3"/>
+<text x="1180" y="325" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#b94136">R2</text>
+<text x="1180" y="362" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#b94136">1 kΩ</text>
+<polyline points="1120,365 1120,405" fill="none" stroke="#b94136" stroke-width="5" stroke-linejoin="round"/>
+<text x="105" y="463" font-family="DejaVu Sans,sans-serif" font-size="28" font-weight="700" fill="#17639b">P3: A12</text>
+<text x="105" y="501" font-family="DejaVu Sans,sans-serif" font-size="24" font-weight="400" fill="#17639b">do Atari</text>
+<polyline points="315,485 520,485 650,485" fill="none" stroke="#17639b" stroke-width="5" stroke-linejoin="round"/>
+<circle cx="315" cy="485" r="7" fill="#17639b"/>
+<rect x="650" y="462" width="155" height="46" fill="#eaf3fb" stroke="#17639b" stroke-width="3"/>
+<text x="660" y="441" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#17639b">R1: 3,3 kΩ</text>
+<polyline points="805,485 900,485 1040,485" fill="none" stroke="#17639b" stroke-width="5" stroke-linejoin="round"/>
+<polyline points="520,485 520,625 715,625" fill="none" stroke="#17639b" stroke-width="5" stroke-linejoin="round"/>
+<polyline points="735,625 900,625 900,485" fill="none" stroke="#17639b" stroke-width="5" stroke-linejoin="round"/>
+<polyline points="715,598 715,652" fill="none" stroke="#17639b" stroke-width="4" stroke-linejoin="round"/>
+<polyline points="735,598 735,652" fill="none" stroke="#17639b" stroke-width="4" stroke-linejoin="round"/>
+<text x="645" y="699" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#17639b">C2: 1 nF (102)</text>
+<circle cx="520" cy="485" r="7" fill="#17639b"/>
+<circle cx="900" cy="485" r="7" fill="#17639b"/>
+<polyline points="1040,440 1040,530" fill="none" stroke="#254761" stroke-width="5" stroke-linejoin="round"/>
+<polyline points="1040,455 1120,405" fill="none" stroke="#254761" stroke-width="5" stroke-linejoin="round"/>
+<polyline points="1040,515 1120,585 1120,755" fill="none" stroke="#254761" stroke-width="5" stroke-linejoin="round"/>
+<polygon points="1104,571 1080,562 1094,547" fill="#254761"/>
+<text x="990" y="465" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#17283c">B</text>
+<text x="1136" y="445" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#17283c">C</text>
+<text x="1136" y="595" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="700" fill="#17283c">E</text>
+<text x="1230" y="559" font-family="DejaVu Sans,sans-serif" font-size="29" font-weight="700" fill="#17283c">Q1: BC548B</text>
+<text x="1230" y="602" font-family="DejaVu Sans,sans-serif" font-size="27" font-weight="400" fill="#17283c">ou BC337</text>
+<text x="1230" y="653" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="400" fill="#17283c">B = base</text>
+<text x="1230" y="688" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="400" fill="#17283c">C = coletor</text>
+<text x="1230" y="723" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="400" fill="#17283c">E = emissor</text>
+<polyline points="1120,405 1390,405" fill="none" stroke="#254761" stroke-width="5" stroke-linejoin="round"/>
+<circle cx="1120" cy="405" r="7" fill="#254761"/>
+<rect x="1390" y="335" width="305" height="123" fill="#eaf3fb" stroke="#17639b" stroke-width="2"/>
+<text x="1410" y="380" font-family="DejaVu Sans,sans-serif" font-size="28" font-weight="700" fill="#17639b">P4 → pino 20</text>
+<text x="1410" y="423" font-family="DejaVu Sans,sans-serif" font-size="23" font-weight="400" fill="#17639b">da EPROM (/CE)</text>
+<text x="105" y="763" font-family="DejaVu Sans,sans-serif" font-size="28" font-weight="700" fill="#207653">P7: GND</text>
+<polyline points="315,755 1120,755 1120,780" fill="none" stroke="#207653" stroke-width="5" stroke-linejoin="round"/>
+<circle cx="315" cy="755" r="7" fill="#207653"/>
+<circle cx="1120" cy="755" r="7" fill="#207653"/>
+<polyline points="1080,780 1160,780" fill="none" stroke="#207653" stroke-width="4" stroke-linejoin="round"/>
+<polyline points="1092,795 1148,795" fill="none" stroke="#207653" stroke-width="4" stroke-linejoin="round"/>
+<polyline points="1105,810 1135,810" fill="none" stroke="#207653" stroke-width="4" stroke-linejoin="round"/>
+<rect x="65" y="890" width="895" height="410" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="95" y="944" font-family="DejaVu Sans,sans-serif" font-size="29" font-weight="700" fill="#17283c">27C256: manter a configuração atual</text>
+<text x="95" y="993" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">Pinos 1 e 28 → +5 V</text>
+<text x="95" y="1036" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">Pinos 14 e 22 → GND</text>
+<text x="95" y="1079" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">Pinos 2 e 26 → GND</text>
+<text x="95" y="1122" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">Pino 27 → permanece unido ao 28 (+5 V)</text>
+<text x="95" y="1165" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">Pino 20 → P4 / coletor do transistor</text>
+<text x="95" y="1208" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">A0–A11 e D0–D7 → manter as ligações atuais</text>
+<text x="95" y="1259" font-family="DejaVu Sans,sans-serif" font-size="24" font-weight="700" fill="#17639b">C1: 100 nF (104) entre os pinos 28 e 14.</text>
+<rect x="990" y="890" width="745" height="410" fill="#ffffff" stroke="#d5deea" stroke-width="2"/>
+<text x="1020" y="944" font-family="DejaVu Sans,sans-serif" font-size="29" font-weight="700" fill="#17283c">Conferências de montagem</text>
+<text x="1020" y="1000" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">• R1 e C2 ficam em paralelo.</text>
+<text x="1020" y="1044" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">• R2 liga +5 V ao coletor.</text>
+<text x="1020" y="1088" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">• Emissor no mesmo GND da EPROM.</text>
+<text x="1020" y="1132" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">• Não unir diretamente P3 e P4.</text>
+<text x="1020" y="1176" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">• Confira B/C/E no datasheet do seu Q1.</text>
+<text x="1020" y="1220" font-family="DejaVu Sans,sans-serif" font-size="25" font-weight="400" fill="#17283c">• Monte com o cartucho fora do Atari.</text>
+<text x="65" y="1348" font-family="DejaVu Sans,sans-serif" font-size="26" font-weight="700" fill="#17283c">Banco preservado: 0x4000–0x4FFF, para jogo de 4 KB sem troca de bancos.</text>
+<text x="65" y="1387" font-family="DejaVu Sans,sans-serif" font-size="22" font-weight="400" fill="#52637a">Adaptação do projeto BertaAndButterflies / atari2600-simplest-cart (2732). Não ensaiada nesta placa.</text>
+</svg>
